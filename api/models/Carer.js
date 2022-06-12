@@ -22,6 +22,23 @@ module.exports = class Carer {
         })
     };
 
+    static async create( first_name, second_name, password_digest, email) {
+        return new Promise (async (resolve, reject) => {
+            try {
+                const result = await db.query('INSERT INTO carers (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4 RETURNING *;', [first_name, second_name, password_digest, email])
+                const carer = new Carer(result.rows[0]);
+                resolve(carer)
+                resolve(result)
+            }catch(err){
+                reject("Carer account bcould not be created");
+            }
+        })
+    }
+
+
+
+
+
     // get books(){
     //     return new Promise (async (resolve, reject) => {
     //         try {
