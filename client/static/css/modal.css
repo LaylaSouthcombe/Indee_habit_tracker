@@ -1,0 +1,63 @@
+#modal {
+    color: var(--text-accent);
+    padding: 1.5rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 80vh;
+    width: 60vw;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color: var(--accent);
+    font-size: 2rem;
+    border: 2px solid grey;
+}
+
+#modal p {
+    font-size: 1rem;
+}
+
+#modal li {
+    font-size: 1.2rem;
+}
+
+#modal a { color: var(--opacity); }
+#modal a:hover { color: var(--text-accent); }
+
+#modal i {
+    cursor: pointer;
+    font-style: normal;
+}
+
+#modal button, [type='submit'] {
+    font-family: var(--font-accent);
+    background-color: var(--accent);
+    padding: 10px;
+    border-radius: 5%;
+    position: relative;
+    opacity: 0.4;
+    color: var(--text-accent);
+    cursor: pointer;
+}
+
+#modal button {
+    margin-top: 100px;
+}
+
+#modal button:hover, [type='submit']:hover {
+    opacity: 1;
+    color: var(--text-accent);
+}
+
+form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+form > * {
+    margin: 10px;
+    padding: 10px;
+    font-size: 1.2rem;
+    font-family: inherit;
+}
