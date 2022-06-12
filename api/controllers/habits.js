@@ -9,15 +9,6 @@ async function index (req, res) {
     }
 }
 
-async function show (req, res) {
-    try {
-        const habit = await Habit.findById(req.params.id);
-        res.status(200).json(habit)
-    } catch (err) {
-        res.status(404).json({err})
-    }
-}
-
 async function create (req, res) {
     try {
         const habit = await Habit.create(req.body);
@@ -37,4 +28,46 @@ async function destroy (req, res) {
     };
 }
 
-module.exports = { index, show, create, destroy }
+async function update (req, res) {
+    try {
+        const habit = await Habit.create(req.body);
+        res.status(200).json(habit)
+    } catch (err) {
+        res.status(422).json({err})
+    }
+}
+
+async function showWeekMetrics (req, res) {
+    try {
+        const habit = await Habit.create(req.body);
+        res.status(200).json(habit)
+    } catch (err) {
+        res.status(422).json({err})
+    }
+}
+async function showMonthMetrics(req, res) {
+    try {
+        const habit = await Habit.create(req.body);
+        res.status(200).json(habit)
+    } catch (err) {
+        res.status(422).json({err})
+    }
+}
+async function showAlltimeMetrics (req, res) {
+    try {
+        const habit = await Habit.create(req.body);
+        res.status(200).json(habit)
+    } catch (err) {
+        res.status(422).json({err})
+    }
+}
+async function showSummary (req, res) {
+    try {
+        const habit = await Habit.create(req.body);
+        res.status(200).json(habit)
+    } catch (err) {
+        res.status(422).json({err})
+    }
+}
+
+module.exports = { index, update, create, destroy, showWeekMetrics, showMonthMetrics, showAlltimeMetrics, showSummary }

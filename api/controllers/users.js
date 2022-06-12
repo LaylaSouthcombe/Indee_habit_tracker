@@ -9,7 +9,15 @@ async function index(req, res) {
         res.status(500).send(err);
     }
 }
-
+async function findByEmailOrName(req, res) {
+    try {
+        // const authors = [];
+        const users = await User.all
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
 // async function show(req, res) {
 //     try {
 //         const user = await User.findById(req.params.id);
@@ -20,4 +28,4 @@ async function index(req, res) {
 //     };
 // }
 
-module.exports = { index }
+module.exports = { index, findByEmailOrName }
