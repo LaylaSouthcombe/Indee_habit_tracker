@@ -5,9 +5,9 @@ VALUES
 
 INSERT INTO users (first_name, second_name, password_digest, email, carer_id) 
 VALUES
-('Tina', 'Smith', 'xxxx', 'tinasmith@gmail.com', 1),
-('Tom', 'White', 'xxxx', 'tomwhite@gmail.com', 2),
-('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1);
+('Tina', 'Smith', 'xxxx', 'tinasmith@gmail.com', 1, '2022-06-12 00:00:00'),
+('Tom', 'White', 'xxxx', 'tomwhite@gmail.com', 2, '2022-06-11 00:00:00'),
+('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1, '2022-06-10 00:00:00');
 
 INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) 
 VALUES

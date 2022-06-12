@@ -6,5 +6,6 @@ CREATE TABLE users (
     second_name varchar(100) NOT NULL,
     password_digest varchar NOT NULL,
     email varchar(200) NOT NULL,
-    carer_id int
+    carer_id int,
+    last_login datetime
 );

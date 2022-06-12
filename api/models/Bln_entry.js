@@ -1,6 +1,6 @@
 const db = require('../dbConfig/init');
 
-// const Author = require('./Author');
+const Habit = require('./Habit');
 
 module.exports = class Bln {
     constructor(data){
@@ -23,47 +23,24 @@ module.exports = class Bln {
         });
     };
 
-    
-    
-    // static findById(id){
-    //     return new Promise (async (resolve, reject) => {
-    //         try {
-    //             let habitData = await db.query(`SELECT habits_info.*, authors.name as author_name
-    //                                                 FROM habits_info 
-    //                                                 JOIN users ON habits_info.user_id = users.id
-    //                                                 WHERE habits_info.id = $1;`, [ id ]);
-    //             let habit = new Habit(habitData.rows[0]);
-    //             resolve (habit);
-    //         } catch (err) {
-    //             reject('habit not found');
-    //         }
-    //     });
-    // };
-    
-    // static async create(habitData){
-    //     return new Promise (async (resolve, reject) => {
-    //         try {
-    //             const { title, yearOfPublication, abstract, authorName} = habitData;
-    //             let author = await Author.findOrCreateByName(authorName);
-    //             let result = await db.query(`INSERT INTO habits_info (title, year_of_publication, abstract, author_id) VALUES ($1, $2, $3, $4) RETURNING*;`, [ title, yearOfPublication, abstract, author.id])
-    //             resolve (result.rows[0]);
-    //         } catch (err) {
-    //             reject('habit could not be created');
-    //         }
-    //     });
-    // };
-
-    // destroy(){
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             const result = await db.query('DELETE FROM habits WHERE id = $1 RETURNING author_id', [ this.id ]);
-    //             const author = await Author.findById(result.rows[0].author_id);
-    //             const habits = await author.habits;
-    //             if(!habits.length){await author.destroy()}
-    //             resolve('habit was deleted')
-    //         } catch (err) {
-    //             reject('habit could not be deleted')
-    //         }
-    //     })
-    // };
+    static async create(habit_bln_id, habit_bln_entry){
+        return new Promise (async (resolve, reject) => {
+            try {
+                let result = await db.query(`INSERT INTO boolean_entries (habit_bln_id, habit_bln_entry) VALUES ($1, $2) RETURNING*;`, [ habit_bln_id, habit_bln_entry])
+                resolve (result.rows[0]);
+            } catch (err) {
+                reject('Bln habit could not be created');
+            }
+        });
+    };
+    static async update(id, habit_bln_entry){
+        return new Promise (async (resolve, reject) => {
+            try {
+                let result = await db.query(`UPDATE boolean_entries SET habit_bln_entry = $1 WHERE id = $2 RETURNING *;`, [ id, habit_bln_entry])
+                resolve (result.rows[0]);
+            } catch (err) {
+                reject('Bln habit entry could not be updated');
+            }
+        });
+    };
 };
