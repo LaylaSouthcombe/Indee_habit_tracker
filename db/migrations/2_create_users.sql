@@ -7,5 +7,5 @@ CREATE TABLE users (
     password_digest varchar NOT NULL,
     email varchar(200) NOT NULL,
     carer_id int,
-    last_login datetime
+    last_login timestamp
 );

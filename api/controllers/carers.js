@@ -10,6 +10,38 @@ async function index(req, res) {
     }
 }
 
+async function getAssociatedUsers(req, res) {
+    try {
+        // const authors = [];
+        const carers = await Carer.getUsersAndTopline(req.body.carer)
+
+        res.status(200).json(carers);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
+async function addUserAsDependent(req, res) {
+    try {
+        // const authors = [];
+        const carers = await Carer.all
+        res.status(200).json(carers);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
+async function getAssociatedUsersHabits(req, res) {
+    try {
+
+        const usersAndInfo = await Carer.all
+        res.status(200).json(usersAndInfo);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
+
 // async function show(req, res) {
 //     try {
 //         const author = await Author.findById(req.params.id);
@@ -20,4 +52,4 @@ async function index(req, res) {
 //     };
 // }
 
-module.exports = { index }
+module.exports = { index, getAssociatedUsers, addUserAsDependent, getAssociatedUsersHabits }
