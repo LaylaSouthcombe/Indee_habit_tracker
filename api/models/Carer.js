@@ -28,9 +28,8 @@ module.exports = class Carer {
                 const result = await db.query('INSERT INTO carers (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4 RETURNING *;', [first_name, second_name, password_digest, email])
                 const carer = new Carer(result.rows[0]);
                 resolve(carer)
-                resolve(result)
             }catch(err){
-                reject("Carer account bcould not be created");
+                reject("Carer account could not be created");
             }
         })
     }
