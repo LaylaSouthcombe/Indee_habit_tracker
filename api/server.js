@@ -5,11 +5,18 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-const booksRoutes = require('./routes/books')
-const authorsRoutes = require('./routes/authors')
-server.use('/books', booksRoutes)
-server.use('/authors', authorsRoutes)
+const usersRoutes = require('./routes/users')
+const carersRoutes = require('./routes/carers')
+const habitsRoutes = require('./routes/habits')
+const intsRoutes = require('./routes/int_entries')
+const blnsRoutes = require('./routes/bln_entries')
+server.use('/users', usersRoutes)
+server.use('/carers', carersRoutes)
+server.use('/habits', habitsRoutes)
+server.use('/ints', intsRoutes)
+server.use('/blns', blnsRoutes)
 
-server.get('/', (req, res) => res.send('Welcome to the library'))
+
+server.get('/', (req, res) => res.send('Welcome to indee'))
 
 module.exports = server

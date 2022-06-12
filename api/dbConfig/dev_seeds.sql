@@ -1,7 +1,7 @@
 INSERT INTO carers (first_name, second_name, password_digest, email) 
 VALUES
-    ('Gemma', 'Horsham', 'xxxx', 'gemmahorsham@gmail.com'),
-    ('David', 'Fenix', 'xxxx', 'davidfenix@gmail.com');
+('Gemma', 'Horsham', 'xxxx', 'gemmahorsham@gmail.com'),
+('David', 'Fenix', 'xxxx', 'davidfenix@gmail.com');
 
 INSERT INTO users (first_name, second_name, password_digest, email, carer_id) 
 VALUES
@@ -9,7 +9,7 @@ VALUES
 ('Tom', 'White', 'xxxx', 'tomwhite@gmail.com', 2),
 ('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1);
 
-INSERT INTO habits_info (user_id, type, name, freq_unit, freq_value, goal) 
+INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) 
 VALUES
 (1, 'boolean', 'Take medicine in morning', 'days', 1, 1),
 (1, 'int', 'Drink 8 glasses of water', 'days', 1, 8),
