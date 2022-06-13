@@ -34,6 +34,32 @@ module.exports = class User {
             }
         })
     }
+    static async findUsersByNameOrEmail(searchText){
+        return new Promise (async (resolve, reject) => {
+            try {
+                let users;
+                if(searchText.indexOf(" ") !== -1){
+                    let spaceIndex = searchText.indexOf(" ")
+                    let firstTerm = searchText.slice(0, spaceIndex)
+                    let secondTerm = searchText.slice(spaceIndex + 1, searchText.length)
+                    const result = await db.query('SELECT * FROM users WHERE first_name ILIKE $1 OR first_name ILIKE $2 OR second_name ILIKE $1 OR second_name ILIKE $2 OR email ILIKE $1 OR email ILIKE $2', [ firstTerm, secondTerm]);
+                    users = result.rows
+                }if(searchText.indexOf(" ") === -1){
+                    const percentSign = "%"
+                    const newSearchTerm = searchText.concat(percentSign)
+                    const result = await db.query('SELECT * FROM users WHERE first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1', [ newSearchTerm]);
+                    users = result.rows
+                }          
+                resolve(users)
+            }catch(err){
+                reject("Error finding users");
+            }
+        })
+    }
+
+    //add as dependent
+    //if already have carer, return pop up, then have confirm route
+
     // get books(){
     //     return new Promise (async (resolve, reject) => {
     //         try {

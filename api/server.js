@@ -17,6 +17,6 @@ server.use('/ints', intsRoutes)
 server.use('/blns', blnsRoutes)
 
 
-server.get('/', (req, res) => res.send('Welcome to Indey'))
+server.get('/', (req, res) => res.send('Welcome to Indee'))
 
 module.exports = server
