@@ -20,7 +20,7 @@ async function create (req, res) {
 
 async function destroy (req, res) {
     try {
-        const habit = await Habit.findById(req.params.id);
+        const habit = await Habit.findById(req.body.id);
         await habit.destroy();
         res.status(204).end();
     } catch (err) {
@@ -30,7 +30,7 @@ async function destroy (req, res) {
 
 async function update (req, res) {
     try {
-        const habit = await Habit.create(req.body);
+        const habit = await Habit.update(req.body);
         res.status(200).json(habit)
     } catch (err) {
         res.status(422).json({err})
