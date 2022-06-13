@@ -12,12 +12,13 @@ async function index(req, res) {
 async function findByEmailOrName(req, res) {
     try {
         // const authors = [];
-        const users = await User.all
+        const users = await User.findUsersByNameOrEmail(req.body.searchTerm)
         res.status(200).json(users);
     } catch (err) {
         res.status(500).send(err);
     }
 }
+
 // async function show(req, res) {
 //     try {
 //         const user = await User.findById(req.params.id);

@@ -25,12 +25,15 @@ async function getAssociatedUsers(req, res) {
 async function addUserAsDependent(req, res) {
     try {
         // const authors = [];
-        const users = await User.findUsersByNameOrEmail(req.body.searchTerm)
-        res.status(200).json(users);
+        const userNewCarerId = await User.addUserAsDependent(req.body.user_Id, req.body.carerId)
+        res.status(200).json(userNewCarerId);
     } catch (err) {
         res.status(500).send(err);
     }
 }
+
+
+
 
 async function getAssociatedUsersHabits(req, res) {
     try {

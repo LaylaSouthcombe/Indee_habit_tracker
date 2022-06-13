@@ -1,4 +1,5 @@
 const db = require('../dbConfig/init');
+const Request = require('./Request')
 
 module.exports = class User {
     constructor(data){
@@ -56,9 +57,20 @@ module.exports = class User {
             }
         })
     }
-
-    //add as dependent
-    //if already have carer, return pop up, then have confirm route
+    static async addUserAsDependent(user_Id, carerId){
+        return new Promise (async (resolve, reject) => {
+            try {
+                //update user_id to have carer_id as this id
+                //add row to requests database
+                const result = await db.query('INSERT INTO requests (user_id, carer_id) VALUES ($1, $2) RETURNING *;', [user_Id, carerId])
+                const request = new Request(result.rows[0]);
+                resolve(request)
+            }catch(err){
+                reject("Error assigning users");
+            }
+        })
+    }
+    //in find person, if carer.id = carer_id, have marker green, else have a request button
 
     // get books(){
     //     return new Promise (async (resolve, reject) => {

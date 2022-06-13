@@ -7,7 +7,8 @@ INSERT INTO users (first_name, second_name, password_digest, email, carer_id, la
 VALUES
 ('Tina', 'Smith', 'xxxx', 'tinasmith@gmail.com', 1, '2022-06-12 00:00:00'),
 ('Tom', 'White', 'xxxx', 'tomwhite@gmail.com', 2, '2022-06-11 00:00:00'),
-('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1, '2022-06-10 00:00:00');
+('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1, '2022-06-10 00:00:00'),
+('Bob', 'Turner', 'xxxx', 'bobturner@gmail.com', 0, '2022-06-10 00:00:00');
 
 INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) 
 VALUES
@@ -25,3 +26,7 @@ INSERT INTO boolean_entries (habit_bln_id, habit_bln_entry)
 VALUES
 (1, true),
 (3, false);
+
+INSERT INTO requests (user_id, carer_id, status) 
+VALUES
+(1, 1, 'accepted');
