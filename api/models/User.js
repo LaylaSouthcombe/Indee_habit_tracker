@@ -70,6 +70,9 @@ module.exports = class User {
             }
         })
     }
+
+    
+
     //in find person, if carer.id = carer_id, have marker green, else have a request button
 
     // get books(){
