@@ -5,6 +5,8 @@ const habitsController = require('../controllers/habits')
 router.post('/', habitsController.create)
 router.put('/', habitsController.update)
 router.delete('/', habitsController.destroy)
+router.post('/users', habitsController.showUsersHabitsAndCurrent)
+
 
 router.get('/week', habitsController.showWeekMetrics)
 router.get('/month', habitsController.showMonthMetrics)

@@ -8,6 +8,14 @@ async function index (req, res) {
         res.status(500).json({err})
     }
 }
+async function showUsersHabitsAndCurrent(req, res) {
+    try {
+        const habits = await Habit.getUsersHabitsAndCurrent(req.body.user_id);
+        res.status(200).json(habits)
+    } catch (err) {
+        res.status(500).json({err})
+    }
+}
 
 async function create (req, res) {
     try {
@@ -70,4 +78,4 @@ async function showSummary (req, res) {
     }
 }
 
-module.exports = { index, update, create, destroy, showWeekMetrics, showMonthMetrics, showAlltimeMetrics, showSummary }
+module.exports = { index, update, create, destroy, showWeekMetrics, showMonthMetrics, showAlltimeMetrics, showSummary, showUsersHabitsAndCurrent }
