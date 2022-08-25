@@ -8,6 +8,7 @@ async function index (req, res) {
         res.status(500).json({err})
     }
 }
+
 async function showUsersHabitsAndCurrent(req, res) {
     try {
         const habits = await Habit.getUsersHabitsAndCurrent(req.body.user_id);
@@ -53,6 +54,7 @@ async function showWeekMetrics (req, res) {
         res.status(422).json({err})
     }
 }
+
 async function showMonthMetrics(req, res) {
     try {
         const habit = await Habit.create(req.body);
@@ -61,6 +63,7 @@ async function showMonthMetrics(req, res) {
         res.status(422).json({err})
     }
 }
+
 async function showAlltimeMetrics (req, res) {
     try {
         const habit = await Habit.create(req.body);
@@ -69,6 +72,7 @@ async function showAlltimeMetrics (req, res) {
         res.status(422).json({err})
     }
 }
+
 async function showSummary (req, res) {
     try {
         const habit = await Habit.create(req.body);
