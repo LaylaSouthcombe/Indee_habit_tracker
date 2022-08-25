@@ -28,11 +28,33 @@
         </div>
     </nav>
     <main>
-        <div class="loginForm">
-<!-- have in js -->
+        <div class="loginFormSection">
+            <form action="">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+                <input type="submit" value="Login" id="loginBtn">
+            </form>
+            <button class="switchToRegister"></button>
         </div>
         <div class="registerForm">
-            
+            <form action="">
+                <label for="fname">First name</label>
+                <input type="text" name="fname" id="fname" required>
+                <label for="sname">Second name</label>
+                <input type="text" name="sname" id="sname" required>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+                <label for="userRole">User</label>
+                <input type="radio" name="role" id="userRole" value="user" required>
+                <label for="carerRole">Carer</label>
+                <input type="radio" name="role" id="carerRole" value="carer">
+                <input type="submit" value="Register">
+            </form>
+            <button class="switchToLogin"></button>
         </div>
     </main>
 
@@ -46,7 +68,7 @@
             <p>© Indee 2022</p>
         </section>
     </footer>
-    <script src='static/js/requests.js'></script>
+    <script src='static/js/login.js'></script>
 </body>
 </html>
 <!-- home -->

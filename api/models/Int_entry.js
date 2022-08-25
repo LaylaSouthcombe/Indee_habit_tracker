@@ -8,7 +8,6 @@ module.exports = class Int {
         this.habit_int_id = data.habit_int_id
         this.habit_int_entry = data.habit_int_entry;
         this.date = data.date;
-        
     };
 
     static get all(){
@@ -33,6 +32,7 @@ module.exports = class Int {
             }
         });
     };
+    
     static async update(id, habit_int_entry){
         return new Promise (async (resolve, reject) => {
             try {
