@@ -5,21 +5,29 @@
 //post info to db
 //navigate to user or carer depending on local storage
 const loginFormSection = document.querySelector('.loginFormSection');
+const registerFormSection = document.querySelector('.registerFormSection');
+const switchToRegister = document.querySelector(".switchToRegister");
+const switchToLogin = document.querySelector(".switchToLogin");
 
-const hideLoginForm = () => {
+
+const hideLoginForm = (e) => {
+    e.preventDefault()
     loginFormSection.style.display = "none"
-}
-const hideRegisterForm = () => {
-    loginFormSection.style.display = "none"
-}
-const showLoginForm = () => {
-    loginFormSection.style.display = "block"
-}
-const showRegisterForm = () => {
-    loginFormSection.style.display = "block"
+    registerFormSection.style.display = "block"
 }
 
-// hideLoginForm()
-hideRegisterForm()
-// showLoginForm()
-// showRegisterForm()
+const hideRegisterForm = (e) => {
+    e.preventDefault()
+    registerFormSection.style.display = "none"
+    loginFormSection.style.display = "block"
+}
+
+const atRender = () => {
+    switchToRegister.addEventListener("click", hideLoginForm)
+    switchToLogin.addEventListener("click", hideRegisterForm)
+}
+atRender()
+// // hideLoginForm()
+// hideRegisterForm()
+// // showLoginForm()
+// // showRegisterForm()
