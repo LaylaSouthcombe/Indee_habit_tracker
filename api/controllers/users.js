@@ -19,6 +19,16 @@ async function findByEmailOrName(req, res) {
         res.status(500).send(err);
     }
 }
+async function findUsersSummary(req, res) {
+    try {
+        // const authors = [];
+        console.log(req.body)
+        const info = await User.findUsersSummary(req.body)
+        res.status(200).json(info);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
 
 // async function show(req, res) {
 //     try {
@@ -30,4 +40,4 @@ async function findByEmailOrName(req, res) {
 //     };
 // }
 
-module.exports = { index, findByEmailOrName }
+module.exports = { index, findByEmailOrName, findUsersSummary }

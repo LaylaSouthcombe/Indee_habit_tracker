@@ -58,8 +58,10 @@ module.exports = class Carer {
                 reject("Error finding carers");
             }
         })}
+
     static async getUsersAndTopline({user_id}){
         return new Promise (async (resolve, reject) => {
+            //TODO: have date cut off for today only
             try {
                 let dataToDisplay = []
                 //find users associated with a carer
@@ -70,7 +72,7 @@ module.exports = class Carer {
                     let habits = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [results.rows[i].id]);
                     let habitTotalNum = habits.rows.length;
                     //find out how many int entries are complete
-                    let intEntries = await db.query('SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1', [results.rows[i].id]);
+                    let intEntries = await db.query('SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date > CURRENT_DATE - 1;', [results.rows[i].id]);
                     let intHabitsCompleted = 0;
                     for(let i = 0; i < intEntries.rows.length; i++){
                         if(intEntries.rows[i].habit_int_entry >= intEntries.rows[i].goal){
@@ -78,7 +80,7 @@ module.exports = class Carer {
                         }
                     } 
                     //find out how many bln entries are complete
-                    let blnEntries = await db.query('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1', [results.rows[i].id]);
+                    let blnEntries = await db.query('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date > CURRENT_DATE - 1  ORDER BY (date) DESC;', [results.rows[i].id]);
                     let blnHabitsCompleted = 0;
                     for(let i = 0; i < blnEntries.rows.length; i++){
                         if(blnEntries.rows[i].habit_bln_entry = true){

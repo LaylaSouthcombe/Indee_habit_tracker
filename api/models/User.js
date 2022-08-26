@@ -36,6 +36,64 @@ module.exports = class User {
             }
         })
     }
+    //name
+    //number of daily habits last 7 days
+    //number completed today last 7 days
+    //last login
+
+    static async findUsersSummary({user_id}) {
+        console.log(user_id)
+        return new Promise (async (resolve, reject) => {
+            try {
+                const userInfo = await db.query('SELECT first_name, second_name, last_login FROM users WHERE id = $1;', [user_id])
+
+                let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
+                let habitTotalNum = habitsInfo.rows.length;
+                // let dayOneInfo = {total: 0, complete: 0}
+                let entriesData = {1: {total: 0, complete: 0}, 2: {total: 0, complete: 0}, 3: {total: 0, complete: 0}, 4: {total: 0, complete: 0}, 5: {total: 0, complete: 0}, 6: {total: 0, complete: 0}, 7: {total: 0, complete: 0}}
+                //finds the last 7 days of int entries
+                for(let i = 0; i < 7; i++){
+                    let dayIntEntries = await db.query(`SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
+                    let intHabitsCompleted = 0;
+                    for(let j = 0; j < dayIntEntries.rows.length; j++){
+                        if(dayIntEntries.rows[j].habit_int_entry >= dayIntEntries.rows[j].goal){
+                            intHabitsCompleted += 1;
+                        }
+                    }
+                    // console.log(entriesData[i])
+                    entriesData[i+1].total = dayIntEntries.rows.length
+                    entriesData[i+1].complete = intHabitsCompleted
+                }
+                // console.log(dayOneInfo)
+                // console.log(entriesData)
+
+                for(let i = 0; i < 7; i++){
+                    let dayBlnEntries = await db.query(`SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
+                    let blnHabitsCompleted = 0;
+                    console.log(dayBlnEntries.rows)
+                    for(let j = 0; j < dayBlnEntries.rows.length; j++){
+                        if(dayBlnEntries.rows[j].habit_bln_entry >= dayBlnEntries.rows[j].goal){
+                            blnHabitsCompleted += 1;
+                        }
+                    }
+                    console.log(blnHabitsCompleted)
+                    entriesData[i+1].total += dayBlnEntries.rows.length
+                    entriesData[i+1].complete += blnHabitsCompleted
+
+                    console.log(entriesData)
+                }
+                console.log(entriesData)
+
+                console.log(userInfo.rows[0])
+                let obj = { "userFirstName": userInfo.rows[0].first_name, "userSecondName": userInfo.rows[0].second_name, "numOfHabitsCompleted": entriesData[1].complete, "numOfHabits": entriesData[1].total, "lastLogin": userInfo.rows[0].last_login, "dayOnePercent": (entriesData[1].complete/entriesData[1].total), "dayTwoPercent": (entriesData[2].complete/entriesData[2].total), "dayThreePercent": (entriesData[3].complete/entriesData[3].total), "dayFourPercent": (entriesData[4].complete/entriesData[4].total), "dayFivePercent": (entriesData[5].complete/entriesData[5].total), "daySixPercent": (entriesData[6].complete/entriesData[6].total), "daySevenPercent": (entriesData[7].complete/entriesData[7].total)}
+                
+                console.log(obj)
+                resolve(obj)
+            }catch(err){
+                reject("User account could not be created");
+            }
+        })
+    }
     static async findUsersByNameOrEmail(searchText){
         console.log("user model searchText", searchText)
         return new Promise (async (resolve, reject) => {

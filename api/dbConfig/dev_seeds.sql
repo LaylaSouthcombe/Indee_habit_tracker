@@ -18,15 +18,28 @@ VALUES
 (5, 'boolean', 'Exercise', 'days', 2, 30),
 (5, 'int', 'Brush teeth', 'days', 1, 2);
 
-INSERT INTO int_entries (habit_int_id, habit_int_entry) 
+INSERT INTO int_entries (habit_int_id, habit_int_entry, date) 
 VALUES
-(2, 6),
-(4, 1);
+(2, 6, '2022-08-26 20:59:15.933'),
+(2, 8, '2022-08-25 20:59:15.933'),
+(2, 9, '2022-08-24 20:59:15.933'),
+(2, 3, '2022-08-23 20:59:15.933'),
+(2, 4, '2022-08-22 20:59:15.933'),
+(2, 5, '2022-08-21 20:59:15.933'),
+(2, 8, '2022-08-20 20:59:15.933'),
+(2, 6, '2022-08-19 20:59:15.933'),
+(4, 1, '2022-08-26 20:59:15.933');
 
-INSERT INTO boolean_entries (habit_bln_id, habit_bln_entry) 
+INSERT INTO boolean_entries (habit_bln_id, habit_bln_entry, date) 
 VALUES
-(1, true),
-(3, false);
+(1, true, '2022-08-26 20:59:15.933'),
+(3, false, '2022-08-26 20:59:15.933'),
+(3, true, '2022-08-25 20:59:15.933'),
+(3, false, '2022-08-24 20:59:15.933'),
+(3, false, '2022-08-23 20:59:15.933'),
+(3, false, '2022-08-22 20:59:15.933'),
+(3, false, '2022-08-21 20:59:15.933'),
+(3, false, '2022-08-20 20:59:15.933');
 
 INSERT INTO requests (user_id, carer_id, status) 
 VALUES

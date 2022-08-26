@@ -7,26 +7,54 @@ const seeMoreUserInfo = (e) => {
 
 const closeSummaryModal = () => {
     userSummaryModal.style.display = "none"
+    while (userSummaryModal.lastElementChild) {
+        userSummaryModal.removeChild(userSummaryModal.lastElementChild);
+    }
 }
 
-const getUserSummary = (e) => {
+async function getUserSummary(e) {
     console.log("summary")
-    
-    const text = [{summaryUsersName: "users name"}, {completedText: "Habits completed today"}, {completedHabits: "4/7"}, {lastLoginText: "Last login"}, {lastLoginValue: "6:32 pm 11/05/2022"}, {weekReviewTitle: "This week in review"}]
-    const modalCloseX = document.createElement("span")
-    modalCloseX.textContent = "X"
-    modalCloseX.addEventListener("click", closeSummaryModal)
-    userSummaryModal.append(modalCloseX)
-    text.forEach(function(el) {
-        let para = document.createElement("p")
-        para.className = Object.keys(el)[0]
-        para.textContent = Object.values(el)[0]
-        userSummaryModal.append(para)
-    })
+    // console.log(e.target.parentElement.id)
+    // console.log(e.target.id)
+    let userId
+    if(e.target.parentElement.id){
+        userId = e.target.parentElement.id
+    }
+    if(e.target.id){
+        userId = e.target.id
+    }
+    console.log(userId)
+    try {
+        const options = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({user_id: userId})
+        }
+        const response = await fetch(`${baseUrl}users/summary`, options);
+        console.log(response)
+        const data = await response.json()
+        console.log(data)
+        const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: data.lastLogin}, {weekReviewTitle: "This week in review"}]
+        const graphValues = [data.daySevenPercent, data.daySixPercent, data.dayFivePercent, data.dayFourPercent, data.dayThreePercent, data.dayTwoPercent, data.dayOnePercent]
+        console.log(graphValues)
+        const modalCloseX = document.createElement("span")
+        modalCloseX.textContent = "X"
+        modalCloseX.addEventListener("click", closeSummaryModal)
+        userSummaryModal.append(modalCloseX)
+        console.log(text)
+        text.forEach(function(el) {
+            let para = document.createElement("p")
+            para.className = Object.keys(el)[0]
+            para.textContent = Object.values(el)[0]
+            userSummaryModal.append(para)
+        })
 
-    const seeMoreDetails = document.createElement("p")
+        const seeMoreDetails = document.createElement("p")
 
-    userSummaryModal.style.display = "block"
+        userSummaryModal.style.display = "block"
+    } catch (err) {
+        console.warn(err);
+    }
     
 }
 
