@@ -1,4 +1,3 @@
-//post user id to /habits/users to get current habits
 const baseUrl = "http://localhost:3000/"
 const habitsWrapper = document.querySelector(".habitsWrapper")
 
@@ -29,7 +28,19 @@ async function decreaseCounter(e) {
         }
         const response = await fetch(`${baseUrl}ints`, options);
         const data = await response.json()
-        e.target.nextElementSibling.textContent = data.habit_int_entry
+        e.target.nextElementSibling.textContent = data.entry.habit_int_entry
+
+        const percentComplete = data.entry.habit_int_entry / data.goal
+        const currentHabitBox = document.getElementById(`habit${habitId}`)
+        
+        if(percentComplete <= 0.5){
+            currentHabitBox.style.backgroundColor = "red"
+        } else if(percentComplete > 0.5 && percentComplete <= 0.75){
+            currentHabitBox.style.backgroundColor = "orange"
+        } else if(percentComplete > 0.75){
+            currentHabitBox.style.backgroundColor = "green"
+        }
+        console.log(percentComplete)
     } catch (err) {
         console.warn(err);
     }
@@ -46,7 +57,18 @@ async function increaseCounter(e) {
         }
         const response = await fetch(`${baseUrl}ints`, options);
         const data = await response.json()
-        e.target.previousElementSibling.textContent = data.habit_int_entry
+        e.target.previousElementSibling.textContent = data.entry.habit_int_entry
+
+        const percentComplete = data.entry.habit_int_entry / data.goal
+        const currentHabitBox = document.getElementById(`habit${habitId}`)
+        
+        if(percentComplete <= 0.5){
+            currentHabitBox.style.backgroundColor = "red"
+        } else if(percentComplete > 0.5 && percentComplete <= 0.75){
+            currentHabitBox.style.backgroundColor = "orange"
+        } else if(percentComplete > 0.75){
+            currentHabitBox.style.backgroundColor = "green"
+        }
     } catch (err) {
         console.warn(err);
     }
@@ -68,10 +90,13 @@ async function changeBlnValue (e) {
         }
         const response = await fetch(`${baseUrl}blns`, options);
         const data = await response.json()
+        const currentHabitBox = document.getElementById(`habit${habitId}`)
         if(data.habit_bln_entry === true){
             e.target.className = "blnTrue"
+            currentHabitBox.style.backgroundColor = "green"
         } else if(data.habit_bln_entry === false){
             e.target.className = "blnFalse"
+            currentHabitBox.style.backgroundColor = "red"
         }
     } catch (err) {
         console.warn(err);
@@ -103,6 +128,7 @@ async function renderHabits(habit) {
 
     habitBox.appendChild(habitDesc)
     habitBox.appendChild(habitRepeat)
+    habitBox.id = `habit${habit.id}`
     
     if(habit.type === "int") {
         const habitGoal = document.createElement("p")
@@ -114,7 +140,17 @@ async function renderHabits(habit) {
         goalSection.appendChild(habitGoal)
         goalSection.appendChild(habitGoalValue)
         habitBox.appendChild(goalSection)
+        
 
+        const percentComplete = habit.habit_int_entry / habit.goal
+               
+        if(percentComplete <= 0.5){
+            habitBox.style.backgroundColor = "red"
+        } else if(percentComplete > 0.5 && percentComplete <= 0.75){
+            habitBox.style.backgroundColor = "orange"
+        } else if(percentComplete > 0.75){
+            habitBox.style.backgroundColor = "green"
+        }
         const counterArea = document.createElement("div")
         const counterSection = document.createElement("div")
         counterSection.id = habit.id
@@ -142,9 +178,11 @@ async function renderHabits(habit) {
         blnBtn.addEventListener("click", changeBlnValue)
         if(habit.habit_bln_entry === true){
             blnBtn.className = "blnTrue"
+            habitBox.style.backgroundColor = "green"
         }
         if(habit.habit_bln_entry === false){
             blnBtn.className = "blnFalse"
+            habitBox.style.backgroundColor = "red"
         }
         habitBox.append(blnBtn)
     }
