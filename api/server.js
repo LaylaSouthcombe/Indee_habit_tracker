@@ -11,12 +11,14 @@ const habitsRoutes = require('./routes/habits')
 const intsRoutes = require('./routes/int_entries')
 const blnsRoutes = require('./routes/bln_entries')
 const requestsRoutes = require('./routes/requests')
+const authRoutes = require('./routes/auth')
 server.use('/users', usersRoutes)
 server.use('/carers', carersRoutes)
 server.use('/habits', habitsRoutes)
 server.use('/ints', intsRoutes)
 server.use('/blns', blnsRoutes)
 server.use('/requests', requestsRoutes)
+server.use('/auth', authRoutes)
 
 
 

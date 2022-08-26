@@ -23,7 +23,7 @@ module.exports = class Carer {
         })
     };
 
-    static async create( first_name, second_name, password_digest, email) {
+    static async create( first_name, second_name, email, password_digest) {
         return new Promise (async (resolve, reject) => {
             try {
                 const result = await db.query('INSERT INTO carers (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4 RETURNING *;', [first_name, second_name, password_digest, email])

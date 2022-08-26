@@ -14,7 +14,6 @@ module.exports = class User {
     static get all(){ 
         return new Promise (async (resolve, reject) => {
             try {
-                // console.log(db);
                 const result = await db.query('SELECT * FROM users;')
                 const users = result.rows.map(a => new User(a))
                 resolve(users);
@@ -24,14 +23,16 @@ module.exports = class User {
         })
     };
 
-    static async create( first_name, second_name, password_digest, email) {
+    static async create({fname, sname, password, email}) {
+        console.log(fname)
         return new Promise (async (resolve, reject) => {
             try {
-                const result = await db.query('INSERT INTO users (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4 RETURNING *;', [first_name, second_name, password_digest, email])
+                const result = await db.query('INSERT INTO users (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4) RETURNING *;', [fname, sname, password, email])
                 const user = new User(result.rows[0]);
+                console.log(user)
                 resolve(user)
             }catch(err){
-                reject("Carer account could not be created");
+                reject("User account could not be created");
             }
         })
     }
