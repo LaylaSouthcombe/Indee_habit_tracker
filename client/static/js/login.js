@@ -112,6 +112,7 @@ async function sendRegister(e) {
   
       console.log('saving token to localStorage: ', { data })
       login(data.person)
+      window.location.href = `${baseClientUrl}${data.person.role}`
     }
     // modal.classList.add('disabled')
   }
@@ -128,12 +129,11 @@ const hideRegisterForm = (e) => {
     loginFormSection.style.display = "block"
 }
 
-const atRender = () => {
-    switchToRegister.addEventListener("click", hideLoginForm)
-    switchToLogin.addEventListener("click", hideRegisterForm)
-    loginBtn.addEventListener("click", sendLogin)
-    registerBtn.addEventListener("click", sendRegister)
-}
-atRender()
+
+switchToRegister.addEventListener("click", hideLoginForm)
+switchToLogin.addEventListener("click", hideRegisterForm)
+loginBtn.addEventListener("click", sendLogin)
+registerBtn.addEventListener("click", sendRegister)
+
 
 
