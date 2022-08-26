@@ -15,6 +15,17 @@ const registerPassword = document.querySelector("#registerPassword");
 const registerFname = document.querySelector("#registerFname");
 const registerSname = document.querySelector("#registerSname");
 
+const userRole = document.querySelector("#userRole");
+const carerRole = document.querySelector("#carerRole");
+
+
+
+const checkRoleBtn = (e) => {
+    e.preventDefault()
+    console.log(userRole.checked)
+    console.log(carerRole)
+}
+
 const sendLogin = async (e) => {
     e.preventDefault()
     const url = `${baseUrl}auth/login`
@@ -50,8 +61,14 @@ const sendLogin = async (e) => {
 
 async function sendRegister(e) {
     e.preventDefault()
-    //add in role
-    const url = `${baseUrl}auth/user/register`
+    let role
+    if(userRole.checked){
+        role = "user"
+    }
+    if(carerRole.checked){
+        role = "carer"
+    }
+    const url = `${baseUrl}auth/${role}/register`
   
     const fname = registerFname.value
     const sname = registerSname.value
@@ -104,6 +121,8 @@ const atRender = () => {
     switchToLogin.addEventListener("click", hideRegisterForm)
     loginBtn.addEventListener("click", sendLogin)
     registerBtn.addEventListener("click", sendRegister)
+    
+    // registerBtn.addEventListener("click", checkRoleBtn)
 }
 atRender()
 
