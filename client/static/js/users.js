@@ -18,12 +18,38 @@ habitTodaySection.appendChild(habitDayTitle)
 habitWeekSection.appendChild(habitWeekTitle)
 habitMonthSection.appendChild(habitMonthTitle)
 
-const decreaseCounter = () => {
-    console.log("api call to decrease counter and update value")
+async function decreaseCounter(e) {
+    const habitId = parseInt(e.target.parentElement.id)
+    const habitValue = e.target.nextElementSibling.textContent - 1
+    try {
+        const options = {
+            method: 'PATCH',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({id: habitId, habit_int_entry: habitValue})
+        }
+        const response = await fetch(`${baseUrl}ints`, options);
+        const data = await response.json()
+        e.target.nextElementSibling.textContent = data.habit_int_entry
+    } catch (err) {
+        console.warn(err);
+    }
 }
 
-const increaseCounter = () => {
-    console.log("api call to increase counter and update value")
+async function increaseCounter(e) {
+    const habitId = parseInt(e.target.parentElement.id)
+    const habitValue = parseInt(e.target.previousElementSibling.textContent) + 1
+    try {
+        const options = {
+            method: 'PATCH',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({id: habitId, habit_int_entry: habitValue})
+        }
+        const response = await fetch(`${baseUrl}ints`, options);
+        const data = await response.json()
+        e.target.previousElementSibling.textContent = data.habit_int_entry
+    } catch (err) {
+        console.warn(err);
+    }
 }
 
 const changeBlnValue = (e) => {
@@ -75,6 +101,7 @@ async function renderHabits(habit) {
 
         const counterArea = document.createElement("div")
         const counterSection = document.createElement("div")
+        counterSection.id = habit.id
         const counterTitle = document.createElement("p")
         counterTitle.textContent = "Current"
         const minusCounterBtn = document.createElement("button")
@@ -95,6 +122,7 @@ async function renderHabits(habit) {
 
     if(habit.type === "boolean") {
         const blnBtn = document.createElement("button")
+        blnBtn.id = habit.id
         blnBtn.addEventListener("click", changeBlnValue)
         if(habit.habit_bln_entry === true){
             blnBtn.className = "blnTrue"

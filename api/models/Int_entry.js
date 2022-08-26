@@ -32,11 +32,12 @@ module.exports = class Int {
             }
         });
     };
-    
-    static async update(id, habit_int_entry){
+
+    static async update({id, habit_int_entry}){
         return new Promise (async (resolve, reject) => {
             try {
-                let result = await db.query(`UPDATE int_entries SET habit_int_entry = $1 WHERE id = $2 RETURNING *;`, [ id, habit_int_entry])
+                let result = await db.query(`UPDATE int_entries SET habit_int_entry = $1 WHERE id = $2 RETURNING *;`, [ habit_int_entry, id])
+                console.log(result.rows)
                 resolve (result.rows[0]);
             } catch (err) {
                 reject('Int habit entry could not be updated');

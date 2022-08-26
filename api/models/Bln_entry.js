@@ -36,7 +36,7 @@ module.exports = class Bln {
     static async update(id, habit_bln_entry){
         return new Promise (async (resolve, reject) => {
             try {
-                let result = await db.query(`UPDATE boolean_entries SET habit_bln_entry = $1 WHERE id = $2 RETURNING *;`, [ id, habit_bln_entry])
+                let result = await db.query(`UPDATE boolean_entries SET habit_bln_entry = $1 WHERE id = $2 RETURNING *;`, [ habit_bln_entry, id])
                 resolve (result.rows[0]);
             } catch (err) {
                 reject('Bln habit entry could not be updated');
