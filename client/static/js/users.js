@@ -111,7 +111,6 @@ async function renderHabits(habit) {
     } else if(habit.freq_unit === "months"){
         habitMonthSection.appendChild(habitBox)
     }
-    
 }
 
 async function getUsersHabits() {

@@ -27,6 +27,15 @@ async function create (req, res) {
     }
 }
 
+async function update (req, res) {
+    try {
+        const bln = await Bln.update(req.body);
+        res.status(200).json(bln)
+    } catch (err) {
+        res.status(422).json({err})
+    }
+}
+
 async function destroy (req, res) {
     try {
         const bln = await Bln.findById(req.params.id);
@@ -37,4 +46,4 @@ async function destroy (req, res) {
     };
 }
 
-module.exports = { index, show, create, destroy }
+module.exports = { index, show, create, update, destroy }
