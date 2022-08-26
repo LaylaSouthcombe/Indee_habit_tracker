@@ -13,8 +13,7 @@ async function index(req, res) {
 
 async function getAssociatedUsers(req, res) {
     try {
-        // const authors = [];
-        const carers = await Carer.getUsersAndTopline(req.body.carer)
+        const carers = await Carer.getUsersAndTopline(req.body)
         res.status(200).json(carers);
     } catch (err) {
         res.status(500).send(err);

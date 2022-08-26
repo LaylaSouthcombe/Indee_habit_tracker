@@ -1,15 +1,15 @@
 INSERT INTO carers (first_name, second_name, password_digest, email) 
 VALUES
-('Gemma', 'Horsham', 'xxxx', 'gemmahorsham@gmail.com'),
+('Tina', 'Belcher', '$2b$10$SoRwECew2HFsTf6y5qplPeKmQgZX.nRVvNxxpkbGfJV47emS8TfBq', 'tinab123@gmail.com'),
 ('David', 'Fenix', 'xxxx', 'davidfenix@gmail.com');
 
 INSERT INTO users (first_name, second_name, password_digest, email, carer_id, last_login) 
 VALUES
 ('Tina', 'Smith', 'xxxx', 'tinasmith@gmail.com', 1, '2022-06-12 00:00:00'),
 ('Tom', 'White', 'xxxx', 'tomwhite@gmail.com', 2, '2022-06-11 00:00:00'),
-('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1, '2022-06-10 00:00:00'),
-('Bob', 'Turner', 'xxxx', 'bobturner@gmail.com', 0, '2022-06-10 00:00:00'),
-('Gene', 'Belcher', '$2b$10$qBAD4lPJH6AsJse9f8Vb3eUzJ7H3C8ZlHxoGh2rJB9kGhJxecSlK.', 'genebelcher123@gmail.com', 0, '2022-06-10 00:00:00');
+('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1, '2022-06-14 00:00:00'),
+('Bob', 'Turner', 'xxxx', 'bobturner@gmail.com', 0, '2022-06-12 00:00:00'),
+('Gene', 'Belcher', '$2b$10$qBAD4lPJH6AsJse9f8Vb3eUzJ7H3C8ZlHxoGh2rJB9kGhJxecSlK.', 'genebelcher123@gmail.com', 1, '2022-06-10 00:00:00');
 
 INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) 
 VALUES
@@ -20,7 +20,7 @@ VALUES
 
 INSERT INTO int_entries (habit_int_id, habit_int_entry) 
 VALUES
-(2, 8),
+(2, 6),
 (4, 1);
 
 INSERT INTO boolean_entries (habit_bln_id, habit_bln_entry) 

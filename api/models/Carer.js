@@ -34,7 +34,7 @@ module.exports = class Carer {
             }
         })
     }
-    
+
     static async findCarersByNameOrEmail(searchText){
         console.log("carer model searchText", searchText)
         return new Promise (async (resolve, reject) => {
@@ -58,13 +58,13 @@ module.exports = class Carer {
                 reject("Error finding carers");
             }
         })}
-    static async getUsersAndTopline(id){
+    static async getUsersAndTopline({user_id}){
         return new Promise (async (resolve, reject) => {
             try {
                 let dataToDisplay = []
                 //find users associated with a carer
-                const results = await db.query('SELECT * FROM carers JOIN users on carers.id = users.carer_id WHERE carers.id = $1', [id]);
-
+                const results = await db.query('SELECT * FROM carers JOIN users on carers.id = users.carer_id WHERE carers.id = $1 ORDER BY (last_login) DESC', [user_id]);
+                console.log(results.rows)
                 for(let i = 0; i < results.rows.length; i++){
                     //find how many habits they are tracking
                     let habits = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [results.rows[i].id]);
@@ -85,10 +85,15 @@ module.exports = class Carer {
                             blnHabitsCompleted += 1;
                         }
                     }
-                                       
+                    
                     //turn to a percent
                     let totalHabitsCompleted = intHabitsCompleted + blnHabitsCompleted
-                    let percentCompleted = (totalHabitsCompleted / habitTotalNum) * 100
+                    let percentCompleted
+                    if(totalHabitsCompleted > 0) {
+                        percentCompleted = (totalHabitsCompleted / habitTotalNum) * 100
+                    } else {
+                        percentCompleted = 0
+                    }
                     //send back add object to array
                     let obj = { "userFirstName": results.rows[i].first_name, "userSecondName": results.rows[i].
                     second_name, "percentCompleted": percentCompleted, "user_id": results.rows[i].id}
