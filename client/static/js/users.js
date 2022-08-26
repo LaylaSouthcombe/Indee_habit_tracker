@@ -52,13 +52,29 @@ async function increaseCounter(e) {
     }
 }
 
-const changeBlnValue = (e) => {
+async function changeBlnValue (e) {
+    const habitId = parseInt(e.target.id)
+    let habitValue
     if(e.target.className === "blnFalse"){
-        e.target.className = "blnTrue"
-        console.log("change to true on api")
+        habitValue = true
     } else if(e.target.className === "blnTrue"){
-        e.target.className = "blnFalse"
-        console.log("change to false on api")
+        habitValue = false
+    }
+    try {
+        const options = {
+            method: 'PATCH',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({id: habitId, habit_bln_entry: habitValue})
+        }
+        const response = await fetch(`${baseUrl}blns`, options);
+        const data = await response.json()
+        if(data.habit_bln_entry === true){
+            e.target.className = "blnTrue"
+        } else if(data.habit_bln_entry === false){
+            e.target.className = "blnFalse"
+        }
+    } catch (err) {
+        console.warn(err);
     }
 }
 

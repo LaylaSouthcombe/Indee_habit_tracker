@@ -29,9 +29,7 @@ async function create (req, res) {
 
 async function update (req, res) {
     try {
-        console.log(req.body)
         const int = await Int.update(req.body);
-        console.log(int)
         res.status(200).json(int)
     } catch (err) {
         res.status(422).json({err})
