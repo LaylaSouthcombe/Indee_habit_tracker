@@ -1,4 +1,5 @@
 const baseUrl = "http://localhost:3000/"
+const baseClientUrl = "http://localhost:8080/"
 
 const loginFormSection = document.querySelector('.loginFormSection');
 const registerFormSection = document.querySelector('.registerFormSection');
@@ -19,11 +20,21 @@ const userRole = document.querySelector("#userRole");
 const carerRole = document.querySelector("#carerRole");
 
 
-
-const checkRoleBtn = (e) => {
-    e.preventDefault()
-    console.log(userRole.checked)
-    console.log(carerRole)
+function login(person) {
+    // const user = jwt_decode(person.token)
+    // localStorage.setItem('token', person.token)
+    localStorage.setItem('fname', person.first_name)
+    localStorage.setItem('sname', person.second_name)
+    localStorage.setItem('userEmail', person.email)
+    localStorage.setItem('role', person.role)
+  
+    // if (btn2.classList.contains('disabled')) {
+    //   btn2.classList.remove('disabled')
+    //   btn3.classList.remove('disabled')
+    //   loginBtn.classList.add('disabled')
+    //   logoutBtn.classList.remove('disabled')
+    // }
+  //render page
 }
 
 const sendLogin = async (e) => {
@@ -31,7 +42,7 @@ const sendLogin = async (e) => {
     const url = `${baseUrl}auth/login`
     const email = loginEmail.value
     const password = loginPassword.value
-   console.log(JSON.stringify({ email, password }))
+//    console.log(JSON.stringify({ email, password }))
     try {
         const response = await fetch(url, {
           method: 'POST',
@@ -52,7 +63,8 @@ const sendLogin = async (e) => {
           loginPassword.value = ''
     
           console.log('saving token to localStorage: ', { data })
-        //   login(data.token)
+          login(data.person)
+          window.location.href = `${baseClientUrl}${data.person.role}`
         }
       } catch (err) {
         console.log(err)
@@ -99,7 +111,7 @@ async function sendRegister(e) {
       registerPassword.value = ''
   
       console.log('saving token to localStorage: ', { data })
-    //   login(data.token)
+      login(data.person)
     }
     // modal.classList.add('disabled')
   }
@@ -121,8 +133,6 @@ const atRender = () => {
     switchToLogin.addEventListener("click", hideRegisterForm)
     loginBtn.addEventListener("click", sendLogin)
     registerBtn.addEventListener("click", sendRegister)
-    
-    // registerBtn.addEventListener("click", checkRoleBtn)
 }
 atRender()
 

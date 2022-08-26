@@ -34,6 +34,7 @@ module.exports = class Carer {
             }
         })
     }
+    
     static async findCarersByNameOrEmail(searchText){
         console.log("carer model searchText", searchText)
         return new Promise (async (resolve, reject) => {
