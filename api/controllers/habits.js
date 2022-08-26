@@ -11,7 +11,9 @@ async function index (req, res) {
 
 async function showUsersHabitsAndCurrent(req, res) {
     try {
+        console.log(req.body.user_id)
         const habits = await Habit.getUsersHabitsAndCurrent(req.body.user_id);
+        console.log(habits)
         res.status(200).json(habits)
     } catch (err) {
         res.status(500).json({err})

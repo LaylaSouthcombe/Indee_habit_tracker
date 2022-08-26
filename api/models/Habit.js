@@ -30,9 +30,8 @@ module.exports = class Habit {
             try {
                 const blnHabitData = await db.query ('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 ORDER BY (date) DESC', [ user_id ])
                 const intHabitData = await db.query('SELECT * FROM habits_info JOIN int_entries ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND type = $2 ORDER BY (date) DESC;', [ user_id, "int" ]);
-                let habitsData = [] ;
-                habitsData.push(blnHabitData.rows[0]) 
-                habitsData.push(intHabitData.rows[0]) 
+                let habitsData = blnHabitData.rows.concat(intHabitData.rows)
+                console.log(habitsData)
                 resolve(habitsData);
             } catch (err) {
                 reject('habits not found');

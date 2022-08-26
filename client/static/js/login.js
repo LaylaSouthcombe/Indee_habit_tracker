@@ -27,6 +27,7 @@ function login(person) {
     localStorage.setItem('sname', person.second_name)
     localStorage.setItem('userEmail', person.email)
     localStorage.setItem('role', person.role)
+    localStorage.setItem('userId', person.id)
   
     // if (btn2.classList.contains('disabled')) {
     //   btn2.classList.remove('disabled')

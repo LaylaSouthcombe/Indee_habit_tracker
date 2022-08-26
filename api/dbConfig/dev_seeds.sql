@@ -8,14 +8,15 @@ VALUES
 ('Tina', 'Smith', 'xxxx', 'tinasmith@gmail.com', 1, '2022-06-12 00:00:00'),
 ('Tom', 'White', 'xxxx', 'tomwhite@gmail.com', 2, '2022-06-11 00:00:00'),
 ('Gina', 'Hurst', 'xxxx', 'ginahurst@gmail.com', 1, '2022-06-10 00:00:00'),
-('Bob', 'Turner', 'xxxx', 'bobturner@gmail.com', 0, '2022-06-10 00:00:00');
+('Bob', 'Turner', 'xxxx', 'bobturner@gmail.com', 0, '2022-06-10 00:00:00'),
+('Gene', 'Belcher', '$2b$10$qBAD4lPJH6AsJse9f8Vb3eUzJ7H3C8ZlHxoGh2rJB9kGhJxecSlK.', 'genebelcher123@gmail.com', 0, '2022-06-10 00:00:00');
 
 INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) 
 VALUES
 (1, 'boolean', 'Take medicine in morning', 'days', 1, 1),
-(1, 'int', 'Drink 8 glasses of water', 'days', 1, 8),
-(2, 'boolean', 'Exercise', 'days', 2, 30),
-(3, 'int', 'Brush teeth', 'days', 1, 2);
+(5, 'int', 'Drink 8 glasses of water', 'days', 1, 8),
+(5, 'boolean', 'Exercise', 'days', 2, 30),
+(5, 'int', 'Brush teeth', 'days', 1, 2);
 
 INSERT INTO int_entries (habit_int_id, habit_int_entry) 
 VALUES
