@@ -20,7 +20,7 @@ const sendLogin = async (e) => {
     const url = `${baseUrl}auth/login`
     const email = loginEmail.value
     const password = loginPassword.value
-   
+   console.log(JSON.stringify({ email, password }))
     try {
         const response = await fetch(url, {
           method: 'POST',

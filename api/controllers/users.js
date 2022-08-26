@@ -12,6 +12,7 @@ async function index(req, res) {
 async function findByEmailOrName(req, res) {
     try {
         // const authors = [];
+        console.log(req)
         const users = await User.findUsersByNameOrEmail(req.body.searchTerm)
         res.status(200).json(users);
     } catch (err) {

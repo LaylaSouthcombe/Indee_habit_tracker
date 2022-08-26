@@ -37,6 +37,7 @@ module.exports = class User {
         })
     }
     static async findUsersByNameOrEmail(searchText){
+        console.log("user model searchText", searchText)
         return new Promise (async (resolve, reject) => {
             try {
                 let users;
@@ -51,7 +52,8 @@ module.exports = class User {
                     const newSearchTerm = searchText.concat(percentSign)
                     const result = await db.query('SELECT * FROM users WHERE first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1', [ newSearchTerm]);
                     users = result.rows
-                }          
+                }
+                console.log("user model users", users)
                 resolve(users)
             }catch(err){
                 reject("Error finding users");
