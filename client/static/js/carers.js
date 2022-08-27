@@ -4,7 +4,7 @@ const userSummaryModal = document.getElementById("userSummaryModal")
 const seeMoreUserInfo = (e) => {
     console.log("user id", e.target.parentElement.id)
 }
-
+Chart.register(ChartDataLabels);
 const closeSummaryModal = () => {
     userSummaryModal.style.display = "none"
     while (userSummaryModal.lastElementChild) {
@@ -14,8 +14,6 @@ const closeSummaryModal = () => {
 
 async function getUserSummary(e) {
     console.log("summary")
-    // console.log(e.target.parentElement.id)
-    // console.log(e.target.id)
     let userId
     if(e.target.parentElement.id){
         userId = e.target.parentElement.id
@@ -23,7 +21,7 @@ async function getUserSummary(e) {
     if(e.target.id){
         userId = e.target.id
     }
-    console.log(userId)
+    userSummaryModal.id = userId
     try {
         const options = {
             method: 'POST',
@@ -31,7 +29,6 @@ async function getUserSummary(e) {
             body: JSON.stringify({user_id: userId})
         }
         const response = await fetch(`${baseUrl}users/summary`, options);
-        console.log(response)
         const data = await response.json()
         console.log(data)
         const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: data.lastLogin}, {weekReviewTitle: "This week in review"}]
@@ -41,7 +38,6 @@ async function getUserSummary(e) {
         modalCloseX.textContent = "X"
         modalCloseX.addEventListener("click", closeSummaryModal)
         userSummaryModal.append(modalCloseX)
-        console.log(text)
         text.forEach(function(el) {
             let para = document.createElement("p")
             para.className = Object.keys(el)[0]
@@ -49,9 +45,101 @@ async function getUserSummary(e) {
             userSummaryModal.append(para)
         })
 
-        const seeMoreDetails = document.createElement("p")
-
+        
         userSummaryModal.style.display = "block"
+        
+const myChart = document.createElement("canvas")
+myChart.id = "myChart"
+myChart.setAttribute("width", 300)
+myChart.setAttribute("height", 300)
+userSummaryModal.append(myChart)
+
+const past7Days = [...Array(7).keys()].map(index => {
+    const date = new Date();
+    date.setDate(date.getDate() - index);
+    let str = date.toString()
+    return `${str.substring(8,10)} ${str.substring(4,7)}`
+});
+
+const formattedPast7Days = past7Days.reverse()
+console.log(past7Days)
+
+new Chart(myChart, {
+    type: 'bar',
+    data: {
+        labels: [formattedPast7Days[0], formattedPast7Days[1], formattedPast7Days[2], formattedPast7Days[3], formattedPast7Days[4], formattedPast7Days[5], formattedPast7Days[6]],
+        datasets: [{
+            label: '% complete',
+            data: [graphValues[0]*100, graphValues[1]*100, graphValues[2]*100, graphValues[3]*100, graphValues[4]*100, graphValues[5]*100, graphValues[6]*100],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            borderRadius: 2
+        }]
+    },
+    options: 
+        {
+            plugins:{
+            title: {
+                display: true,
+                text: "% complete last 7 days",
+                font: {
+                    size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            datalabels: {
+                color: '#36A2EB',
+                anchor: 'end',
+                align: 'top',
+                formatter: function(value) {
+                    return value + '%'
+                }
+            }
+        },
+        scales: {
+            y: {
+                ticks: {
+                    display: false,
+                    beginAtZero: true,
+                },
+                grid: {
+                    display: false
+                },
+                suggestedMax: 100
+            },
+            x: {
+                grid: {
+                    display: false,
+                }
+                
+            }
+        }
+    }
+});
+const seeMoreDetails = document.createElement("p")
+        seeMoreDetails.textContent = "See more details"
+        seeMoreDetails.addEventListener("click", seeMoreUserInfo)
+        userSummaryModal.append(seeMoreDetails)
+console.log(myChart)
     } catch (err) {
         console.warn(err);
     }
