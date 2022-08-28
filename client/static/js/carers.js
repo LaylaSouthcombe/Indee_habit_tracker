@@ -68,7 +68,7 @@ const metricsAllTimeSection = document.createElement("div")
 const openEditCreateHabitModal = () => {
     console.log("open edit create habit modal")
 }
-async function createWeekGraph(chartName, appendedElement, data, title) {
+const createWeekGraph = (chartName, appendedElement, data, title) => {
     let graphValues = []
     let graphColors = []
     let graphBorders = []
@@ -147,6 +147,89 @@ async function createWeekGraph(chartName, appendedElement, data, title) {
                     },
                     grid: {
                         display: false
+                    },
+                    suggestedMax: 100
+                },
+                x: {
+                    grid: {
+                        display: false,
+                    }
+                    
+                }
+            }
+        }
+    });
+}
+
+const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) => {
+    let graphValues = []
+    let graphColors = []
+        for(let i = 1; i <= Object.keys(data).length; i++){
+            if(data[i].complete === 0){
+                graphValues.unshift(0)
+            } else {
+                let  value = (data[i].complete/data[i].total)*100
+               graphValues.unshift(value)
+               if(value < 50){
+                graphColors.unshift('rgba(255, 99, 132, 0.2)')
+               } else if(value >= 50 && value < 75){
+                graphColors.unshift('rgba(255, 167, 99, 0.2)')
+               } else if(value >= 75){
+                graphColors.unshift('rgba(99, 255, 112, 0.2)')
+               }
+            }
+        }
+    const pastDays = [...Array(numOfDays).keys()].map(index => {
+        const date = new Date();
+        date.setDate(date.getDate() - index);
+        let str = date.toString()
+        return `${str.substring(8,10)} ${str.substring(4,7)}`
+    });
+
+    const formattedPastDays = pastDays.reverse()
+    const myChart = document.createElement("canvas")
+    myChart.id = chartName
+    myChart.setAttribute("width", 300)
+    myChart.setAttribute("height", 300)
+    appendedElement.append(myChart)
+    new Chart(myChart, {
+        data: {
+            datasets: [{
+                type: 'line',
+                label: 'Line Dataset',
+                data: graphValues,
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192)'
+            },{
+                type: 'bar',
+                label: 'Bar Dataset',
+                data: graphValues,
+                backgroundColor: graphColors,
+                categoryPercentage: 1.0,
+                barPercentage: 1.0
+            }],
+            labels: formattedPastDays,
+        },
+        options: 
+            {
+            plugins:{
+                title: {
+                    display: true,
+                    text: title,
+                    font: {
+                        size: 16
+                    }
+                },
+                legend: {
+                    display: false
+                }, datalabels: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        beginAtZero: true,
                     },
                     suggestedMax: 100
                 },
@@ -272,7 +355,7 @@ async function getWeekData() {
     const allHabitsData = await allHabitsResponse.json()
     console.log(allHabitsData)
     //add for each for habits array (add summary in first, then each habit after)
-    await createWeekGraph("allHabitsSummary", metricsWeekSection, allHabitsData.entriesData, "Habit title")
+    createWeekGraph("allHabitsSummary", metricsWeekSection, allHabitsData.entriesData, "Habit title")
     console.log("getWeekData")
 }
 
@@ -286,6 +369,7 @@ const allHabitsOptions = {
 const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
 const allHabitsData = await allHabitsResponse.json()
 // await createWeekGraph("allHabitsSummary", metricsMonthSection, allHabitsData.entriesData, "Habit title")
+createMixedGraph("allHabitsMonthSummary", metricsMonthSection, allHabitsData.entriesData, "Habit title", 30)
 console.log(allHabitsData)
 }
 
