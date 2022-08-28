@@ -82,7 +82,7 @@ module.exports = class User {
                     let dayBlnEntries = await db.query(`SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
                     let blnHabitsCompleted = 0;
                     for(let j = 0; j < dayBlnEntries.rows.length; j++){
-                        if(dayBlnEntries.rows[j].habit_bln_entry >= dayBlnEntries.rows[j].goal){
+                        if(dayBlnEntries.rows[j].habit_bln_entry){
                             blnHabitsCompleted += 1;
                         }
                     }
@@ -95,11 +95,75 @@ module.exports = class User {
                 console.log(obj)
                 resolve(obj)
             }catch(err){
-                reject("User account could not be created");
+                reject("Users habit history could not be found");
             }
         })
     }
+    static async findUsersIndividualHabitsSummary({user_id, number_of_days}) {
+        return new Promise (async (resolve, reject) => {
+            try {
+                // const userInfo = await db.query('SELECT first_name, second_name, last_login FROM users WHERE id = $1;', [user_id])
 
+                let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
+                let dataArr = []
+                // let habitTotalNum = habitsInfo.rows.length;
+                console.log(habitsInfo.rows)
+                for(let k = 0; k < habitsInfo.rows.length; k++){
+                    if(number_of_days === "all time"){
+                        let todaysDate = new Date()
+                        let totalDays
+                        if(habitsInfo.rows[k].type === "int"){
+                            let lastIntEntry = await db.query(`SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND int_entries.habit_int_id = $2 ORDER BY (date) ASC LIMIT 1;`, [user_id, habitsInfo.rows[k].id]);
+                            let intDifference = todaysDate.getTime() - lastIntEntry.rows[0].date.getTime();
+                             totalDays = Math.ceil(intDifference / (1000 * 3600 * 24));
+                        }
+                        if(habitsInfo.rows[k].type === "boolean"){
+                            let lastBlnEntry = await db.query(`SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND boolean_entries.habit_bln_id = $2 ORDER BY (date) ASC LIMIT 1;`, [user_id, habitsInfo.rows[k].id]);
+
+                            let blnDifference = todaysDate.getTime() - lastBlnEntry.rows[0].date.getTime();
+                            totalDays = Math.ceil(blnDifference / (1000 * 3600 * 24));
+                        }
+                        number_of_days = totalDays
+                    }
+
+                    let entriesData = {}
+    
+                    // finds the last X days of int entries
+                    if(habitsInfo.rows[k].type === "int"){
+                        for(let i = 0; i < number_of_days; i++){
+                            let dayIntEntries = await db.query(`SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND int_entries.habit_int_id = $2 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id, habitsInfo.rows[k].id]);
+                            let intHabitsCompleted = 0;
+                            for(let j = 0; j < dayIntEntries.rows.length; j++){
+                                if(dayIntEntries.rows[j].habit_int_entry >= dayIntEntries.rows[j].goal){
+                                    intHabitsCompleted += 1;
+                                }
+                            }
+                            entriesData[i+1] = {total: dayIntEntries.rows.length, complete: intHabitsCompleted}
+                        }
+                    }
+                    if(habitsInfo.rows[k].id === "boolean"){
+                        for(let i = 0; i < number_of_days; i++){
+                            let dayBlnEntries = await db.query(`SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND boolean_entries.habit_bln_id = $2 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id, habitsInfo.rows[k].id]);
+                            let blnHabitsCompleted = 0;
+                            for(let j = 0; j < dayBlnEntries.rows.length; j++){
+                                if(dayBlnEntries.rows[j].habit_bln_entry){
+                                    blnHabitsCompleted += 1;
+                                }
+                            }
+                            entriesData[i+1].total += dayBlnEntries.rows.length
+                            entriesData[i+1].complete += blnHabitsCompleted
+                        }
+                    }
+                    dataArr.push({ habitId: habitsInfo.rows[k].id,  habitTitle: habitsInfo.rows[k].description, entriesData: entriesData})
+                }
+                let obj = { dataArr: dataArr, number_of_days: number_of_days}
+                console.log(obj)
+                resolve(obj)
+            }catch(err){
+                reject("Users habit history could not be found");
+            }
+        })
+    }
     
     static async findUsersByNameOrEmail(searchText){
         console.log("user model searchText", searchText)

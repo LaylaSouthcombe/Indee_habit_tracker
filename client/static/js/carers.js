@@ -366,6 +366,14 @@ async function getWeekData() {
     const allHabitsData = await allHabitsResponse.json()
     console.log(allHabitsData)
     //add for each for habits array (add summary in first, then each habit after)
+    const individualHabitsOptions = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({user_id: userId, number_of_days: 7})
+    }
+    const individualHabitsResponse = await fetch(`${baseUrl}users/habit/summary`, individualHabitsOptions);
+    const individualHabitsData = await individualHabitsResponse.json()
+    console.log(individualHabitsData)
     let dataLabels = {display: false}
     createWeekGraph("allHabitsSummary", metricsWeekSection, allHabitsData.entriesData, "Habit title", true, true, dataLabels)
     console.log("getWeekData")

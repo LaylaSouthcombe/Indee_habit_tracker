@@ -29,6 +29,16 @@ async function findUsersSummary(req, res) {
         res.status(500).send(err);
     }
 }
+async function findUsersIndividualHabitsSummary(req, res) {
+    try {
+        // const authors = [];
+        console.log(req.body)
+        const info = await User.findUsersIndividualHabitsSummary(req.body)
+        res.status(200).json(info);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
 
 // async function show(req, res) {
 //     try {
@@ -40,4 +50,4 @@ async function findUsersSummary(req, res) {
 //     };
 // }
 
-module.exports = { index, findByEmailOrName, findUsersSummary }
+module.exports = { index, findByEmailOrName, findUsersSummary, findUsersIndividualHabitsSummary }
