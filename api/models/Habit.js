@@ -28,8 +28,8 @@ module.exports = class Habit {
     static getUsersHabitsAndCurrent(user_id){
         return new Promise (async (resolve, reject) => {
             try {
-                const blnHabitData = await db.query ('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 ORDER BY (date) DESC', [ user_id ])
-                const intHabitData = await db.query('SELECT * FROM habits_info JOIN int_entries ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND type = $2 ORDER BY (date) DESC;', [ user_id, "int" ]);
+                const blnHabitData = await db.query ('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1  AND date = CURRENT_DATE ORDER BY (date) DESC', [ user_id ])
+                const intHabitData = await db.query('SELECT * FROM habits_info JOIN int_entries ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND type = $2 AND date = CURRENT_DATE ORDER BY (date) DESC;', [ user_id, "int" ]);
                 let habitsData = blnHabitData.rows.concat(intHabitData.rows)
                 console.log(habitsData)
                 resolve(habitsData);

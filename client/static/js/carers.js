@@ -252,13 +252,7 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
     });
 }
 
-async function getUserHabitsSummary(userId) {
-    habits = "hi habits"
-
-    //add in a for each when get actual habits
-    let habit = {description: "text habit", freq_value: 2, freq_unit: "days", id: 2, type: "int", goal: 3, habit_int_entry: 2}
-
-
+const renderHabitBoxes = (habit) => {
     habitTodaySection.style.display = "none"
     habitWeekSection.style.display = "none"
     habitMonthSection.style.display = "none"
@@ -351,6 +345,30 @@ async function getUserHabitsSummary(userId) {
 
         habitMonthSection.appendChild(habitBox)
     }
+}
+
+async function getUserHabitsSummary(userId) {
+    habits = "hi habits"
+
+    //add in a for each when get actual habits
+    // let habit = {description: "text habit", freq_value: 2, freq_unit: "days", id: 2, type: "int", goal: 3, habit_int_entry: 2}
+    try {
+        const options = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({user_id: userId})
+        }
+        const response = await fetch(`${baseUrl}habits/users`, options);
+        console.log(response)
+        const data = await response.json()
+        console.log(data)
+        data.forEach(renderHabitBoxes)
+        habitsWrapper.append(habitTodaySection, habitWeekSection, habitMonthSection)
+    } catch (err) {
+        console.warn(err);
+    }
+
+    
 }
 
 async function getWeekData() {
