@@ -76,6 +76,8 @@ module.exports = class User {
                         }
                     }
                     entriesData[i+1] = {total: dayIntEntries.rows.length, complete: intHabitsCompleted}
+                    console.log("intHabitsCompleted", intHabitsCompleted)
+                    console.log("intHabits total", dayIntEntries.rows.length)
                 }
 
                 for(let i = 0; i < number_of_days; i++){
@@ -88,8 +90,10 @@ module.exports = class User {
                     }
                     entriesData[i+1].total += dayBlnEntries.rows.length
                     entriesData[i+1].complete += blnHabitsCompleted
+                    console.log("blnHabitsCompleted", blnHabitsCompleted)
+                    console.log("blnHabits total", dayBlnEntries.rows.length)
                 }
-
+                
                 let obj = { "userFirstName": userInfo.rows[0].first_name, "userSecondName": userInfo.rows[0].second_name, "numOfHabitsCompleted": entriesData[1].complete, "numOfHabits": entriesData[1].total, "lastLogin": userInfo.rows[0].last_login, 
                 entriesData: entriesData, number_of_days: number_of_days}
                 console.log(obj)

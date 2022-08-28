@@ -254,10 +254,10 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
 
 async function getUserHabitsSummary(userId) {
     habits = "hi habits"
-    console.log("get habits for user", userId)
+
     //add in a for each when get actual habits
     let habit = {description: "text habit", freq_value: 2, freq_unit: "days", id: 2, type: "int", goal: 3, habit_int_entry: 2}
-    console.log(habit)
+
 
     habitTodaySection.style.display = "none"
     habitWeekSection.style.display = "none"
@@ -364,8 +364,8 @@ async function getWeekData() {
     }
     const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
     const allHabitsData = await allHabitsResponse.json()
-    console.log(allHabitsData)
-    //add for each for habits array (add summary in first, then each habit after)
+    
+    //for each for habits array (add summary in first, then each habit after)
     const individualHabitsOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -373,10 +373,14 @@ async function getWeekData() {
     }
     const individualHabitsResponse = await fetch(`${baseUrl}users/habit/summary`, individualHabitsOptions);
     const individualHabitsData = await individualHabitsResponse.json()
-    console.log(individualHabitsData)
+
+    individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
+
     let dataLabels = {display: false}
-    createWeekGraph("allHabitsSummary", metricsWeekSection, allHabitsData.entriesData, "Habit title", true, true, dataLabels)
-    console.log("getWeekData")
+    individualHabitsData.dataArr.forEach(function(x) {
+        createWeekGraph(`individualHabitsSummary habit${x.habitId}`, metricsWeekSection, x.entriesData, x.habitTitle, true, true, dataLabels)
+    })
+    
     metricsWeekSection.style.display = "block"
 }
 
@@ -384,7 +388,6 @@ async function getMonthData() {
     closeSection(metricsWeekSection)
     closeSection(metricsMonthSection)
     closeSection(metricsAllTimeSection)
-    console.log("getMonthData")
     const allHabitsOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -392,17 +395,28 @@ async function getMonthData() {
     }
     const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
     const allHabitsData = await allHabitsResponse.json()
-    createMixedGraph("allHabitsMonthSummary", metricsMonthSection, allHabitsData.entriesData, "Habit title", 30)
-    console.log(allHabitsData)
+
+    //for each for habits array (add summary in first, then each habit after)
+    const individualHabitsOptions = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({user_id: userId, number_of_days: 30})
+    }
+    const individualHabitsResponse = await fetch(`${baseUrl}users/habit/summary`, individualHabitsOptions);
+    const individualHabitsData = await individualHabitsResponse.json()
+
+    individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
+
+    individualHabitsData.dataArr.forEach(function(x) {
+        createMixedGraph(`individualHabitsMonthSummary habit${x.habitId}`, metricsMonthSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
+    })
     metricsMonthSection.style.display = "block"
-    
 }
 
 async function getAllTimeData() {
     closeSection(metricsWeekSection)
     closeSection(metricsMonthSection)
     closeSection(metricsAllTimeSection)
-    console.log("getAllTimeData")
     const allHabitsOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -410,8 +424,19 @@ async function getAllTimeData() {
     }
     const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
     const allHabitsData = await allHabitsResponse.json()
-    createMixedGraph("allHabitsAllTimeSummary", metricsAllTimeSection, allHabitsData.entriesData, "Habit title", allHabitsData.number_of_days)
-    console.log(allHabitsData)
+
+    //for each for habits array (add summary in first, then each habit after)
+    const individualHabitsOptions = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({user_id: userId, number_of_days: "all time"})
+    }
+    const individualHabitsResponse = await fetch(`${baseUrl}users/habit/summary`, individualHabitsOptions);
+    const individualHabitsData = await individualHabitsResponse.json()
+    individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
+    individualHabitsData.dataArr.forEach(function(x) {
+        createMixedGraph(`individualHabitsMonthSummary habit${x.habitId}`, metricsAllTimeSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
+    })
     metricsAllTimeSection.style.display = "block"
 }
 
