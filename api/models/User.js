@@ -90,9 +90,7 @@ module.exports = class User {
 
                 console.log(userInfo.rows[0])
                 let obj = { "userFirstName": userInfo.rows[0].first_name, "userSecondName": userInfo.rows[0].second_name, "numOfHabitsCompleted": entriesData[1].complete, "numOfHabits": entriesData[1].total, "lastLogin": userInfo.rows[0].last_login, 
-                entriesData: entriesData
-                // "dayOnePercent": (entriesData[1].complete/entriesData[1].total), "dayTwoPercent": (entriesData[2].complete/entriesData[2].total), "dayThreePercent": (entriesData[3].complete/entriesData[3].total), "dayFourPercent": (entriesData[4].complete/entriesData[4].total), "dayFivePercent": (entriesData[5].complete/entriesData[5].total), "daySixPercent": (entriesData[6].complete/entriesData[6].total), "daySevenPercent": (entriesData[7].complete/entriesData[7].total)
-            }
+                entriesData: entriesData}
                 
                 console.log(obj)
                 resolve(obj)

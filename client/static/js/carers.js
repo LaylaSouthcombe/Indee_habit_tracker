@@ -60,17 +60,34 @@ const habitWeekSection = document.createElement("div")
 const habitMonthSection = document.createElement("div")
 const habitsSummarySection = document.createElement("div")
 const metricsSummarySection = document.createElement("div")
+const metricsWeekSection = document.createElement("div")
+const metricsMonthSection = document.createElement("div")
+const metricsAllTimeSection = document.createElement("div")
+
 
 const openEditCreateHabitModal = () => {
     console.log("open edit create habit modal")
 }
 async function createWeekGraph(chartName, appendedElement, data, title) {
     let graphValues = []
+    let graphColors = []
+    let graphBorders = []
         for(let i = 1; i <= Object.keys(data).length; i++){
             if(data[i].complete === 0){
                 graphValues.unshift(0)
             } else {
-               graphValues.unshift(data[i].complete/data[i].total) 
+                let  value = (data[i].complete/data[i].total)*100
+               graphValues.unshift(value)
+               if(value < 50){
+                graphColors.unshift('rgba(255, 99, 132, 0.2)')
+                graphBorders.unshift('rgba(255, 99, 132, 1)')
+               } else if(value >= 50 && value < 75){
+                graphColors.unshift('rgba(255, 167, 99, 0.2)')
+                graphBorders.unshift('rgba(255, 167, 99, 1)')
+               } else if(value >= 75){
+                graphColors.unshift('rgba(99, 255, 112, 0.2)')
+                graphBorders.unshift('rgba(99, 255, 112, 1)')
+               }
             }
         }
     const past7Days = [...Array(7).keys()].map(index => {
@@ -90,28 +107,12 @@ async function createWeekGraph(chartName, appendedElement, data, title) {
     new Chart(myChart, {
         type: 'bar',
         data: {
-            labels: [formattedPast7Days[0], formattedPast7Days[1], formattedPast7Days[2], formattedPast7Days[3], formattedPast7Days[4], formattedPast7Days[5], formattedPast7Days[6]],
+            labels: formattedPast7Days,
             datasets: [{
                 label: '% complete',
-                data: [graphValues[0]*100, graphValues[1]*100, graphValues[2]*100, graphValues[3]*100, graphValues[4]*100, graphValues[5]*100, graphValues[6]*100],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                data: graphValues,
+                backgroundColor: graphColors,
+                borderColor: graphBorders,
                 borderWidth: 1,
                 borderRadius: 2
             }]
@@ -268,16 +269,24 @@ async function getWeekData() {
         body: JSON.stringify({user_id: userId, number_of_days: 7})
     }
     const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
-        const allHabitsData = await allHabitsResponse.json()
-        console.log(allHabitsData)
+    const allHabitsData = await allHabitsResponse.json()
+    console.log(allHabitsData)
     //add for each for habits array (add summary in first, then each habit after)
-
-    await createWeekGraph("allHabitsSummary", metricsSummarySection, allHabitsData.entriesData, "Habit title")
+    await createWeekGraph("allHabitsSummary", metricsWeekSection, allHabitsData.entriesData, "Habit title")
     console.log("getWeekData")
 }
 
 async function getMonthData() {
 console.log("getMonthData")
+const allHabitsOptions = {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({user_id: userId, number_of_days: 30})
+}
+const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
+const allHabitsData = await allHabitsResponse.json()
+// await createWeekGraph("allHabitsSummary", metricsMonthSection, allHabitsData.entriesData, "Habit title")
+console.log(allHabitsData)
 }
 
 async function getAllTimeData() {
@@ -373,6 +382,7 @@ async function renderUserSummaryPage(userId) {
 
     //metrics area
     metricsSummarySection.style.display = "none"
+    metricsSummarySection.append(metricsWeekSection, metricsMonthSection, metricsAllTimeSection)
     //final append
     userSummaryPage.append(userSummaryPageTopSection, habitsMetricsTitleDiv, habitsSummarySection, metricsSummarySection)
     userSummaryPage.style.display = "block"
