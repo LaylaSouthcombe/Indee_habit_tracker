@@ -42,7 +42,6 @@ module.exports = class User {
     //last login
 
     static async findUsersSummary({user_id, number_of_days}) {
-        console.log(user_id)
         return new Promise (async (resolve, reject) => {
             try {
                 const userInfo = await db.query('SELECT first_name, second_name, last_login FROM users WHERE id = $1;', [user_id])
@@ -50,11 +49,23 @@ module.exports = class User {
                 // let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
                 // let habitTotalNum = habitsInfo.rows.length;
   
+                if(number_of_days === "all time"){
+                    let lastIntEntry = await db.query(`SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 ORDER BY (date) ASC LIMIT 1;`, [user_id]);
+                    let lastBlnEntry = await db.query(`SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 ORDER BY (date) ASC LIMIT 1;`, [user_id]);
+                    let todaysDate = new Date()
+                    let intDifference = todaysDate.getTime() - lastIntEntry.rows[0].date.getTime();
+                    let blnDifference = todaysDate.getTime() - lastBlnEntry.rows[0].date.getTime();
+                    let totalDays
+                    if(intDifference > blnDifference){
+                        totalDays = Math.ceil(intDifference / (1000 * 3600 * 24));
+                    } else {
+                        totalDays = Math.ceil(blnDifference / (1000 * 3600 * 24));
+                    }
+                    number_of_days = totalDays
+                }
+                console.log("number_of_days", number_of_days)
                 let entriesData = {}
 
-                for(let i = 1; i <= number_of_days; i++){
-                    entriesData[i] = {total: 0, complete: 0}
-                }
                 //finds the last 7 days of int entries
                 for(let i = 0; i < number_of_days; i++){
                     let dayIntEntries = await db.query(`SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
@@ -64,34 +75,23 @@ module.exports = class User {
                             intHabitsCompleted += 1;
                         }
                     }
-                    // console.log(entriesData[i])
-                    entriesData[i+1].total = dayIntEntries.rows.length
-                    entriesData[i+1].complete = intHabitsCompleted
+                    entriesData[i+1] = {total: dayIntEntries.rows.length, complete: intHabitsCompleted}
                 }
-                // console.log(dayOneInfo)
-                // console.log(entriesData)
 
                 for(let i = 0; i < number_of_days; i++){
                     let dayBlnEntries = await db.query(`SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
                     let blnHabitsCompleted = 0;
-                    console.log(dayBlnEntries.rows)
                     for(let j = 0; j < dayBlnEntries.rows.length; j++){
                         if(dayBlnEntries.rows[j].habit_bln_entry >= dayBlnEntries.rows[j].goal){
                             blnHabitsCompleted += 1;
                         }
                     }
-                    console.log(blnHabitsCompleted)
                     entriesData[i+1].total += dayBlnEntries.rows.length
                     entriesData[i+1].complete += blnHabitsCompleted
-
-                    console.log(entriesData)
                 }
-                console.log(entriesData)
 
-                console.log(userInfo.rows[0])
                 let obj = { "userFirstName": userInfo.rows[0].first_name, "userSecondName": userInfo.rows[0].second_name, "numOfHabitsCompleted": entriesData[1].complete, "numOfHabits": entriesData[1].total, "lastLogin": userInfo.rows[0].last_login, 
                 entriesData: entriesData}
-                
                 console.log(obj)
                 resolve(obj)
             }catch(err){
@@ -99,6 +99,8 @@ module.exports = class User {
             }
         })
     }
+
+    
     static async findUsersByNameOrEmail(searchText){
         console.log("user model searchText", searchText)
         return new Promise (async (resolve, reject) => {

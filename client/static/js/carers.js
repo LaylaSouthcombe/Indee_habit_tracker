@@ -375,6 +375,14 @@ console.log(allHabitsData)
 
 async function getAllTimeData() {
 console.log("getAllTimeData")
+const allHabitsOptions = {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({user_id: userId, number_of_days: "all time"})
+}
+const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
+const allHabitsData = await allHabitsResponse.json()
+console.log(allHabitsData)
 }
 async function getUsersMetricsSummary(userId) {
     metrics = "hi metrics"
