@@ -58,6 +58,8 @@ let metrics
 const habitTodaySection = document.createElement("div")
 const habitWeekSection = document.createElement("div")
 const habitMonthSection = document.createElement("div")
+const habitsSummarySection = document.createElement("div")
+const metricsSummarySection = document.createElement("div")
 
 const openEditCreateHabitModal = () => {
     console.log("open edit create habit modal")
@@ -164,9 +166,34 @@ async function getUserHabitsSummary(userId) {
     }
 }
 
+async function getWeekData() {
+console.log("getWeekData")
+}
+
+async function getMonthData() {
+console.log("getMonthData")
+}
+
+async function getAllTimeData() {
+console.log("getAllTimeData")
+}
 async function getUsersMetricsSummary(userId) {
     metrics = "hi metrics"
     console.log("get metrics for user", userId)
+    
+    //date buttons
+    const dateBtns = document.createElement("div")
+    const weekBtn = document.createElement("p")
+    weekBtn.textContent = "Week"
+    weekBtn.addEventListener("click", getWeekData)
+    const monthBtn = document.createElement("p")
+    monthBtn.textContent = "Month"
+    monthBtn.addEventListener("click", getMonthData)
+    const allTimeBtn = document.createElement("p")
+    allTimeBtn.textContent = "All time"
+    allTimeBtn.addEventListener("click", getAllTimeData)
+    dateBtns.append(weekBtn, monthBtn, allTimeBtn)
+    metricsSummarySection.append(dateBtns)
 }
 
 const removeUserPage = () =>{
@@ -174,8 +201,7 @@ const removeUserPage = () =>{
     console.log("remove page and redirect")
 }
 
-const habitsSummarySection = document.createElement("div")
-const metricsSummarySection = document.createElement("div")
+
 
 const openHabitsSection = () => {
     console.log(habitsSummarySection.style.display)
@@ -238,7 +264,7 @@ async function renderUserSummaryPage(userId) {
     //metrics area
     metricsSummarySection.style.display = "none"
     //final append
-    userSummaryPage.append(userSummaryPageTopSection, habitsMetricsTitleDiv, habitsSummarySection)
+    userSummaryPage.append(userSummaryPageTopSection, habitsMetricsTitleDiv, habitsSummarySection, metricsSummarySection)
     userSummaryPage.style.display = "block"
 }
 let userId
