@@ -47,12 +47,16 @@ module.exports = class User {
             try {
                 const userInfo = await db.query('SELECT first_name, second_name, last_login FROM users WHERE id = $1;', [user_id])
 
-                let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
-                let habitTotalNum = habitsInfo.rows.length;
-                // let dayOneInfo = {total: 0, complete: 0}
-                let entriesData = {1: {total: 0, complete: 0}, 2: {total: 0, complete: 0}, 3: {total: 0, complete: 0}, 4: {total: 0, complete: 0}, 5: {total: 0, complete: 0}, 6: {total: 0, complete: 0}, 7: {total: 0, complete: 0}}
+                // let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
+                // let habitTotalNum = habitsInfo.rows.length;
+  
+                let entriesData = {}
+
+                for(let i = 1; i <= number_of_days; i++){
+                    entriesData[i] = {total: 0, complete: 0}
+                }
                 //finds the last 7 days of int entries
-                for(let i = 0; i < 7; i++){
+                for(let i = 0; i < number_of_days; i++){
                     let dayIntEntries = await db.query(`SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
                     let intHabitsCompleted = 0;
                     for(let j = 0; j < dayIntEntries.rows.length; j++){
@@ -67,7 +71,7 @@ module.exports = class User {
                 // console.log(dayOneInfo)
                 // console.log(entriesData)
 
-                for(let i = 0; i < 7; i++){
+                for(let i = 0; i < number_of_days; i++){
                     let dayBlnEntries = await db.query(`SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
                     let blnHabitsCompleted = 0;
                     console.log(dayBlnEntries.rows)
