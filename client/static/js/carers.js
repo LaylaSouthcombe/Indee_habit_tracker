@@ -64,6 +64,101 @@ const metricsSummarySection = document.createElement("div")
 const openEditCreateHabitModal = () => {
     console.log("open edit create habit modal")
 }
+async function createWeekGraph(chartName, appendedElement, data, title) {
+    let graphValues = []
+        for(let i = 1; i <= Object.keys(data).length; i++){
+            if(data[i].complete === 0){
+                graphValues.unshift(0)
+            } else {
+               graphValues.unshift(data[i].complete/data[i].total) 
+            }
+        }
+    const past7Days = [...Array(7).keys()].map(index => {
+        const date = new Date();
+        date.setDate(date.getDate() - index);
+        let str = date.toString()
+        return `${str.substring(8,10)} ${str.substring(4,7)}`
+    });
+
+    const formattedPast7Days = past7Days.reverse()
+    const myChart = document.createElement("canvas")
+    myChart.id = chartName
+    myChart.setAttribute("width", 300)
+    myChart.setAttribute("height", 300)
+    appendedElement.append(myChart)
+
+    new Chart(myChart, {
+        type: 'bar',
+        data: {
+            labels: [formattedPast7Days[0], formattedPast7Days[1], formattedPast7Days[2], formattedPast7Days[3], formattedPast7Days[4], formattedPast7Days[5], formattedPast7Days[6]],
+            datasets: [{
+                label: '% complete',
+                data: [graphValues[0]*100, graphValues[1]*100, graphValues[2]*100, graphValues[3]*100, graphValues[4]*100, graphValues[5]*100, graphValues[6]*100],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
+                borderRadius: 2
+            }]
+        },
+        options: 
+            {
+                plugins:{
+                title: {
+                    display: true,
+                    text: title,
+                    font: {
+                        size: 16
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                datalabels: {
+                    color: '#36A2EB',
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: function(value) {
+                        return value + '%'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        display: false,
+                        beginAtZero: true,
+                    },
+                    grid: {
+                        display: false
+                    },
+                    suggestedMax: 100
+                },
+                x: {
+                    grid: {
+                        display: false,
+                    }
+                    
+                }
+            }
+        }
+    });
+}
 
 async function getUserHabitsSummary(userId) {
     habits = "hi habits"
@@ -167,7 +262,18 @@ async function getUserHabitsSummary(userId) {
 }
 
 async function getWeekData() {
-console.log("getWeekData")
+    const allHabitsOptions = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({user_id: userId, number_of_days: 7})
+    }
+    const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
+        const allHabitsData = await allHabitsResponse.json()
+        console.log(allHabitsData)
+    //add for each for habits array (add summary in first, then each habit after)
+
+    await createWeekGraph("allHabitsSummary", metricsSummarySection, allHabitsData.entriesData, "Habit title")
+    console.log("getWeekData")
 }
 
 async function getMonthData() {
@@ -323,14 +429,7 @@ async function getUserSummary(e) {
         const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: data.lastLogin}, {weekReviewTitle: "This week in review"}]
         //add map in here to convert to percentages
 
-        let graphValues = []
-        for(let i = 1; i <= Object.keys(data.entriesData).length; i++){
-            if(data.entriesData[i].complete === 0){
-                graphValues.unshift(0)
-            } else {
-               graphValues.unshift(data.entriesData[i].complete/data.entriesData[i].total) 
-            }
-        }
+        
         const modalCloseX = document.createElement("span")
         modalCloseX.textContent = "X"
         modalCloseX.addEventListener("click", closeSummaryModal)
@@ -344,92 +443,14 @@ async function getUserSummary(e) {
 
         userSummaryModal.style.display = "block"
         //create the week chart
-        const myChart = document.createElement("canvas")
-        myChart.id = "myChart"
-        myChart.setAttribute("width", 300)
-        myChart.setAttribute("height", 300)
-        userSummaryModal.append(myChart)
+        // const myChart = document.createElement("canvas")
+        // myChart.id = "myChart"
+        // myChart.setAttribute("width", 300)
+        // myChart.setAttribute("height", 300)
+        // userSummaryModal.append(myChart)
 
-        const past7Days = [...Array(7).keys()].map(index => {
-            const date = new Date();
-            date.setDate(date.getDate() - index);
-            let str = date.toString()
-            return `${str.substring(8,10)} ${str.substring(4,7)}`
-        });
+        await createWeekGraph("carerHomeChart", userSummaryModal, data.entriesData, "% complete last 7 days")
 
-        const formattedPast7Days = past7Days.reverse()
-
-        new Chart(myChart, {
-            type: 'bar',
-            data: {
-                labels: [formattedPast7Days[0], formattedPast7Days[1], formattedPast7Days[2], formattedPast7Days[3], formattedPast7Days[4], formattedPast7Days[5], formattedPast7Days[6]],
-                datasets: [{
-                    label: '% complete',
-                    data: [graphValues[0]*100, graphValues[1]*100, graphValues[2]*100, graphValues[3]*100, graphValues[4]*100, graphValues[5]*100, graphValues[6]*100],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1,
-                    borderRadius: 2
-                }]
-            },
-            options: 
-                {
-                    plugins:{
-                    title: {
-                        display: true,
-                        text: "% complete last 7 days",
-                        font: {
-                            size: 16
-                        }
-                    },
-                    legend: {
-                        display: false
-                    },
-                    datalabels: {
-                        color: '#36A2EB',
-                        anchor: 'end',
-                        align: 'top',
-                        formatter: function(value) {
-                            return value + '%'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        ticks: {
-                            display: false,
-                            beginAtZero: true,
-                        },
-                        grid: {
-                            display: false
-                        },
-                        suggestedMax: 100
-                    },
-                    x: {
-                        grid: {
-                            display: false,
-                        }
-                        
-                    }
-                }
-            }
-        });
         const seeMoreDetails = document.createElement("p")
         seeMoreDetails.textContent = "See more details"
         seeMoreDetails.addEventListener("click", seeMoreUserInfo)
