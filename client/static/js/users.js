@@ -103,17 +103,6 @@ async function changeBlnValue (e) {
     }
 }
 
-async function renderTitles(habits) {
-    for(let i = 0; i < habits.length; i++){
-        if(habits[i].freq_unit === "days"){
-            habitTodaySection.style.display = "block"
-        } else if(habits[i].freq_unit === "weeks"){
-            habitWeekSection.style.display = "block"
-        } else if(habits[i].freq_unit === "months"){
-            habitMonthSection.style.display = "block"
-        }
-    }
-}
 
 async function renderHabits(habit) {
     console.log(habit)
@@ -188,10 +177,13 @@ async function renderHabits(habit) {
     }
     if(habit.freq_unit === "days"){
         habitTodaySection.appendChild(habitBox)
+        habitTodaySection.style.display = "block"
     } else if(habit.freq_unit === "weeks"){
         habitWeekSection.appendChild(habitBox)
+        habitWeekSection.style.display = "block"
     } else if(habit.freq_unit === "months"){
         habitMonthSection.appendChild(habitBox)
+        habitMonthSection.style.display = "block"
     }
 }
 
@@ -208,7 +200,6 @@ async function getUsersHabits() {
         console.log(response)
         const data = await response.json()
         console.log(data)
-        renderTitles(data)
         data.forEach(renderHabits)
         habitsWrapper.append(habitTodaySection, habitWeekSection, habitMonthSection)
     } catch (err) {
