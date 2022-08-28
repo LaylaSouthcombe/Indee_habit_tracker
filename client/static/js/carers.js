@@ -183,15 +183,19 @@ async function getUsersMetricsSummary(userId) {
     
     //date buttons
     const dateBtns = document.createElement("div")
+    
     const weekBtn = document.createElement("p")
     weekBtn.textContent = "Week"
     weekBtn.addEventListener("click", getWeekData)
+    
     const monthBtn = document.createElement("p")
     monthBtn.textContent = "Month"
     monthBtn.addEventListener("click", getMonthData)
+    
     const allTimeBtn = document.createElement("p")
     allTimeBtn.textContent = "All time"
     allTimeBtn.addEventListener("click", getAllTimeData)
+    
     dateBtns.append(weekBtn, monthBtn, allTimeBtn)
     metricsSummarySection.append(dateBtns)
 }
@@ -310,14 +314,23 @@ async function getUserSummary(e) {
         const options = {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({user_id: userId})
+            body: JSON.stringify({user_id: userId, number_of_days: 7})
         }
         const response = await fetch(`${baseUrl}users/summary`, options);
         const data = await response.json()
         console.log(data)
         //declare text to be present in modal
         const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: data.lastLogin}, {weekReviewTitle: "This week in review"}]
-        const graphValues = [data.daySevenPercent, data.daySixPercent, data.dayFivePercent, data.dayFourPercent, data.dayThreePercent, data.dayTwoPercent, data.dayOnePercent]
+        //add map in here to convert to percentages
+
+        let graphValues = []
+        for(let i = 1; i <= Object.keys(data.entriesData).length; i++){
+            if(data.entriesData[i].complete === 0){
+                graphValues.unshift(0)
+            } else {
+               graphValues.unshift(data.entriesData[i].complete/data.entriesData[i].total) 
+            }
+        }
         const modalCloseX = document.createElement("span")
         modalCloseX.textContent = "X"
         modalCloseX.addEventListener("click", closeSummaryModal)
