@@ -66,7 +66,7 @@ module.exports = class User {
                 console.log("number_of_days", number_of_days)
                 let entriesData = {}
 
-                //finds the last 7 days of int entries
+                //finds the last X days of int entries
                 for(let i = 0; i < number_of_days; i++){
                     let dayIntEntries = await db.query(`SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date = CURRENT_DATE - ${i} ORDER BY (date) DESC;`, [user_id]);
                     let intHabitsCompleted = 0;
@@ -91,7 +91,7 @@ module.exports = class User {
                 }
 
                 let obj = { "userFirstName": userInfo.rows[0].first_name, "userSecondName": userInfo.rows[0].second_name, "numOfHabitsCompleted": entriesData[1].complete, "numOfHabits": entriesData[1].total, "lastLogin": userInfo.rows[0].last_login, 
-                entriesData: entriesData}
+                entriesData: entriesData, number_of_days: number_of_days}
                 console.log(obj)
                 resolve(obj)
             }catch(err){

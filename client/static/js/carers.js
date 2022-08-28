@@ -63,12 +63,22 @@ const metricsSummarySection = document.createElement("div")
 const metricsWeekSection = document.createElement("div")
 const metricsMonthSection = document.createElement("div")
 const metricsAllTimeSection = document.createElement("div")
+metricsWeekSection.className = "metricsWeekSection"
+metricsMonthSection.className = "metricsMonthSection"
+metricsAllTimeSection.className = "metricsAllTimeSection"
 
+const closeSection = (sectionName) => {
+    sectionName.style.display = "none"
+    while (sectionName.lastElementChild) {
+        sectionName.removeChild(sectionName.lastElementChild);
+    }
+}
 
 const openEditCreateHabitModal = () => {
     console.log("open edit create habit modal")
 }
-const createWeekGraph = (chartName, appendedElement, data, title) => {
+const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay, dataLabels) => {
+    console.log("dataLabels", dataLabels)
     let graphValues = []
     let graphColors = []
     let graphBorders = []
@@ -130,19 +140,13 @@ const createWeekGraph = (chartName, appendedElement, data, title) => {
                 legend: {
                     display: false
                 },
-                datalabels: {
-                    color: '#36A2EB',
-                    anchor: 'end',
-                    align: 'top',
-                    formatter: function(value) {
-                        return value + '%'
-                    }
-                }
+                datalabels: dataLabels
             },
             scales: {
                 y: {
+                    display: axisDisplay,
                     ticks: {
-                        display: false,
+                        display: axisTicksDisplay,
                         beginAtZero: true,
                     },
                     grid: {
@@ -230,8 +234,12 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
                 y: {
                     ticks: {
                         beginAtZero: true,
+                        stepSize: 25
                     },
-                    suggestedMax: 100
+                    suggestedMax: 100,
+                    grid: {
+                        display: false,
+                    }
                 },
                 x: {
                     grid: {
@@ -346,6 +354,9 @@ async function getUserHabitsSummary(userId) {
 }
 
 async function getWeekData() {
+    closeSection(metricsWeekSection)
+    closeSection(metricsMonthSection)
+    closeSection(metricsAllTimeSection)
     const allHabitsOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -355,38 +366,48 @@ async function getWeekData() {
     const allHabitsData = await allHabitsResponse.json()
     console.log(allHabitsData)
     //add for each for habits array (add summary in first, then each habit after)
-    createWeekGraph("allHabitsSummary", metricsWeekSection, allHabitsData.entriesData, "Habit title")
+    let dataLabels = {display: false}
+    createWeekGraph("allHabitsSummary", metricsWeekSection, allHabitsData.entriesData, "Habit title", true, true, dataLabels)
     console.log("getWeekData")
+    metricsWeekSection.style.display = "block"
 }
 
 async function getMonthData() {
-console.log("getMonthData")
-const allHabitsOptions = {
-    method: 'POST',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({user_id: userId, number_of_days: 30})
-}
-const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
-const allHabitsData = await allHabitsResponse.json()
-// await createWeekGraph("allHabitsSummary", metricsMonthSection, allHabitsData.entriesData, "Habit title")
-createMixedGraph("allHabitsMonthSummary", metricsMonthSection, allHabitsData.entriesData, "Habit title", 30)
-console.log(allHabitsData)
+    closeSection(metricsWeekSection)
+    closeSection(metricsMonthSection)
+    closeSection(metricsAllTimeSection)
+    console.log("getMonthData")
+    const allHabitsOptions = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({user_id: userId, number_of_days: 30})
+    }
+    const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
+    const allHabitsData = await allHabitsResponse.json()
+    createMixedGraph("allHabitsMonthSummary", metricsMonthSection, allHabitsData.entriesData, "Habit title", 30)
+    console.log(allHabitsData)
+    metricsMonthSection.style.display = "block"
+    
 }
 
 async function getAllTimeData() {
-console.log("getAllTimeData")
-const allHabitsOptions = {
-    method: 'POST',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({user_id: userId, number_of_days: "all time"})
+    closeSection(metricsWeekSection)
+    closeSection(metricsMonthSection)
+    closeSection(metricsAllTimeSection)
+    console.log("getAllTimeData")
+    const allHabitsOptions = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({user_id: userId, number_of_days: "all time"})
+    }
+    const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
+    const allHabitsData = await allHabitsResponse.json()
+    createMixedGraph("allHabitsAllTimeSummary", metricsAllTimeSection, allHabitsData.entriesData, "Habit title", allHabitsData.number_of_days)
+    console.log(allHabitsData)
+    metricsAllTimeSection.style.display = "block"
 }
-const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
-const allHabitsData = await allHabitsResponse.json()
-console.log(allHabitsData)
-}
-async function getUsersMetricsSummary(userId) {
-    metrics = "hi metrics"
-    console.log("get metrics for user", userId)
+
+async function getUsersMetricsSummary() {
     
     //date buttons
     const dateBtns = document.createElement("div")
@@ -433,8 +454,6 @@ const openMetricsSection = () => {
 async function renderUserSummaryPage(userId) {
     await getUserHabitsSummary(userId)
     await getUsersMetricsSummary(userId)
-    console.log("habits", habits)
-    console.log("metrics", metrics)
     
     const userSummaryPage = document.getElementById("userSummaryPage")
     const userSummaryPageTopSection = document.createElement("div")
@@ -490,22 +509,17 @@ window.addEventListener('hashchange', () => {
         usersWrapper.style.display = "block"
     }
 });
-const closeSummaryModal = () => {
-    userSummaryModal.style.display = "none"
-    while (userSummaryModal.lastElementChild) {
-        userSummaryModal.removeChild(userSummaryModal.lastElementChild);
-    }
-}
+
 const seeMoreUserInfo = (e) => {
-    closeSummaryModal()
+    closeSection(userSummaryModal)
     console.log("user id", e.target.parentElement.id)
     userId = e.target.parentElement.id
     window.location.hash = `user${userId}`
 }
 
 
-
 async function getUserSummary(e) {
+    closeSection(userSummaryModal)
     if(e.target.type !== "submit") {
     console.log("summary")
     //get's targeted user's id
@@ -526,7 +540,6 @@ async function getUserSummary(e) {
         }
         const response = await fetch(`${baseUrl}users/summary`, options);
         const data = await response.json()
-        console.log(data)
         //declare text to be present in modal
         const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: data.lastLogin}, {weekReviewTitle: "This week in review"}]
         //add map in here to convert to percentages
@@ -534,7 +547,7 @@ async function getUserSummary(e) {
         
         const modalCloseX = document.createElement("span")
         modalCloseX.textContent = "X"
-        modalCloseX.addEventListener("click", closeSummaryModal)
+        modalCloseX.addEventListener("click", () => closeSection(userSummaryModal))
         userSummaryModal.append(modalCloseX)
         text.forEach(function(el) {
             let para = document.createElement("p")
@@ -545,13 +558,15 @@ async function getUserSummary(e) {
 
         userSummaryModal.style.display = "block"
         //create the week chart
-        // const myChart = document.createElement("canvas")
-        // myChart.id = "myChart"
-        // myChart.setAttribute("width", 300)
-        // myChart.setAttribute("height", 300)
-        // userSummaryModal.append(myChart)
-
-        await createWeekGraph("carerHomeChart", userSummaryModal, data.entriesData, "% complete last 7 days")
+        let dataLabels = {
+                color: '#36A2EB',
+                anchor: 'end',
+                align: 'top',
+                formatter: function(value) {
+                    return value + '%'
+                }
+        }
+        createWeekGraph("carerHomeChart", userSummaryModal, data.entriesData, "% complete last 7 days", false, false, dataLabels)
 
         const seeMoreDetails = document.createElement("p")
         seeMoreDetails.textContent = "See more details"
