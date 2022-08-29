@@ -45,7 +45,6 @@ module.exports = class User {
         return new Promise (async (resolve, reject) => {
             try {
                 const userInfo = await db.query('SELECT first_name, second_name, last_login FROM users WHERE id = $1;', [user_id])
-
                 // let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
                 // let habitTotalNum = habitsInfo.rows.length;
   
@@ -111,6 +110,7 @@ module.exports = class User {
                 let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
                 let dataArr = []
                 // let habitTotalNum = habitsInfo.rows.length;
+                console.log("hi user findUser")
                 console.log(habitsInfo.rows)
                 for(let k = 0; k < habitsInfo.rows.length; k++){
                     if(number_of_days === "all time"){
