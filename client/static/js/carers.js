@@ -58,6 +58,19 @@ let metrics
 const habitTodaySection = document.createElement("div")
 const habitWeekSection = document.createElement("div")
 const habitMonthSection = document.createElement("div")
+habitTodaySection.style.display = "none"
+habitWeekSection.style.display = "none"
+habitMonthSection.style.display = "none"
+const habitDayTitle = document.createElement("h2")
+const habitWeekTitle = document.createElement("h2")
+const habitMonthTitle = document.createElement("h2")
+habitDayTitle.textContent = "Today"
+habitWeekTitle.textContent = "This week"
+habitMonthTitle.textContent = "This month"
+habitTodaySection.appendChild(habitDayTitle)
+habitWeekSection.appendChild(habitWeekTitle)
+habitMonthSection.appendChild(habitMonthTitle)
+
 const habitsSummarySection = document.createElement("div")
 const metricsSummarySection = document.createElement("div")
 const metricsWeekSection = document.createElement("div")
@@ -256,15 +269,7 @@ const renderHabitBoxes = (habit) => {
     habitTodaySection.style.display = "none"
     habitWeekSection.style.display = "none"
     habitMonthSection.style.display = "none"
-    const habitDayTitle = document.createElement("h2")
-    const habitWeekTitle = document.createElement("h2")
-    const habitMonthTitle = document.createElement("h2")
-    habitDayTitle.textContent = "Today"
-    habitWeekTitle.textContent = "This week"
-    habitMonthTitle.textContent = "This month"
-    habitTodaySection.appendChild(habitDayTitle)
-    habitWeekSection.appendChild(habitWeekTitle)
-    habitMonthSection.appendChild(habitMonthTitle)
+    
     const habitBox = document.createElement("div")
     habitBox.classList.add("habitBox")
 
