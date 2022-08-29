@@ -70,26 +70,34 @@ module.exports = class Carer {
                 for(let i = 0; i < results.rows.length; i++){
                     //find how many habits they are tracking
                     let habits = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [results.rows[i].id]);
+                    
                     let habitTotalNum = habits.rows.length;
                     //find out how many int entries are complete
-                    let intEntries = await db.query('SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date > CURRENT_DATE - 1;', [results.rows[i].id]);
+                    let intEntries = await db.query('SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date = CURRENT_DATE;', [results.rows[i].id]);
+                    // console.log("int entries", intEntries.rows)
                     let intHabitsCompleted = 0;
-                    for(let i = 0; i < intEntries.rows.length; i++){
-                        if(intEntries.rows[i].habit_int_entry >= intEntries.rows[i].goal){
+                    for(let j = 0; j < intEntries.rows.length; j++){
+                        if(intEntries.rows[j].habit_int_entry >= intEntries.rows[j].goal){
+                            console.log("int entry", intEntries.rows[j].habit_int_entry)
+                            console.log("int goal", intEntries.rows[j].goal)
                             intHabitsCompleted += 1;
                         }
                     } 
                     //find out how many bln entries are complete
-                    let blnEntries = await db.query('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date > CURRENT_DATE - 1  ORDER BY (date) DESC;', [results.rows[i].id]);
+                    let blnEntries = await db.query('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date = CURRENT_DATE ORDER BY (date) DESC;', [results.rows[i].id]);
                     let blnHabitsCompleted = 0;
-                    for(let i = 0; i < blnEntries.rows.length; i++){
-                        if(blnEntries.rows[i].habit_bln_entry = true){
+                    // console.log("bln entries", blnEntries.rows)
+                    for(let j = 0; j < blnEntries.rows.length; j++){
+                        if(blnEntries.rows[j].habit_bln_entry === true){
                             blnHabitsCompleted += 1;
                         }
                     }
-                    
+                    console.log("intHabitsCompleted", intHabitsCompleted)
+                    console.log("blnHabitsCompleted", blnHabitsCompleted)
+
                     //turn to a percent
                     let totalHabitsCompleted = intHabitsCompleted + blnHabitsCompleted
+                    console.log("totalHabitsCompleted", totalHabitsCompleted)
                     let percentCompleted
                     if(totalHabitsCompleted > 0) {
                         percentCompleted = Math.floor((totalHabitsCompleted / habitTotalNum) * 100)
@@ -101,6 +109,7 @@ module.exports = class Carer {
                     second_name, "percentCompleted": percentCompleted, "user_id": results.rows[i].id}
                     dataToDisplay.push(obj)
                 }
+                console.log(dataToDisplay)
                 resolve(dataToDisplay);
             } catch (err) {
                 reject("Carer's users and user info could not be found");
