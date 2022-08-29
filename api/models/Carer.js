@@ -92,7 +92,7 @@ module.exports = class Carer {
                     let totalHabitsCompleted = intHabitsCompleted + blnHabitsCompleted
                     let percentCompleted
                     if(totalHabitsCompleted > 0) {
-                        percentCompleted = (totalHabitsCompleted / habitTotalNum) * 100
+                        percentCompleted = Math.floor((totalHabitsCompleted / habitTotalNum) * 100)
                     } else {
                         percentCompleted = 0
                     }

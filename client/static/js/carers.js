@@ -86,7 +86,7 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
             if(data[i].complete === 0){
                 graphValues.unshift(0)
             } else {
-                let  value = (data[i].complete/data[i].total)*100
+                let  value = Math.floor((data[i].complete/data[i].total)*100)
                graphValues.unshift(value)
                if(value < 50){
                 graphColors.unshift('rgba(255, 99, 132, 0.2)')
