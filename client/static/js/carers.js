@@ -353,10 +353,6 @@ const renderHabitBoxes = (habit) => {
 }
 
 async function getUserHabitsSummary(userId) {
-    habits = "hi habits"
-
-    //add in a for each when get actual habits
-    // let habit = {description: "text habit", freq_value: 2, freq_unit: "days", id: 2, type: "int", goal: 3, habit_int_entry: 2}
     try {
         const options = {
             method: 'POST',
@@ -364,7 +360,6 @@ async function getUserHabitsSummary(userId) {
             body: JSON.stringify({user_id: userId})
         }
         const response = await fetch(`${baseUrl}habits/users`, options);
-        console.log(response)
         const data = await response.json()
         console.log(data)
         data.forEach(renderHabitBoxes)
@@ -372,8 +367,6 @@ async function getUserHabitsSummary(userId) {
     } catch (err) {
         console.warn(err);
     }
-
-    
 }
 
 async function getWeekData() {
@@ -490,7 +483,6 @@ const removeUserPage = () =>{
 }
 
 
-
 const openHabitsSection = () => {
     console.log(habitsSummarySection.style.display)
     if(habitsSummarySection.style.display === "none"){
@@ -597,7 +589,8 @@ async function getUserSummary(e) {
         const response = await fetch(`${baseUrl}users/summary`, options);
         const data = await response.json()
         //declare text to be present in modal
-        const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: data.lastLogin}, {weekReviewTitle: "This week in review"}]
+        const formattedLoginDate = `${data.lastLogin.slice(11,19)} ${data.lastLogin.slice(8,10)}-${data.lastLogin.slice(5,7)}-${data.lastLogin.slice(0,4)}`
+        const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: formattedLoginDate}, {weekReviewTitle: "This week in review"}]
         //add map in here to convert to percentages
 
         
