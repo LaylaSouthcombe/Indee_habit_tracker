@@ -491,10 +491,11 @@ const openHabitsSection = () => {
     }
 }
 
-const openMetricsSection = () => {
-    console.log("openMetricsSection")
+async function openMetricsSection() {
+    // console.log("openMetricsSection")
     if(metricsSummarySection.style.display === "none"){
         habitsSummarySection.style.display = "none"
+        await getWeekData()
         metricsSummarySection.style.display = "block"
     }
 }
