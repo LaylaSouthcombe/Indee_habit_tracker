@@ -283,7 +283,7 @@ const renderHabitBoxes = (habit) => {
     habitDesc.textContent = habit.description
 
     const habitRepeat = document.createElement("p")
-    habitRepeat.textContent = `Repeated ${habit.freq_value} times a ${habit.freq_unit.slice(0, -1)}`
+    habitRepeat.textContent = `Repeated ${habit.freq_value} times a ${habit.freq_unit}`
 
     habitBox.appendChild(habitDesc)
     habitBox.appendChild(habitRepeat)
@@ -345,13 +345,13 @@ const renderHabitBoxes = (habit) => {
         }
         habitBox.append(blnBtn)
     }
-    if(habit.freq_unit === "days"){
+    if(habit.freq_unit === "day"){
         habitTodaySection.appendChild(habitBox)
         habitTodaySection.style.display = "block"
-    } else if(habit.freq_unit === "weeks"){
+    } else if(habit.freq_unit === "week"){
         habitWeekSection.style.display = "block"
         habitWeekSection.appendChild(habitBox)
-    } else if(habit.freq_unit === "months"){
+    } else if(habit.freq_unit === "month"){
         habitMonthSection.style.display = "block"
 
         habitMonthSection.appendChild(habitBox)

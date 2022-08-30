@@ -13,10 +13,10 @@ VALUES
 
 INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) 
 VALUES
-(1, 'boolean', 'Take medicine in morning', 'days', 1, 1),
-(5, 'int', 'Drink 8 glasses of water', 'days', 1, 8),
-(5, 'boolean', 'Exercise', 'days', 2, 30),
-(5, 'int', 'Brush teeth', 'days', 1, 2);
+(1, 'boolean', 'Take medicine in morning', 'day', 1, 1),
+(5, 'int', 'Drink 8 glasses of water', 'day', 1, 8),
+(5, 'boolean', 'Exercise', 'day', 2, 30),
+(5, 'int', 'Brush teeth', 'day', 1, 2);
 
 INSERT INTO int_entries (habit_int_id, habit_int_entry, date) 
 VALUES
