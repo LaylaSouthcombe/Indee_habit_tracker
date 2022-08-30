@@ -57,6 +57,7 @@ module.exports = class Habit {
     static async create(habitData){
         return new Promise (async (resolve, reject) => {
             try {
+                console.log(habitData)
                 const { user_id, type, description, freq_unit, freq_value, goal } = habitData;
                 let result = await db.query(`INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`, [ user_id, type, description, freq_unit, freq_value, goal])
                 resolve (result.rows[0]);
