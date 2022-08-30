@@ -3,6 +3,7 @@ const baseClientUrl = "http://localhost:8080/"
 
 const usersWrapper = document.querySelector(".usersWrapper")
 const userSummaryModal = document.getElementById("userSummaryModal")
+const userSummaryPage = document.getElementById("userSummaryPage")
 Chart.register(ChartDataLabels);
 function setAttributes(element, attributes) {
     Object.keys(attributes).forEach(attr => {
@@ -182,7 +183,6 @@ async function renderEditCreateHabitModal(method, habitId) {
     })
     editCreateHabitForm.append(habitDescLabel, habitDescInput, frequencyArea, typeOfGoalArea)
     editCreateHabitModal.append(editCreateHabitModalTitle, closeEditCreateModalCross, editCreateHabitForm, submitEditCreateFormBtn)
-    const userSummaryPage = document.getElementById("userSummaryPage")
     userSummaryPage.append(editCreateHabitModal)
 }
 
@@ -485,7 +485,9 @@ async function getUserHabitsSummary(userId) {
 }
 
 async function getWeekData() {
+    
     closeSection(metricsWeekSection)
+    
     closeSection(metricsMonthSection)
     closeSection(metricsAllTimeSection)
     const allHabitsOptions = {
@@ -595,6 +597,8 @@ async function getUsersMetricsSummary() {
 const removeUserPage = (e) =>{
     e.preventDefault()
     closeSection(userSummaryPage)
+    closeSection(habitsSummarySection)
+    closeSection(metricsSummarySection)
     history.back()
     console.log("remove page and redirect")
 }
@@ -620,7 +624,6 @@ async function renderUserSummaryPage(userId) {
     await getUserHabitsSummary(userId)
     await getUsersMetricsSummary(userId)
     
-    const userSummaryPage = document.getElementById("userSummaryPage")
     const userSummaryPageTopSection = document.createElement("div")
     userSummaryPageTopSection.className = "userSummaryPageTopSection"
     //top section
