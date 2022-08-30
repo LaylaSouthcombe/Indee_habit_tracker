@@ -485,9 +485,7 @@ async function getUserHabitsSummary(userId) {
 }
 
 async function getWeekData() {
-    
-    closeSection(metricsWeekSection)
-    
+    if(!metricsWeekSection.lastElementChild){
     closeSection(metricsMonthSection)
     closeSection(metricsAllTimeSection)
     const allHabitsOptions = {
@@ -516,10 +514,11 @@ async function getWeekData() {
     
     metricsWeekSection.style.display = "block"
 }
+}
 
 async function getMonthData() {
+    if(!metricsMonthSection.lastElementChild){
     closeSection(metricsWeekSection)
-    closeSection(metricsMonthSection)
     closeSection(metricsAllTimeSection)
     const allHabitsOptions = {
         method: 'POST',
@@ -545,11 +544,12 @@ async function getMonthData() {
     })
     metricsMonthSection.style.display = "block"
 }
+}
 
 async function getAllTimeData() {
+    if(!metricsAllTimeSection.lastElementChild){
     closeSection(metricsWeekSection)
     closeSection(metricsMonthSection)
-    closeSection(metricsAllTimeSection)
     const allHabitsOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -571,6 +571,7 @@ async function getAllTimeData() {
         createMixedGraph(`individualHabitsMonthSummary habit${x.habitId}`, metricsAllTimeSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
     })
     metricsAllTimeSection.style.display = "block"
+}
 }
 
 async function getUsersMetricsSummary() {
