@@ -478,7 +478,7 @@ async function getUserHabitsSummary(userId) {
         const data = await response.json()
         console.log(data)
         data.forEach(renderHabitBoxes)
-        habitsWrapper.append(habitTodaySection, habitWeekSection, habitMonthSection)
+        // habitsWrapper.append(habitTodaySection, habitWeekSection, habitMonthSection)
     } catch (err) {
         console.warn(err);
     }
