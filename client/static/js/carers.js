@@ -625,6 +625,7 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
 }
 
 async function deleteHabit(habitId, e) {
+    e.preventDefault()
     const habitDivChildren = document.getElementById(`habit${habitId}`).children
     let type = "boolean"
     console.log(habitDivChildren.item(2).className)
@@ -641,6 +642,14 @@ async function deleteHabit(habitId, e) {
     const deleteHabitResponse = await fetch(`${baseUrl}habits`, deleteHabitOptions);
     const deleteHabitData = await deleteHabitResponse.json()
     console.log(deleteHabitData)
+    closeSection(userSummaryPage)
+    closeSection(habitTodaySection)
+    closeSection(habitWeekSection)
+    closeSection(habitMonthSection)
+    closeSection(habitsSummarySection)
+    closeSection(metricsSummarySection)
+    closeSection(editCreateHabitModal)
+    renderUserSummaryPage(userId)
 }
 
 const openDeleteHabitModal = (habitId, e) => {
