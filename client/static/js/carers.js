@@ -341,8 +341,8 @@ const renderHabitBoxes = (habit) => {
         habitBox.append(blnBtn)
     }
     const editHabitArea = document.createElement("div")
-        editHabitArea.addEventListener("click", () => {
-            renderEditCreateHabitModal("edit", habit.id)
+        editHabitArea.addEventListener("click", (e) => {
+            renderEditCreateHabitModal("edit", habit.id, e)
         })
         const editHabitImg = document.createElement("p")
         editHabitImg.textContent = "img"
@@ -619,9 +619,12 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
     renderUserSummaryPage(userId)
 }
 
-async function renderEditCreateHabitModal(method, habitId) {
+async function renderEditCreateHabitModal(method, habitId, e) {
     editCreateHabitModal.className = "editCreateHabitModal"
     console.log(editCreateHabitModal)
+    console.log(method)
+    console.log(habitId)
+    
     if(!editCreateHabitModal.lastElementChild){
         const closeEditCreateModalCross = document.createElement("span")
         closeEditCreateModalCross.addEventListener("click", () => {
@@ -718,6 +721,35 @@ async function renderEditCreateHabitModal(method, habitId) {
         submitEditCreateFormBtn.addEventListener("click", (e) => {
             sendEditCreateHabitRequest(method, e, habitId)
         })
+
+        if(method === "edit"){
+            const habitDivChildren = document.getElementById(`habit${habitId}`).children
+            console.log(document.getElementById(`habit${habitId}`))
+            console.log(habitDivChildren)
+            
+            habitDescInput.value = habitDivChildren.item(0).textContent
+            repeatedHabitNumInput.value = habitDivChildren.item(1).textContent.slice(9,10)
+            
+            if(habitDivChildren.item(1).textContent.includes("day")){
+                repeatedHabitUnitInput.value = "day"
+            }
+            if(habitDivChildren.item(1).textContent.includes("week")){
+                repeatedHabitUnitInput.value = "week"
+            }
+            if(habitDivChildren.item(1).textContent.includes("month")){
+                repeatedHabitUnitInput.value = "month"
+            }
+            if(habitDivChildren.item(2).className === "goalSection"){
+                typeOfGoalNumInput.checked = true
+                console.log(habitDivChildren.item(2).children.item(1).textContent)
+                goalValueInput.value = habitDivChildren.item(2).children.item(1).textContent
+                goalArea.append(goalValueLabel, goalValueInput)
+                goalArea.style.display = "block"
+            } else {
+                typeOfGoalBooleanInput.checked = true
+            }
+        }
+
         editCreateHabitForm.append(habitDescLabel, habitDescInput, frequencyArea, typeOfGoalArea)
         editCreateHabitModal.append(editCreateHabitModalTitle, closeEditCreateModalCross, editCreateHabitForm, submitEditCreateFormBtn)
     }
