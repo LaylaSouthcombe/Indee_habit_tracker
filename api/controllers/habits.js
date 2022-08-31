@@ -29,14 +29,24 @@ async function create (req, res) {
     }
 }
 
-async function destroy (req, res) {
+// async function destroy (req, res) {
+//     try {
+//         const habit = await Habit.findById(req.body.id);
+//         await habit.destroy();
+//         res.status(204).end();
+//     } catch (err) {
+//         res.status(404).json({err});
+//     };
+// }
+
+async function deleteHabit (req, res) {
     try {
-        const habit = await Habit.findById(req.body.id);
-        await habit.destroy();
-        res.status(204).end();
+        console.log(req.body)
+        const habit = await Habit.destroy(req.body);
+        res.status(200).json(habit)
     } catch (err) {
-        res.status(404).json({err});
-    };
+        res.status(422).json({err})
+    }
 }
 
 async function update (req, res) {
@@ -84,4 +94,4 @@ async function showSummary (req, res) {
     }
 }
 
-module.exports = { index, update, create, destroy, showWeekMetrics, showMonthMetrics, showAlltimeMetrics, showSummary, showUsersHabitsAndCurrent }
+module.exports = { index, update, create, showWeekMetrics, showMonthMetrics, showAlltimeMetrics, showSummary, showUsersHabitsAndCurrent, deleteHabit }

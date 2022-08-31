@@ -4,7 +4,7 @@ const habitsController = require('../controllers/habits')
 
 router.post('/', habitsController.create)
 router.put('/', habitsController.update)
-router.delete('/', habitsController.destroy)
+router.delete('/', habitsController.deleteHabit)
 router.post('/users', habitsController.showUsersHabitsAndCurrent)
 
 

@@ -122,10 +122,25 @@ module.exports = class Habit {
         });
     };
 
-    destroy(){
+    static async destroy(habitData){
         return new Promise(async (resolve, reject) => {
             try {
-                const result = await db.query('DELETE FROM habits_info WHERE id = $1;', [ this.id ]);
+                const { habit_id, type } = habitData
+                console.log("id", habit_id)
+                let habitInfoId
+                console.log("type", type)
+                if(type === "int"){
+                    let habitInfoIdResult = await db.query(`SELECT * FROM int_entries WHERE id = $1;`, [ habit_id ])
+                    habitInfoId = habitInfoIdResult.rows[0].habit_int_id
+                }
+                if(type === "boolean"){
+                    let habitInfoIdResult = await db.query(`SELECT * FROM boolean_entries WHERE id = $1;`, [ habit_id ])
+                    habitInfoId = habitInfoIdResult.rows[0].habit_bln_id
+                }
+                console.log("habitInfoId", habitInfoId)
+                const result = await db.query('DELETE FROM habits_info WHERE id = $1;', [ habitInfoId ]);
+                const remainingHabits = await db.query('SELECT * FROM habits_info;')
+                console.log("remainingHabits", remainingHabits.rows)
                 resolve('habit was deleted')
             } catch (err) {
                 reject('habit could not be deleted')

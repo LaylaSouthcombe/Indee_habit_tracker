@@ -624,6 +624,48 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
     renderUserSummaryPage(userId)
 }
 
+async function deleteHabit(habitId, e) {
+    const habitDivChildren = document.getElementById(`habit${habitId}`).children
+    let type = "boolean"
+    console.log(habitDivChildren.item(2).className)
+    if(habitDivChildren.item(2).className === "goalSection"){
+        type = "int"
+    }
+    console.log("type", type)
+    e.preventDefault()
+    const deleteHabitOptions = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({habit_id: habitId, type: type})
+    }
+    const deleteHabitResponse = await fetch(`${baseUrl}habits`, deleteHabitOptions);
+    const deleteHabitData = await deleteHabitResponse.json()
+    console.log(deleteHabitData)
+}
+
+const openDeleteHabitModal = (habitId, e) => {
+    const deleteHabitModal = document.createElement("div")
+    const deleteHabitPara1 = document.createElement("p")
+    deleteHabitPara1.textContent = "Warning!"
+    const deleteHabitPara2 = document.createElement("p")
+    deleteHabitPara2.textContent = "Deleting this habit will remove all entries for this habit"
+    const continueBtn = document.createElement("button")
+    continueBtn.textContent = "Continue"
+    continueBtn.addEventListener("click", (e) => {
+        deleteHabit(habitId, e)
+    })
+    const cancelBtn = document.createElement("button")
+    cancelBtn.textContent = "Cancel"
+
+    cancelBtn.addEventListener("click", (e) => {
+        e.preventDefault()
+        deleteHabitModal.remove()
+    })
+    deleteHabitModal.append(deleteHabitPara1, deleteHabitPara2, continueBtn, cancelBtn)
+    userSummaryPage.append(deleteHabitModal)
+}
+
+
 async function renderEditCreateHabitModal(method, habitId, e) {
     editCreateHabitModal.className = "editCreateHabitModal"
     console.log(editCreateHabitModal)
@@ -753,10 +795,19 @@ async function renderEditCreateHabitModal(method, habitId, e) {
             } else {
                 typeOfGoalBooleanInput.checked = true
             }
+            
         }
 
         editCreateHabitForm.append(habitDescLabel, habitDescInput, frequencyArea, typeOfGoalArea)
         editCreateHabitModal.append(editCreateHabitModalTitle, closeEditCreateModalCross, editCreateHabitForm, submitEditCreateFormBtn)
+        if(method === "edit"){
+            const deleteHabitBtn = document.createElement("button")
+            deleteHabitBtn.textContent = "Delete habit"
+            deleteHabitBtn.addEventListener("click", (e) => {
+                openDeleteHabitModal(habitId, e)
+            })
+            editCreateHabitModal.append(deleteHabitBtn)
+        }
     }
     editCreateHabitModal.style.display = "block"
     userSummaryPage.append(editCreateHabitModal)
