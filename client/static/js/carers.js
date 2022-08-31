@@ -627,6 +627,7 @@ async function renderEditCreateHabitModal(method, habitId) {
         closeEditCreateModalCross.addEventListener("click", () => {
             closeSection(editCreateHabitModal)
         })
+        closeEditCreateModalCross.textContent = "X"
         const editCreateHabitModalTitle = document.createElement("p")
         if(method === "create"){
           editCreateHabitModalTitle.textContent = "Create new habit"  
