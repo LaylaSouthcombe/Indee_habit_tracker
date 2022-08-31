@@ -319,19 +319,12 @@ const renderHabitBoxes = (habit) => {
         const currentValue = document.createElement("p")
         currentValue.textContent = habit.habit_int_entry
 
-        const editHabitArea = document.createElement("div")
-        editHabitArea.addEventListener("click", () => {
-            renderEditCreateHabitModal("edit", habit.id)
-        })
-        const editHabitImg = document.createElement("p")
-        editHabitImg.textContent = "img"
-        editHabitArea.append(editHabitImg)
-
+        
         counterSection.append(currentValue)
 
         counterArea.appendChild(counterSection)
 
-        habitBox.append(counterArea, editHabitArea)
+        habitBox.append(counterArea)
     }
 
     if(habit.type === "boolean") {
@@ -347,6 +340,14 @@ const renderHabitBoxes = (habit) => {
         }
         habitBox.append(blnBtn)
     }
+    const editHabitArea = document.createElement("div")
+        editHabitArea.addEventListener("click", () => {
+            renderEditCreateHabitModal("edit", habit.id)
+        })
+        const editHabitImg = document.createElement("p")
+        editHabitImg.textContent = "img"
+        editHabitArea.append(editHabitImg)
+        habitBox.append(editHabitArea)
     if(habit.freq_unit === "day"){
         habitTodaySection.appendChild(habitBox)
         habitTodaySection.style.display = "block"
@@ -489,6 +490,7 @@ async function getUsersMetricsSummary() {
 const removeUserPage = (e) =>{
     e.preventDefault()
     closeSection(userSummaryPage)
+    closeSection(editCreateHabitModal)
     closeSection(habitTodaySection)
     closeSection(habitWeekSection)
     closeSection(habitMonthSection)
@@ -717,8 +719,8 @@ async function renderEditCreateHabitModal(method, habitId) {
         })
         editCreateHabitForm.append(habitDescLabel, habitDescInput, frequencyArea, typeOfGoalArea)
         editCreateHabitModal.append(editCreateHabitModalTitle, closeEditCreateModalCross, editCreateHabitForm, submitEditCreateFormBtn)
-        
     }
+    editCreateHabitModal.style.display = "block"
     userSummaryPage.append(editCreateHabitModal)
 }
 
