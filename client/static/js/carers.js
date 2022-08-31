@@ -353,7 +353,6 @@ const renderHabitBoxes = (habit) => {
         habitWeekSection.appendChild(habitBox)
     } else if(habit.freq_unit === "month"){
         habitMonthSection.style.display = "block"
-
         habitMonthSection.appendChild(habitBox)
     }
 }
@@ -615,106 +614,106 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
 }
 
 async function renderEditCreateHabitModal(method, habitId) {
-    
     editCreateHabitModal.className = "editCreateHabitModal"
-    
-    const closeEditCreateModalCross = document.createElement("span")
-    closeEditCreateModalCross.addEventListener("click", () => {
-        closeSection(editCreateHabitModal)
-    })
-    const editCreateHabitModalTitle = document.createElement("p")
-    if(method === "create"){
-      editCreateHabitModalTitle.textContent = "Create new habit"  
-    }
-    if(method === "edit"){
-        editCreateHabitModalTitle.textContent = "Edit habit"  
-    }
-    const editCreateHabitForm = document.createElement("form")
-    
-    const habitDescLabel = document.createElement("label")
-    setAttributes(habitDescLabel, {for: "habitDescInput"})
-    habitDescLabel.textContent = "Description"
-    const habitDescInput = document.createElement("input")
-    setAttributes(habitDescInput, {type: "text", id: "habitDescInput", name: "habitDescInput"})
-
-    const frequencyArea = document.createElement("div")
-    const repeatedHabitNumLabel = document.createElement("label")
-    setAttributes(repeatedHabitNumLabel, {for: "repeatedHabitNumInput"})
-    repeatedHabitNumLabel.textContent = "Repeated"
-    const repeatedHabitNumInput = document.createElement("input")
-    setAttributes(repeatedHabitNumInput, {type: "number", id: "repeatedHabitNumInput", name: "repeatedHabitNumInput", min: "1", step: "1", value: "1"})
-    const repeatedHabitUnitLabel = document.createElement("label")
-    setAttributes(repeatedHabitUnitLabel, {for: "repeatedHabitUnitInput"})
-    repeatedHabitUnitLabel.textContent = "time(s) per"
-    const repeatedHabitUnitInput = document.createElement("select")
-    setAttributes(repeatedHabitUnitInput, {id: "repeatedHabitUnitInput", name: "repeatedHabitUnitInput"})
-    const freqOptions = ["day", "week", "month"]
-    freqOptions.forEach(freq => {
-        const freqElement = document.createElement("option")
-        freqElement.value = freq
-        freqElement.textContent = freq
-        repeatedHabitUnitInput.appendChild(freqElement)
-    })
-    
-    frequencyArea.append(repeatedHabitNumLabel, repeatedHabitNumInput, repeatedHabitUnitLabel, repeatedHabitUnitInput)
-    
-    const goalArea = document.createElement("div")
-
-    const goalValueLabel = document.createElement("label")
-    setAttributes(goalValueLabel, {for: "goalValueInput"})
-    goalValueLabel.textContent = "Goal"
-    
-    const goalValueInput = document.createElement("input")
-    setAttributes(goalValueInput, {type: "number", id: "goalValueInput", name: "goalValueInput", min: "1", step: "1", value: "1"})
-
-    const typeOfGoalArea = document.createElement("div")
-    typeOfGoalArea.className="typeOfGoalArea"
-
-    const typeOfGoalLabel = document.createElement("p")
-    typeOfGoalLabel.textContent = "Goal type"
-
-    const typeOfGoalNumLabel = document.createElement("label")
-    const typeOfGoalNumInput = document.createElement("input")
-    setAttributes(typeOfGoalNumLabel, {for: "typeOfGoalNumInput"})
-    typeOfGoalNumLabel.textContent = "Number goal"
-    setAttributes(typeOfGoalNumInput, {type: "radio", id: "typeOfGoalNumInput", name: "typeOfGoalInput", value: "int"})
-    const typeOfGoalBooleanLabel = document.createElement("label")
-    const typeOfGoalBooleanInput = document.createElement("input")
-    setAttributes(typeOfGoalBooleanLabel, {for: "typeOfGoalBooleanInput"})
-    typeOfGoalBooleanLabel.textContent = "Yes/no complete"
-    setAttributes(typeOfGoalBooleanInput, {type: "radio", id: "typeOfGoalBooleanInput", name: "typeOfGoalInput", value: "boolean"})
-
-    typeOfGoalNumInput.addEventListener('change', (e) => {
-        if (e.target.checked) {
-            console.log("Num is checked..");
-            goalArea.append(goalValueLabel, goalValueInput)
-            goalArea.style.display = "block"
+    if(!editCreateHabitModal.lastElementChild){
+        const closeEditCreateModalCross = document.createElement("span")
+        closeEditCreateModalCross.addEventListener("click", () => {
+            closeSection(editCreateHabitModal)
+        })
+        const editCreateHabitModalTitle = document.createElement("p")
+        if(method === "create"){
+          editCreateHabitModalTitle.textContent = "Create new habit"  
         }
-    });
-    typeOfGoalBooleanInput.addEventListener('change', (e) => {
-        if (e.target.checked) {
-          console.log("Boolean is checked..");
-          closeSection(goalArea)
+        if(method === "edit"){
+            editCreateHabitModalTitle.textContent = "Edit habit"  
         }
-    });
-
-    typeOfGoalArea.append(typeOfGoalLabel, typeOfGoalNumInput,typeOfGoalNumLabel, goalArea, typeOfGoalBooleanInput, typeOfGoalBooleanLabel)
+        const editCreateHabitForm = document.createElement("form")
+        
+        const habitDescLabel = document.createElement("label")
+        setAttributes(habitDescLabel, {for: "habitDescInput"})
+        habitDescLabel.textContent = "Description"
+        const habitDescInput = document.createElement("input")
+        setAttributes(habitDescInput, {type: "text", id: "habitDescInput", name: "habitDescInput"})
     
-
-    const submitEditCreateFormBtn = document.createElement("button")
-    if(method === "create"){
-        submitEditCreateFormBtn.textContent = "Create"  
-    }
-    if(method === "edit"){
-        submitEditCreateFormBtn.textContent = "Update"  
-    }
+        const frequencyArea = document.createElement("div")
+        const repeatedHabitNumLabel = document.createElement("label")
+        setAttributes(repeatedHabitNumLabel, {for: "repeatedHabitNumInput"})
+        repeatedHabitNumLabel.textContent = "Repeated"
+        const repeatedHabitNumInput = document.createElement("input")
+        setAttributes(repeatedHabitNumInput, {type: "number", id: "repeatedHabitNumInput", name: "repeatedHabitNumInput", min: "1", step: "1", value: "1"})
+        const repeatedHabitUnitLabel = document.createElement("label")
+        setAttributes(repeatedHabitUnitLabel, {for: "repeatedHabitUnitInput"})
+        repeatedHabitUnitLabel.textContent = "time(s) per"
+        const repeatedHabitUnitInput = document.createElement("select")
+        setAttributes(repeatedHabitUnitInput, {id: "repeatedHabitUnitInput", name: "repeatedHabitUnitInput"})
+        const freqOptions = ["day", "week", "month"]
+        freqOptions.forEach(freq => {
+            const freqElement = document.createElement("option")
+            freqElement.value = freq
+            freqElement.textContent = freq
+            repeatedHabitUnitInput.appendChild(freqElement)
+        })
+        
+        frequencyArea.append(repeatedHabitNumLabel, repeatedHabitNumInput, repeatedHabitUnitLabel, repeatedHabitUnitInput)
+        
+        const goalArea = document.createElement("div")
     
-    submitEditCreateFormBtn.addEventListener("click", (e) => {
-        sendEditCreateHabitRequest(method, e, habitId)
-    })
-    editCreateHabitForm.append(habitDescLabel, habitDescInput, frequencyArea, typeOfGoalArea)
-    editCreateHabitModal.append(editCreateHabitModalTitle, closeEditCreateModalCross, editCreateHabitForm, submitEditCreateFormBtn)
-    userSummaryPage.append(editCreateHabitModal)
+        const goalValueLabel = document.createElement("label")
+        setAttributes(goalValueLabel, {for: "goalValueInput"})
+        goalValueLabel.textContent = "Goal"
+        
+        const goalValueInput = document.createElement("input")
+        setAttributes(goalValueInput, {type: "number", id: "goalValueInput", name: "goalValueInput", min: "1", step: "1", value: "1"})
+    
+        const typeOfGoalArea = document.createElement("div")
+        typeOfGoalArea.className="typeOfGoalArea"
+    
+        const typeOfGoalLabel = document.createElement("p")
+        typeOfGoalLabel.textContent = "Goal type"
+    
+        const typeOfGoalNumLabel = document.createElement("label")
+        const typeOfGoalNumInput = document.createElement("input")
+        setAttributes(typeOfGoalNumLabel, {for: "typeOfGoalNumInput"})
+        typeOfGoalNumLabel.textContent = "Number goal"
+        setAttributes(typeOfGoalNumInput, {type: "radio", id: "typeOfGoalNumInput", name: "typeOfGoalInput", value: "int"})
+        const typeOfGoalBooleanLabel = document.createElement("label")
+        const typeOfGoalBooleanInput = document.createElement("input")
+        setAttributes(typeOfGoalBooleanLabel, {for: "typeOfGoalBooleanInput"})
+        typeOfGoalBooleanLabel.textContent = "Yes/no complete"
+        setAttributes(typeOfGoalBooleanInput, {type: "radio", id: "typeOfGoalBooleanInput", name: "typeOfGoalInput", value: "boolean"})
+    
+        typeOfGoalNumInput.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                console.log("Num is checked..");
+                goalArea.append(goalValueLabel, goalValueInput)
+                goalArea.style.display = "block"
+            }
+        });
+        typeOfGoalBooleanInput.addEventListener('change', (e) => {
+            if (e.target.checked) {
+              console.log("Boolean is checked..");
+              closeSection(goalArea)
+            }
+        });
+    
+        typeOfGoalArea.append(typeOfGoalLabel, typeOfGoalNumInput,typeOfGoalNumLabel, goalArea, typeOfGoalBooleanInput, typeOfGoalBooleanLabel)
+        
+    
+        const submitEditCreateFormBtn = document.createElement("button")
+        if(method === "create"){
+            submitEditCreateFormBtn.textContent = "Create"  
+        }
+        if(method === "edit"){
+            submitEditCreateFormBtn.textContent = "Update"  
+        }
+        
+        submitEditCreateFormBtn.addEventListener("click", (e) => {
+            sendEditCreateHabitRequest(method, e, habitId)
+        })
+        editCreateHabitForm.append(habitDescLabel, habitDescInput, frequencyArea, typeOfGoalArea)
+        editCreateHabitModal.append(editCreateHabitModalTitle, closeEditCreateModalCross, editCreateHabitForm, submitEditCreateFormBtn)
+        userSummaryPage.append(editCreateHabitModal)
+    }
 }
 
 async function openEditCreateHabitModal(e) {

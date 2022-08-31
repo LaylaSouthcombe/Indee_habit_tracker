@@ -28,16 +28,11 @@ server.get('/', (req, res) => res.send('Welcome to Indee'))
 
 
 //CREATE NEW ENTRY FOR EACH USER EVERYDAY
-
-  
 async function addHabitEntryForEveryUser() {
     return new Promise (async (resolve, reject) => {
         try {
             const users = await db.query(`SELECT * FROM users;`)
             for (i = 0; i < users.rows.length; i++) {
-                //get habits info
-                //for length, if type = "int", add entry to int_entries
-                //if type = "boolean", add entry to boolean_entries
                 console.log("user id", users.rows[i].id)
                 const habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [users.rows[i].id]);
                 console.log("habitsInfo", habitsInfo.rows)
