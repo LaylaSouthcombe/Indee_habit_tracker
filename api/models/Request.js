@@ -28,7 +28,7 @@ module.exports = class Request {
                 const user_id = result.rows[0].user_id
                 await db.query('UPDATE requests SET status = $2 WHERE id = $1;', [request_id, "accepted"])
                 const updatedUser = await db.query(`UPDATE users SET carer_id = $1 WHERE id = $2 RETURNING *;`, [ carer_id, user_id])
-                console.log(updatedUser.rows)
+                // console.log(updatedUser.rows)
                 resolve("Request accepted");
             } catch (err) {
                 reject("Error retrieving requests")

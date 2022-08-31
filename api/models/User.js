@@ -24,12 +24,12 @@ module.exports = class User {
     };
 
     static async create({fname, sname, password, email}) {
-        console.log(fname)
+        // console.log(fname)
         return new Promise (async (resolve, reject) => {
             try {
                 const result = await db.query('INSERT INTO users (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4) RETURNING *;', [fname, sname, password, email])
                 const user = new User(result.rows[0]);
-                console.log(user)
+                // console.log(user)
                 resolve(user)
             }catch(err){
                 reject("User account could not be created");
@@ -62,7 +62,7 @@ module.exports = class User {
                     }
                     number_of_days = totalDays
                 }
-                console.log("number_of_days", number_of_days)
+                // console.log("number_of_days", number_of_days)
                 let entriesData = {}
 
                 //finds the last X days of int entries
@@ -75,8 +75,8 @@ module.exports = class User {
                         }
                     }
                     entriesData[i+1] = {total: dayIntEntries.rows.length, complete: intHabitsCompleted}
-                    console.log("intHabitsCompleted", intHabitsCompleted)
-                    console.log("intHabits total", dayIntEntries.rows.length)
+                    // console.log("intHabitsCompleted", intHabitsCompleted)
+                    // console.log("intHabits total", dayIntEntries.rows.length)
                 }
 
                 for(let i = 0; i < number_of_days; i++){
@@ -89,13 +89,13 @@ module.exports = class User {
                     }
                     entriesData[i+1].total += dayBlnEntries.rows.length
                     entriesData[i+1].complete += blnHabitsCompleted
-                    console.log("blnHabitsCompleted", blnHabitsCompleted)
-                    console.log("blnHabits total", dayBlnEntries.rows.length)
+                    // console.log("blnHabitsCompleted", blnHabitsCompleted)
+                    // console.log("blnHabits total", dayBlnEntries.rows.length)
                 }
                 
                 let obj = { "userFirstName": userInfo.rows[0].first_name, "userSecondName": userInfo.rows[0].second_name, "numOfHabitsCompleted": entriesData[1].complete, "numOfHabits": entriesData[1].total, "lastLogin": userInfo.rows[0].last_login, 
                 entriesData: entriesData, number_of_days: number_of_days}
-                console.log(obj)
+                // console.log(obj)
                 resolve(obj)
             }catch(err){
                 reject("Users habit history could not be found");
@@ -110,8 +110,8 @@ module.exports = class User {
                 let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
                 let dataArr = []
                 // let habitTotalNum = habitsInfo.rows.length;
-                console.log("hi user findUser")
-                console.log(habitsInfo.rows)
+                // console.log("hi user findUser")
+                // console.log(habitsInfo.rows)
                 for(let k = 0; k < habitsInfo.rows.length; k++){
                     if(number_of_days === "all time"){
                         let todaysDate = new Date()
@@ -161,7 +161,7 @@ module.exports = class User {
                     dataArr.push({ habitId: habitsInfo.rows[k].id,  habitTitle: habitsInfo.rows[k].description, entriesData: entriesData})
                 }
                 let obj = { dataArr: dataArr, number_of_days: number_of_days}
-                console.log(obj)
+                // console.log(obj)
                 resolve(obj)
             }catch(err){
                 reject("Users habit history could not be found");
@@ -170,7 +170,7 @@ module.exports = class User {
     }
     
     static async findUsersByNameOrEmail(searchText){
-        console.log("user model searchText", searchText)
+        // console.log("user model searchText", searchText)
         return new Promise (async (resolve, reject) => {
             try {
                 let users;
@@ -186,7 +186,7 @@ module.exports = class User {
                     const result = await db.query('SELECT * FROM users WHERE first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1', [ newSearchTerm]);
                     users = result.rows
                 }
-                console.log("user model users", users)
+                // console.log("user model users", users)
                 resolve(users)
             }catch(err){
                 reject("Error finding users");

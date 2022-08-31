@@ -36,7 +36,7 @@ module.exports = class Carer {
     }
 
     static async findCarersByNameOrEmail(searchText){
-        console.log("carer model searchText", searchText)
+        // console.log("carer model searchText", searchText)
         return new Promise (async (resolve, reject) => {
             try {
                 let carers;
@@ -52,7 +52,7 @@ module.exports = class Carer {
                     const result = await db.query('SELECT * FROM carers WHERE first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1', [ newSearchTerm]);
                     carers = result.rows
                 }
-                console.log("carer model result", carers)
+                // console.log("carer model result", carers)
                 resolve(carers)
             }catch(err){
                 reject("Error finding carers");
@@ -66,7 +66,7 @@ module.exports = class Carer {
                 let dataToDisplay = []
                 //find users associated with a carer
                 const results = await db.query('SELECT * FROM carers JOIN users on carers.id = users.carer_id WHERE carers.id = $1 ORDER BY (last_login) DESC', [user_id]);
-                console.log(results.rows)
+                // console.log(results.rows)
                 for(let i = 0; i < results.rows.length; i++){
                     //find how many habits they are tracking
                     let habits = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [results.rows[i].id]);
@@ -78,8 +78,8 @@ module.exports = class Carer {
                     let intHabitsCompleted = 0;
                     for(let j = 0; j < intEntries.rows.length; j++){
                         if(intEntries.rows[j].habit_int_entry >= intEntries.rows[j].goal){
-                            console.log("int entry", intEntries.rows[j].habit_int_entry)
-                            console.log("int goal", intEntries.rows[j].goal)
+                            // console.log("int entry", intEntries.rows[j].habit_int_entry)
+                            // console.log("int goal", intEntries.rows[j].goal)
                             intHabitsCompleted += 1;
                         }
                     } 
@@ -92,12 +92,12 @@ module.exports = class Carer {
                             blnHabitsCompleted += 1;
                         }
                     }
-                    console.log("intHabitsCompleted", intHabitsCompleted)
-                    console.log("blnHabitsCompleted", blnHabitsCompleted)
+                    // console.log("intHabitsCompleted", intHabitsCompleted)
+                    // console.log("blnHabitsCompleted", blnHabitsCompleted)
 
                     //turn to a percent
                     let totalHabitsCompleted = intHabitsCompleted + blnHabitsCompleted
-                    console.log("totalHabitsCompleted", totalHabitsCompleted)
+                    // console.log("totalHabitsCompleted", totalHabitsCompleted)
                     let percentCompleted
                     if(totalHabitsCompleted > 0) {
                         percentCompleted = Math.floor((totalHabitsCompleted / habitTotalNum) * 100)
@@ -109,7 +109,7 @@ module.exports = class Carer {
                     second_name, "percentCompleted": percentCompleted, "user_id": results.rows[i].id}
                     dataToDisplay.push(obj)
                 }
-                console.log(dataToDisplay)
+                // console.log(dataToDisplay)
                 resolve(dataToDisplay);
             } catch (err) {
                 reject("Carer's users and user info could not be found");

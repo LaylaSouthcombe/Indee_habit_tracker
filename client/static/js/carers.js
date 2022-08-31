@@ -68,15 +68,7 @@ const habitMonthSection = document.createElement("div")
 habitTodaySection.style.display = "none"
 habitWeekSection.style.display = "none"
 habitMonthSection.style.display = "none"
-const habitDayTitle = document.createElement("h2")
-const habitWeekTitle = document.createElement("h2")
-const habitMonthTitle = document.createElement("h2")
-habitDayTitle.textContent = "Today"
-habitWeekTitle.textContent = "This week"
-habitMonthTitle.textContent = "This month"
-habitTodaySection.appendChild(habitDayTitle)
-habitWeekSection.appendChild(habitWeekTitle)
-habitMonthSection.appendChild(habitMonthTitle)
+
 
 const habitsSummarySection = document.createElement("div")
 const metricsSummarySection = document.createElement("div")
@@ -272,9 +264,7 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
 }
 
 const renderHabitBoxes = (habit) => {
-    habitTodaySection.style.display = "none"
-    habitWeekSection.style.display = "none"
-    habitMonthSection.style.display = "none"
+    // console.log(habit)
     
     const habitBox = document.createElement("div")
     habitBox.classList.add("habitBox")
@@ -348,10 +338,12 @@ const renderHabitBoxes = (habit) => {
         editHabitImg.textContent = "img"
         editHabitArea.append(editHabitImg)
         habitBox.append(editHabitArea)
+        console.log(habitBox)
     if(habit.freq_unit === "day"){
         habitTodaySection.appendChild(habitBox)
         habitTodaySection.style.display = "block"
     } else if(habit.freq_unit === "week"){
+        console.log("week")
         habitWeekSection.style.display = "block"
         habitWeekSection.appendChild(habitBox)
     } else if(habit.freq_unit === "month"){
@@ -370,6 +362,18 @@ async function getUserHabitsSummary(userId) {
         const response = await fetch(`${baseUrl}habits/users`, options);
         const data = await response.json()
         console.log(data)
+        habitTodaySection.style.display = "none"
+        habitWeekSection.style.display = "none"
+        habitMonthSection.style.display = "none"
+        const habitDayTitle = document.createElement("h2")
+        const habitWeekTitle = document.createElement("h2")
+        const habitMonthTitle = document.createElement("h2")
+        habitDayTitle.textContent = "Today"
+        habitWeekTitle.textContent = "This week"
+        habitMonthTitle.textContent = "This month"
+        habitTodaySection.appendChild(habitDayTitle)
+        habitWeekSection.appendChild(habitWeekTitle)
+        habitMonthSection.appendChild(habitMonthTitle)
         data.forEach(renderHabitBoxes)
     } catch (err) {
         console.warn(err);
@@ -616,6 +620,7 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
     closeSection(habitMonthSection)
     closeSection(habitsSummarySection)
     closeSection(metricsSummarySection)
+    closeSection(editCreateHabitModal)
     renderUserSummaryPage(userId)
 }
 
