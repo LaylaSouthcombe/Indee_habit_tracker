@@ -320,7 +320,9 @@ const renderHabitBoxes = (habit) => {
         currentValue.textContent = habit.habit_int_entry
 
         const editHabitArea = document.createElement("div")
-        editHabitArea.addEventListener("click", openEditCreateHabitModal)
+        editHabitArea.addEventListener("click", () => {
+            renderEditCreateHabitModal("edit", habit.id)
+        })
         const editHabitImg = document.createElement("p")
         editHabitImg.textContent = "img"
         editHabitArea.append(editHabitImg)
@@ -530,7 +532,9 @@ async function renderUserSummaryPage(userId) {
     
     const createHabitDiv = document.createElement("div")
     createHabitDiv.textContent = "+"
-    createHabitDiv.addEventListener("click", openEditCreateHabitModal)
+    createHabitDiv.addEventListener("click", () => {
+        renderEditCreateHabitModal("create")
+    })
     
     userSummaryPageTopSection.append(backBtn, usersName, createHabitDiv)
     //habits/metrics area
@@ -615,6 +619,7 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
 
 async function renderEditCreateHabitModal(method, habitId) {
     editCreateHabitModal.className = "editCreateHabitModal"
+    console.log(editCreateHabitModal)
     if(!editCreateHabitModal.lastElementChild){
         const closeEditCreateModalCross = document.createElement("span")
         closeEditCreateModalCross.addEventListener("click", () => {
@@ -712,28 +717,10 @@ async function renderEditCreateHabitModal(method, habitId) {
         })
         editCreateHabitForm.append(habitDescLabel, habitDescInput, frequencyArea, typeOfGoalArea)
         editCreateHabitModal.append(editCreateHabitModalTitle, closeEditCreateModalCross, editCreateHabitForm, submitEditCreateFormBtn)
-        userSummaryPage.append(editCreateHabitModal)
+        
     }
+    userSummaryPage.append(editCreateHabitModal)
 }
-
-async function openEditCreateHabitModal(e) {
-    let method = "create"
-    let habitId
-    console.log(e.target.parentElement.id.startsWith("habit"))
-    if(e.target.parentElement.id.includes("habit")){
-        method = "edit"
-        habitId = e.target.parentElement.id.split("habit")[1]
-        console.log(habitId)
-    }
-    renderEditCreateHabitModal(method, habitId)
-    // if(metricsSummarySection.style.display === "none"){
-    //     console.log("open edit create habit modal")
-    //     habitsSummarySection.style.display = "none"
-    //     await getWeekData()
-    //     metricsSummarySection.style.display = "block"
-    // }
-}
-
 
 window.addEventListener('hashchange', () => {
     console.log("hash")
