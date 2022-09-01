@@ -1,7 +1,22 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
+const role = localStorage.getItem('role')
+// const role = "user"
+const userId = localStorage.getItem('userId')
+console.log(role)
+console.log(userId)
+//if role == carer, get carer requests
+//if role user, get user requests, render accept buttons
+
+
 const requestsArea = document.getElementById("requestsArea")
+const addDependentBtn = document.createElement("button")
+if(role === "carer"){
+    addDependentBtn.textContent = "+"
+    requestsArea.append(addDependentBtn)
+}
+
 const requestsTitle = document.createElement("h2")
 requestsTitle.textContent = "Connections"
 
@@ -33,19 +48,14 @@ acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsAr
 requestsArea.append(requestsTitle, pendingArea, acceptedArea)
 
 console.log(requestsArea)
-const role = localStorage.getItem('role')
-// const role = "user"
-const userId = localStorage.getItem('userId')
-console.log(role)
-console.log(userId)
-//if role == carer, get carer requests
-//if role user, get user requests, render accept buttons
+
 async function deleteRequest(request) {
     console.log(request)
 }
 async function answerRequest(request, response) {
     console.log(request)
     console.log(response)
+    // request_id
 }
 const renderRequests = (request) => {
     const requestBox = document.createElement("div")
@@ -55,7 +65,7 @@ const renderRequests = (request) => {
     datePara.textContent = `${request.date.slice(8,10)}-${request.date.slice(5,7)}-${request.date.slice(0,4)}`
     
     requestBox.append(namePara, datePara)
-    if(role === "carer"){
+    if(role === "carer" || (role === "user" && request.status === "accepted")){
         const deleteConnectionBtn = document.createElement("button")
         deleteConnectionBtn.textContent = "Delete"
         deleteConnectionBtn.addEventListener("click", () => {
@@ -63,7 +73,7 @@ const renderRequests = (request) => {
         })
         requestBox.append(deleteConnectionBtn)
     }
-    if(role === "user"){
+    if(role === "user" && request.status === "pending"){
         const declineConnectionBtn = document.createElement("button")
         declineConnectionBtn.textContent = "Decline"
         declineConnectionBtn.addEventListener("click", () => {
@@ -89,7 +99,45 @@ const renderRequests = (request) => {
     
 
 }
+async function addRequest(userId, resultId) {
+    console.log(formData)
+}
+const resultUsers = document.createElement("div")
 
+const renderResults = (result) => {
+    const resultDiv = document.createElement("div")
+    const resultsName = document.createElement("p")
+    resultsName.textContent = `${result.first_name} ${result.second_name}`
+    const addUserBtn = document.createElement("button")
+    addUserBtn.textContent = "+"
+    addUserBtn.addEventListener("click", () => {
+        addRequest(userId, result.id)
+    })
+    resultDiv.append(resultsName, addUserBtn)
+}
+
+async function findUser(e) {
+    console.log(e.target.value)
+    //append results
+    //button to add
+    
+}
+
+const renderAddDependentModal = () => {
+    const addDependentModal = document.createElement("div")
+    const addDependentModalTitle = document.createElement("p")
+    addDependentModalTitle.textContent = "Add new dependent"
+    const userSearchBar = document.createElement("input")
+    userSearchBar.type = "search"
+    userSearchBar.id = "userSearch"
+    userSearchBar.name = "userSearch"
+    userSearchBar.addEventListener("input", findUser)
+    addDependentModal.append(addDependentModalTitle, userSearchBar, resultUsers)
+    requestsArea.append(addDependentModal)
+}
+if(role === "carer"){
+    addDependentBtn.addEventListener("click", renderAddDependentModal )
+}
 async function getRequestsData() {
     // post to requests/ userId, role
     const options = {
