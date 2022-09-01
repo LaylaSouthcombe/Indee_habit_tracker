@@ -1,6 +1,11 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
+const homeSection = document.getElementById("home")
+homeSection.addEventListener("click", () => {
+    window.location.href = baseClientUrl
+})
+
 const loginFormSection = document.querySelector('.loginFormSection');
 const registerFormSection = document.querySelector('.registerFormSection');
 const switchToRegister = document.querySelector(".switchToRegister");

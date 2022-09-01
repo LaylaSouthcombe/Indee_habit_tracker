@@ -100,6 +100,12 @@ connectionsLink.href = "./requests"
 connectionsNavLink.append(connectionsLink)
 const logoutNavLink = document.createElement("li")
 logoutNavLink.textContent = "Logout"
+const logUserOut = () => {
+    console.log("log me out pls")
+    localStorage.clear()
+    window.location.href = baseClientUrl
+}
+logoutNavLink.addEventListener("click", logUserOut)
 navLinksDiv.append(usersNavLink, connectionsNavLink, logoutNavLink)
 navSection.append(navLinksDiv)
 

@@ -1,4 +1,5 @@
 const baseUrl = "http://localhost:3000/"
+const baseClientUrl = "http://localhost:8080/"
 const habitsWrapper = document.querySelector(".habitsWrapper")
 
 const habitTodaySection = document.createElement("div")
@@ -26,6 +27,12 @@ connectionsLink.href = "./requests"
 connectionsNavLink.append(connectionsLink)
 const logoutNavLink = document.createElement("li")
 logoutNavLink.textContent = "Logout"
+const logUserOut = () => {
+    console.log("log me out pls")
+    localStorage.clear()
+    window.location.href = baseClientUrl
+}
+logoutNavLink.addEventListener("click", logUserOut)
 navLinksDiv.append(connectionsNavLink, logoutNavLink)
 navSection.append(navLinksDiv)
 
