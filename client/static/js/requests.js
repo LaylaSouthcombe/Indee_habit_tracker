@@ -8,7 +8,11 @@ console.log(role)
 console.log(userId)
 //if role == carer, get carer requests
 //if role user, get user requests, render accept buttons
-
+const closeSection = (sectionName) => {
+    while (sectionName.lastElementChild) {
+        sectionName.removeChild(sectionName.lastElementChild);
+    }
+}
 
 const requestsArea = document.getElementById("requestsArea")
 const addDependentBtn = document.createElement("button")
@@ -31,6 +35,8 @@ pendingRequestsEmptyPara.textContent = "You have no pending requests"
 const acceptedRequestsEmptyPara = document.createElement("p")
 acceptedRequestsEmptyPara.textContent = "You have no accepted requests"
 
+const pendingRequestsDiv = document.createElement("div")
+const acceptedRequestsDiv = document.createElement("div")
 const requestsHeadingsArea = document.createElement("div")
 const acceptedHeadingsArea = document.createElement("div")
 const nameHeading = document.createElement("p")
@@ -43,8 +49,8 @@ requestsHeadingsArea.append(nameHeading, dateSent)
 requestsHeadingsArea.style.display = "none"
 acceptedHeadingsArea.append(nameHeading, dateAccepted)
 acceptedHeadingsArea.style.display = "none"
-pendingArea.append(pendingTitle, pendingRequestsEmptyPara, requestsHeadingsArea)
-acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsArea)
+pendingArea.append(pendingTitle, pendingRequestsEmptyPara, requestsHeadingsArea, pendingRequestsDiv)
+acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsArea, acceptedRequestsDiv)
 requestsArea.append(requestsTitle, pendingArea, acceptedArea)
 
 console.log(requestsArea)
@@ -59,6 +65,11 @@ async function deleteRequest(request) {
     const response = await fetch(`${baseUrl}requests/delete`, options);
     const data = await response.json()
     console.log(data)
+    closeSection(acceptedRequestsDiv)
+    acceptedHeadingsArea.remove()
+    closeSection(pendingRequestsDiv)
+    requestsHeadingsArea.remove()
+    getRequestsData()
 }
 async function answerRequest(request, response) {
     console.log(request)
@@ -95,12 +106,12 @@ const renderRequests = (request) => {
         requestBox.append(declineConnectionBtn, acceptConnectionBtn)
     }
     if(request.status === "pending"){
-        pendingArea.append(requestBox)
+        pendingRequestsDiv.append(requestBox)
         pendingRequestsEmptyPara.style.display = "none"
         requestsHeadingsArea.style.display = "block"
     }
     if(request.status === "accepted"){
-        acceptedArea.append(requestBox)
+        acceptedRequestsDiv.append(requestBox)
         acceptedRequestsEmptyPara.style.display = "none"
         acceptedHeadingsArea.style.display = "block"
     }
@@ -119,11 +130,7 @@ async function addRequest(userId, resultId) {
     console.log(data)
 }
 const resultUsers = document.createElement("div")
-const closeSection = (sectionName) => {
-    while (sectionName.lastElementChild) {
-        sectionName.removeChild(sectionName.lastElementChild);
-    }
-}
+
 const renderResults = (result) => {
     const resultDiv = document.createElement("div")
     const resultsName = document.createElement("p")
@@ -173,6 +180,8 @@ if(role === "carer"){
 
 async function getRequestsData() {
     // post to requests/ userId, role
+    pendingRequestsEmptyPara.style.display = "block"
+    acceptedRequestsEmptyPara.style.display = "block"
     const options = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
