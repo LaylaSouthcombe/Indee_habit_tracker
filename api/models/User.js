@@ -169,21 +169,22 @@ module.exports = class User {
         })
     }
     
-    static async findUsersByNameOrEmail(searchText){
+    static async findUsersByNameOrEmail(searchText, carerId){
         // console.log("user model searchText", searchText)
         return new Promise (async (resolve, reject) => {
             try {
                 let users;
+                console.log(searchText)
                 if(searchText.indexOf(" ") !== -1){
                     let spaceIndex = searchText.indexOf(" ")
                     let firstTerm = searchText.slice(0, spaceIndex)
                     let secondTerm = searchText.slice(spaceIndex + 1, searchText.length)
-                    const result = await db.query('SELECT * FROM users WHERE first_name ILIKE $1 OR first_name ILIKE $2 OR second_name ILIKE $1 OR second_name ILIKE $2 OR email ILIKE $1 OR email ILIKE $2', [ firstTerm, secondTerm]);
+                    const result = await db.query('SELECT * FROM users WHERE (first_name ILIKE $1 OR first_name ILIKE $2 OR second_name ILIKE $1 OR second_name ILIKE $2 OR email ILIKE $1 OR email ILIKE $2) AND  carer_id = 0;', [ firstTerm, secondTerm, 1]);
                     users = result.rows
                 }if(searchText.indexOf(" ") === -1){
                     const percentSign = "%"
                     const newSearchTerm = searchText.concat(percentSign)
-                    const result = await db.query('SELECT * FROM users WHERE first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1', [ newSearchTerm]);
+                    const result = await db.query('SELECT * FROM users WHERE (first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1) AND carer_id = 0;', [ newSearchTerm]);
                     users = result.rows
                 }
                 // console.log("user model users", users)

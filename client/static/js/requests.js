@@ -118,6 +118,7 @@ const renderRequests = (request) => {
     
 
 }
+const resultUsers = document.createElement("div")
 async function addRequest(userId, resultId, addDependentModal) {
     console.log(userId, resultId)
     const options = {
@@ -133,9 +134,10 @@ async function addRequest(userId, resultId, addDependentModal) {
     closeSection(pendingRequestsDiv)
     requestsHeadingsArea.remove()
     addDependentModal.remove()
+    closeSection(resultUsers)
     getRequestsData()
 }
-const resultUsers = document.createElement("div")
+
 
 const renderResults = (result, addDependentModal) => {
     const resultDiv = document.createElement("div")
@@ -158,7 +160,7 @@ async function findUser(e, addDependentModal) {
         const options = {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({searchTerm: e.target.value})
+            body: JSON.stringify({searchTerm: e.target.value, carerId: userId})
         }
         const response = await fetch(`${baseUrl}users`, options);
         const data = await response.json()
