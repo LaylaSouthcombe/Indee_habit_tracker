@@ -118,7 +118,7 @@ const renderRequests = (request) => {
     
 
 }
-async function addRequest(userId, resultId) {
+async function addRequest(userId, resultId, addDependentModal) {
     console.log(userId, resultId)
     const options = {
         method: 'POST',
@@ -128,23 +128,29 @@ async function addRequest(userId, resultId) {
     const response = await fetch(`${baseUrl}carers/adduser`, options);
     const data = await response.json()
     console.log(data)
+    closeSection(acceptedRequestsDiv)
+    acceptedHeadingsArea.remove()
+    closeSection(pendingRequestsDiv)
+    requestsHeadingsArea.remove()
+    addDependentModal.remove()
+    getRequestsData()
 }
 const resultUsers = document.createElement("div")
 
-const renderResults = (result) => {
+const renderResults = (result, addDependentModal) => {
     const resultDiv = document.createElement("div")
     const resultsName = document.createElement("p")
     resultsName.textContent = `${result.first_name} ${result.second_name}`
     const addUserBtn = document.createElement("button")
     addUserBtn.textContent = "+"
     addUserBtn.addEventListener("click", () => {
-        addRequest(userId, result.id)
+        addRequest(userId, result.id, addDependentModal)
     })
     resultDiv.append(resultsName, addUserBtn)
     resultUsers.append(resultDiv)
 }
 
-async function findUser(e) {
+async function findUser(e, addDependentModal) {
     console.log(e.target.value)
     //append results
     closeSection(resultUsers)
@@ -157,20 +163,29 @@ async function findUser(e) {
         const response = await fetch(`${baseUrl}users`, options);
         const data = await response.json()
         console.log(data)
-        data.forEach(renderResults)
+        data.forEach((data)=> {
+            renderResults(data, addDependentModal)
+        })
     }
 }
 
 const renderAddDependentModal = () => {
     const addDependentModal = document.createElement("div")
+    const closeAddDependentModal = document.createElement("span")
+    closeAddDependentModal.textContent = "X"
+    closeAddDependentModal.addEventListener("click", () => {
+        addDependentModal.remove()
+    })
     const addDependentModalTitle = document.createElement("p")
     addDependentModalTitle.textContent = "Add new dependent"
     const userSearchBar = document.createElement("input")
     userSearchBar.type = "search"
     userSearchBar.id = "userSearch"
     userSearchBar.name = "userSearch"
-    userSearchBar.addEventListener("input", findUser)
-    addDependentModal.append(addDependentModalTitle, userSearchBar, resultUsers)
+    userSearchBar.addEventListener("input", (e)=>{
+       findUser(e, addDependentModal)
+    })
+    addDependentModal.append(addDependentModalTitle, closeAddDependentModal,userSearchBar, resultUsers)
     requestsArea.append(addDependentModal)
 }
 
