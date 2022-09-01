@@ -34,6 +34,7 @@ requestsArea.append(requestsTitle, pendingArea, acceptedArea)
 
 console.log(requestsArea)
 const role = localStorage.getItem('role')
+// const role = "user"
 const userId = localStorage.getItem('userId')
 console.log(role)
 console.log(userId)
@@ -42,19 +43,39 @@ console.log(userId)
 async function deleteRequest(request) {
     console.log(request)
 }
+async function answerRequest(request, response) {
+    console.log(request)
+    console.log(response)
+}
 const renderRequests = (request) => {
     const requestBox = document.createElement("div")
     const namePara = document.createElement("p")
     namePara.textContent = `${request.first_name} ${request.second_name}`
     const datePara = document.createElement("p")
     datePara.textContent = `${request.date.slice(8,10)}-${request.date.slice(5,7)}-${request.date.slice(0,4)}`
-    const deleteConnectionBtn = document.createElement("button")
-    deleteConnectionBtn.textContent = "Delete"
-    deleteConnectionBtn.addEventListener("click", () => {
-        deleteRequest(request)
-    })
-    requestBox.append(namePara, datePara, deleteConnectionBtn)
-
+    
+    requestBox.append(namePara, datePara)
+    if(role === "carer"){
+        const deleteConnectionBtn = document.createElement("button")
+        deleteConnectionBtn.textContent = "Delete"
+        deleteConnectionBtn.addEventListener("click", () => {
+            deleteRequest(request)
+        })
+        requestBox.append(deleteConnectionBtn)
+    }
+    if(role === "user"){
+        const declineConnectionBtn = document.createElement("button")
+        declineConnectionBtn.textContent = "Decline"
+        declineConnectionBtn.addEventListener("click", () => {
+            answerRequest(request, "decline")
+        })
+        const acceptConnectionBtn = document.createElement("button")
+        acceptConnectionBtn.textContent = "Accept"
+        acceptConnectionBtn.addEventListener("click", () => {
+            answerRequest(request, "accept")
+        })
+        requestBox.append(declineConnectionBtn, acceptConnectionBtn)
+    }
     if(request.status === "pending"){
         pendingArea.append(requestBox)
         pendingRequestsEmptyPara.style.display = "none"
