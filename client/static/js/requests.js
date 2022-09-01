@@ -72,9 +72,8 @@ acceptedHeadingsArea.style.display = "none"
 pendingArea.append(pendingTitle, pendingRequestsEmptyPara, requestsHeadingsArea, pendingRequestsDiv)
 acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsArea, acceptedRequestsDiv)
 requestsArea.append(requestsTitle, pendingArea, acceptedArea)
-
+const deleteConnectionModal = document.createElement("div")
 console.log(requestsArea)
-
 async function deleteRequest(request) {
     console.log(request)
     const options = {
@@ -88,9 +87,41 @@ async function deleteRequest(request) {
     closeSection(acceptedRequestsDiv)
     acceptedHeadingsArea.remove()
     closeSection(pendingRequestsDiv)
+    closeSection(deleteConnectionModal)
     requestsHeadingsArea.remove()
     getRequestsData()
 }
+
+const openDeleteWarning = (request) => {
+    
+    const deleteConnectionPara1 = document.createElement("p")
+    deleteConnectionPara1.textContent = "Warning!"
+    const deleteConnectionPara2 = document.createElement("p")
+    let roleTerm
+    if(role === "carer"){
+        roleTerm = "dependent"
+    }
+    if(role === "user"){
+        roleTerm = "carer"
+    }
+    deleteConnectionPara2.textContent = `Deleting this connection will remove the user as your ${roleTerm}`
+    const continueBtn = document.createElement("button")
+    continueBtn.textContent = "Continue"
+    continueBtn.addEventListener("click", () => {
+        deleteRequest(request)
+    })
+    const cancelBtn = document.createElement("button")
+    cancelBtn.textContent = "Cancel"
+
+    cancelBtn.addEventListener("click", (e) => {
+        e.preventDefault()
+        deleteConnectionModal.remove()
+    })
+    deleteConnectionModal.append(deleteConnectionPara1, deleteConnectionPara2, continueBtn, cancelBtn)
+    requestsArea.append(deleteConnectionModal)
+}
+
+
 async function answerRequest(request, responseType) {
     console.log(request)
     console.log(responseType)
@@ -122,7 +153,7 @@ const renderRequests = (request) => {
         const deleteConnectionBtn = document.createElement("button")
         deleteConnectionBtn.textContent = "Delete"
         deleteConnectionBtn.addEventListener("click", () => {
-            deleteRequest(request)
+            openDeleteWarning(request)
         })
         requestBox.append(deleteConnectionBtn)
     }
