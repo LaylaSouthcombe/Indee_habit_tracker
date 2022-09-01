@@ -39,7 +39,20 @@ const renderUsers = (user) => {
 
     userBox.addEventListener("click", getUserSummary)
 }
-
+const renderNoUsersMessage = () =>{
+    const noUsersMessage = document.createElement("div")
+    const noUsersMessagePara1 = document.createElement("p")
+    noUsersMessagePara1.textContent = "You have no associated users yet!"
+    const noUsersMessagePara2 = document.createElement("p")
+    noUsersMessagePara2.textContent = "Navigate to the connections page to get started"
+    const takeMeThereBtn = document.createElement("button")
+    takeMeThereBtn.textContent = "Take me there!"
+    takeMeThereBtn.addEventListener("click", () => {
+        window.location.href = `${baseClientUrl}requests`
+    })
+    noUsersMessage.append(noUsersMessagePara1, noUsersMessagePara2,takeMeThereBtn)
+    usersWrapper.append(noUsersMessage)
+}
 async function getAssociatedUsers() {
     const carerId = localStorage.getItem('userId')
     console.log(carerId)
@@ -53,7 +66,11 @@ async function getAssociatedUsers() {
         console.log(response)
         const data = await response.json()
         console.log(data)
-        data.forEach(renderUsers)
+        if(data.length){
+           data.forEach(renderUsers) 
+        }else{
+            renderNoUsersMessage()
+        }
     } catch (err) {
         console.warn(err);
     }
