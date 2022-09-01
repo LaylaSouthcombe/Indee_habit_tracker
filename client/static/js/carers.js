@@ -86,7 +86,22 @@ const closeSection = (sectionName) => {
         sectionName.removeChild(sectionName.lastElementChild);
     }
 }
-
+const navSection = document.getElementById("navSection")
+const navLinksDiv = document.createElement("ul")
+const usersNavLink = document.createElement("li")
+const usersLink = document.createElement("a")
+usersLink.textContent = "Users"
+usersLink.href = "./carer"
+usersNavLink.append(usersLink)
+const connectionsNavLink = document.createElement("li")
+const connectionsLink = document.createElement("a")
+connectionsLink.textContent = "Connections"
+connectionsLink.href = "./requests"
+connectionsNavLink.append(connectionsLink)
+const logoutNavLink = document.createElement("li")
+logoutNavLink.textContent = "Logout"
+navLinksDiv.append(usersNavLink, connectionsNavLink, logoutNavLink)
+navSection.append(navLinksDiv)
 
 const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay, dataLabels) => {
     console.log("dataLabels", dataLabels)

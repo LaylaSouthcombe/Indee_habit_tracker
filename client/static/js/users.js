@@ -17,6 +17,18 @@ habitTodaySection.appendChild(habitDayTitle)
 habitWeekSection.appendChild(habitWeekTitle)
 habitMonthSection.appendChild(habitMonthTitle)
 
+const navSection = document.getElementById("navSection")
+const navLinksDiv = document.createElement("ul")
+const connectionsNavLink = document.createElement("li")
+const connectionsLink = document.createElement("a")
+connectionsLink.textContent = "Connections"
+connectionsLink.href = "./requests"
+connectionsNavLink.append(connectionsLink)
+const logoutNavLink = document.createElement("li")
+logoutNavLink.textContent = "Logout"
+navLinksDiv.append(connectionsNavLink, logoutNavLink)
+navSection.append(navLinksDiv)
+
 async function decreaseCounter(e) {
     const habitId = parseInt(e.target.parentElement.id)
     const habitValue = e.target.nextElementSibling.textContent - 1
