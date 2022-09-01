@@ -76,6 +76,16 @@ module.exports = class Request {
             }
         })
     }
+    static async deleteCarerRequest(request_id){
+        return new Promise (async (resolve, reject) => {
+            try {
+                await db.query('DELETE FROM requests WHERE id = $1;', [request_id])
+                resolve("Request deleted");
+            } catch (err) {
+                reject("Error retrieving requests")
+            }
+        })
+    }
 
 //to add:
 //check status

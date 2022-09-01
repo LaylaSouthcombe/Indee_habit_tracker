@@ -51,6 +51,14 @@ console.log(requestsArea)
 
 async function deleteRequest(request) {
     console.log(request)
+    const options = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({request_id: request.id})
+    }
+    const response = await fetch(`${baseUrl}requests/delete`, options);
+    const data = await response.json()
+    console.log(data)
 }
 async function answerRequest(request, response) {
     console.log(request)
