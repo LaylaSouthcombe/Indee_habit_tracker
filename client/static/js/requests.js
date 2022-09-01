@@ -101,6 +101,14 @@ const renderRequests = (request) => {
 }
 async function addRequest(userId, resultId) {
     console.log(userId, resultId)
+    const options = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({carerId: userId, userId: resultId})
+    }
+    const response = await fetch(`${baseUrl}carers/adduser`, options);
+    const data = await response.json()
+    console.log(data)
 }
 const resultUsers = document.createElement("div")
 const closeSection = (sectionName) => {

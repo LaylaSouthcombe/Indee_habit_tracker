@@ -23,7 +23,7 @@ async function getAssociatedUsers(req, res) {
 async function addUserAsDependent(req, res) {
     try {
         // const authors = [];
-        const userNewCarerId = await User.addUserAsDependent(req.body.user_Id, req.body.carerId)
+        const userNewCarerId = await User.addUserAsDependent(req.body.userId, req.body.carerId)
         res.status(200).json(userNewCarerId);
     } catch (err) {
         res.status(500).send(err);

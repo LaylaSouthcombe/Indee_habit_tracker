@@ -193,12 +193,12 @@ module.exports = class User {
             }
         })
     }
-    static async addUserAsDependent(user_Id, carerId){
+    static async addUserAsDependent(userId, carerId){
         return new Promise (async (resolve, reject) => {
             try {
                 //update user_id to have carer_id as this id
                 //add row to requests database
-                const result = await db.query('INSERT INTO requests (user_id, carer_id) VALUES ($1, $2) RETURNING *;', [user_Id, carerId])
+                const result = await db.query('INSERT INTO requests (user_id, carer_id) VALUES ($1, $2) RETURNING *;', [userId, carerId])
                 const request = new Request(result.rows[0]);
                 resolve(request)
             }catch(err){
