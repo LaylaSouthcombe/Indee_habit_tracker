@@ -27,7 +27,7 @@ module.exports = class Request {
                 console.log("userInfo", userInfo)
                 const { userId, role } = userInfo
                 let results
-                    results = await db.query(`SELECT * FROM requests WHERE ${role}_id = $1;`, [userId])
+                    results = await db.query(`SELECT requests.id, requests.carer_id, requests.user_id, requests.date, requests.status, users.first_name, users.second_name FROM requests JOIN users ON requests.user_id = users.id WHERE requests.${role}_id = $1;`, [userId])
                 console.log(results.rows)
                 resolve(results.rows);
             } catch (err) {
