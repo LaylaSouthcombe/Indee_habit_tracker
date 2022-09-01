@@ -45,7 +45,7 @@ async function respondToCarerRequest(req, res) {
 
 async function deleteCarerRequest(req, res) {
     try {
-            let response = await Request.deleteCarerRequest(req.body.request_id)
+            let response = await Request.deleteCarerRequest(req.body.user_id, req.body.request_id)
         res.status(200).json(response);
     } catch (err) {
         res.status(500).send(err);

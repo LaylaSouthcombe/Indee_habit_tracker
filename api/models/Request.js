@@ -81,10 +81,11 @@ module.exports = class Request {
             }
         })
     }
-    static async deleteCarerRequest(request_id){
+    static async deleteCarerRequest(user_id, request_id){
         return new Promise (async (resolve, reject) => {
             try {
                 await db.query('DELETE FROM requests WHERE id = $1;', [request_id])
+                const updatedUser = await db.query(`UPDATE users SET carer_id = 0 WHERE id = $1 RETURNING *;`, [ user_id])
                 resolve("Request deleted");
             } catch (err) {
                 reject("Error retrieving requests")

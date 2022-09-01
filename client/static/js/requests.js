@@ -1,10 +1,10 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
-// const role = localStorage.getItem('role')
-const role = "user"
-// const userId = localStorage.getItem('userId')
-const userId = "4"
+const role = localStorage.getItem('role')
+// const role = "user"
+const userId = localStorage.getItem('userId')
+// const userId = "4"
 console.log(role)
 console.log(userId)
 //if role == carer, get carer requests
@@ -61,7 +61,7 @@ async function deleteRequest(request) {
     const options = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({request_id: request.id})
+        body: JSON.stringify({request_id: request.id, user_id: request.user_id})
     }
     const response = await fetch(`${baseUrl}requests/delete`, options);
     const data = await response.json()
