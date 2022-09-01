@@ -100,10 +100,14 @@ const renderRequests = (request) => {
 
 }
 async function addRequest(userId, resultId) {
-    console.log(formData)
+    console.log(userId, resultId)
 }
 const resultUsers = document.createElement("div")
-
+const closeSection = (sectionName) => {
+    while (sectionName.lastElementChild) {
+        sectionName.removeChild(sectionName.lastElementChild);
+    }
+}
 const renderResults = (result) => {
     const resultDiv = document.createElement("div")
     const resultsName = document.createElement("p")
@@ -114,13 +118,24 @@ const renderResults = (result) => {
         addRequest(userId, result.id)
     })
     resultDiv.append(resultsName, addUserBtn)
+    resultUsers.append(resultDiv)
 }
 
 async function findUser(e) {
     console.log(e.target.value)
     //append results
-    //button to add
-    
+    closeSection(resultUsers)
+    if(e.target.value !== ""){
+        const options = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({searchTerm: e.target.value})
+        }
+        const response = await fetch(`${baseUrl}users`, options);
+        const data = await response.json()
+        console.log(data)
+        data.forEach(renderResults)
+    }
 }
 
 const renderAddDependentModal = () => {
@@ -135,9 +150,11 @@ const renderAddDependentModal = () => {
     addDependentModal.append(addDependentModalTitle, userSearchBar, resultUsers)
     requestsArea.append(addDependentModal)
 }
+
 if(role === "carer"){
     addDependentBtn.addEventListener("click", renderAddDependentModal )
 }
+
 async function getRequestsData() {
     // post to requests/ userId, role
     const options = {
