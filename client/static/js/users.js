@@ -82,6 +82,7 @@ async function changeBlnValue (e) {
     } else if(e.target.className === "blnTrue"){
         habitValue = false
     }
+    console.log(habitId)
     try {
         const options = {
             method: 'PATCH',
