@@ -20,6 +20,37 @@ module.exports = class Request {
             }
         })
     };
+    static async getAllRequests(userInfo){
+        //need to change this
+        return new Promise (async (resolve, reject) => {
+            try {
+                console.log("userInfo", userInfo)
+                const { userId, role } = userInfo
+                let results
+                    results = await db.query(`SELECT * FROM requests WHERE ${role}_id = $1;`, [userId])
+                console.log(results.rows)
+                resolve(results.rows);
+            } catch (err) {
+                reject("Error retrieving requests")
+            }
+        })
+    }
+    static async addNewRequest(request_id){
+        //need to change this
+        return new Promise (async (resolve, reject) => {
+            try {
+                const result = await db.query('SELECT * FROM requests WHERE id = $1;', [request_id])
+                const carer_id = result.rows[0].carer_id
+                const user_id = result.rows[0].user_id
+                await db.query('UPDATE requests SET status = $2 WHERE id = $1;', [request_id, "accepted"])
+                const updatedUser = await db.query(`UPDATE users SET carer_id = $1 WHERE id = $2 RETURNING *;`, [ carer_id, user_id])
+                // console.log(updatedUser.rows)
+                resolve("Request accepted");
+            } catch (err) {
+                reject("Error retrieving requests")
+            }
+        })
+    }
     static async acceptCarerRequest(request_id){
         return new Promise (async (resolve, reject) => {
             try {

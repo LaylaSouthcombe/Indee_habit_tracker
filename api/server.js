@@ -56,7 +56,7 @@ async function addHabitEntryForEveryUser() {
         }
     })
 }
-
+// addHabitEntryForEveryUser()
 // const job = schedule.scheduleJob('*/1 * * * *', function(){
 //     addHabitEntryForEveryUser()
 // });
