@@ -206,7 +206,14 @@ async function renderHabits(habit) {
         habitMonthSection.style.display = "block"
     }
 }
-
+const noHabitsDiv = document.createElement("div")
+const renderNoHabitsMessage = () => {
+    const noHabitsPara1 = document.createElement("p")
+    noHabitsPara1.textContent = "You have no habits set!"
+    const noHabitsPara2 = document.createElement("p")
+    noHabitsPara2.textContent = "Contact your carer to set up some new habits for you"
+    noHabitsDiv.append(noHabitsPara1, noHabitsPara2)
+}
 async function getUsersHabits() {
     const userId = localStorage.getItem('userId')
     console.log(userId)
@@ -220,8 +227,13 @@ async function getUsersHabits() {
         console.log(response)
         const data = await response.json()
         console.log(data)
-        data.forEach(renderHabits)
-        habitsWrapper.append(habitTodaySection, habitWeekSection, habitMonthSection)
+        if(data.length){
+            data.forEach(renderHabits)
+            habitsWrapper.append(habitTodaySection, habitWeekSection, habitMonthSection) 
+        }else {
+            renderNoHabitsMessage()
+            habitsWrapper.append(noHabitsDiv)
+        }
     } catch (err) {
         console.warn(err);
     }
