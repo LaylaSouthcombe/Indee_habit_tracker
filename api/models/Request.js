@@ -27,7 +27,12 @@ module.exports = class Request {
                 console.log("userInfo", userInfo)
                 const { userId, role } = userInfo
                 let results
-                    results = await db.query(`SELECT requests.id, requests.carer_id, requests.user_id, requests.date, requests.status, users.first_name, users.second_name FROM requests JOIN users ON requests.user_id = users.id WHERE requests.${role}_id = $1;`, [userId])
+                if(role === "carer"){
+                    results = await db.query(`SELECT requests.id, requests.carer_id, requests.user_id, requests.date, requests.status, users.first_name, users.second_name FROM requests JOIN users ON requests.user_id = users.id WHERE requests.carer_id = $1;`, [userId])
+                }
+                if(role === "user"){
+                    results = await db.query(`SELECT requests.id, requests.carer_id, requests.user_id, requests.date, requests.status, carers.first_name, carers.second_name FROM requests JOIN carers ON requests.carer_id = carers.id WHERE requests.user_id = $1;`, [userId])
+                }
                 console.log(results.rows)
                 resolve(results.rows);
             } catch (err) {

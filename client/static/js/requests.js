@@ -1,9 +1,10 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
-const role = localStorage.getItem('role')
-// const role = "user"
-const userId = localStorage.getItem('userId')
+// const role = localStorage.getItem('role')
+const role = "user"
+// const userId = localStorage.getItem('userId')
+const userId = "4"
 console.log(role)
 console.log(userId)
 //if role == carer, get carer requests
@@ -71,10 +72,24 @@ async function deleteRequest(request) {
     requestsHeadingsArea.remove()
     getRequestsData()
 }
-async function answerRequest(request, response) {
+async function answerRequest(request, responseType) {
     console.log(request)
-    console.log(response)
+    console.log(responseType)
+    // responseType, request_id
+    const options = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({request_id: request.id, responseType: responseType})
+    }
+    const response = await fetch(`${baseUrl}requests/respond`, options);
+    const data = await response.json()
+    console.log(data)
     // request_id
+    closeSection(acceptedRequestsDiv)
+    acceptedHeadingsArea.remove()
+    closeSection(pendingRequestsDiv)
+    requestsHeadingsArea.remove()
+    getRequestsData()
 }
 const renderRequests = (request) => {
     const requestBox = document.createElement("div")

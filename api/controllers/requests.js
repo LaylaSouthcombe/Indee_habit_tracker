@@ -30,12 +30,11 @@ async function index(req, res) {
 
 async function respondToCarerRequest(req, res) {
     try {
-        const responseType = req.responseType
         let requests
-        if(responseType === "accept"){
+        if(req.body.responseType === "accept"){
             requests = await Request.acceptCarerRequest(req.body.request_id)
         }
-        if(responseType === "decline"){
+        if(req.body.responseType === "decline"){
             requests = await Request.declineCarerRequest(req.body.request_id)
         }
         res.status(200).json(requests);
