@@ -173,21 +173,28 @@ module.exports = class User {
         // console.log("user model searchText", searchText)
         return new Promise (async (resolve, reject) => {
             try {
-                let users;
-                console.log(searchText)
+                let initialUsers;
                 if(searchText.indexOf(" ") !== -1){
                     let spaceIndex = searchText.indexOf(" ")
                     let firstTerm = searchText.slice(0, spaceIndex)
+                    //add in requests table to search if request exists between user and carer
                     let secondTerm = searchText.slice(spaceIndex + 1, searchText.length)
-                    const result = await db.query('SELECT * FROM users WHERE (first_name ILIKE $1 OR first_name ILIKE $2 OR second_name ILIKE $1 OR second_name ILIKE $2 OR email ILIKE $1 OR email ILIKE $2) AND  carer_id = 0;', [ firstTerm, secondTerm, 1]);
-                    users = result.rows
+                    const result = await db.query('SELECT * FROM users WHERE (first_name ILIKE $1 OR first_name ILIKE $2 OR second_name ILIKE $1 OR second_name ILIKE $2 OR email ILIKE $1 OR email ILIKE $2) AND carer_id = 0;', [ firstTerm, secondTerm ]);
+                    initialUsers = result.rows
                 }if(searchText.indexOf(" ") === -1){
                     const percentSign = "%"
                     const newSearchTerm = searchText.concat(percentSign)
-                    const result = await db.query('SELECT * FROM users WHERE (first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1) AND carer_id = 0;', [ newSearchTerm]);
-                    users = result.rows
+                    const result = await db.query('SELECT * FROM users WHERE (first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1) AND carer_id = 0;', [ newSearchTerm ]);
+                    initialUsers = result.rows
                 }
-                // console.log("user model users", users)
+                let users = []
+                for(let i = 0; i < initialUsers.length; i++){
+                    let elimintedUser = await db.query('SELECT * FROM requests WHERE user_id = $1 AND carer_id = $2;', [ initialUsers[i].id, carerId ]);
+                    console.log(elimintedUser.rows.length)
+                    if(elimintedUser.rows.length === 0){
+                        users.push(initialUsers[i])
+                    }
+                }
                 resolve(users)
             }catch(err){
                 reject("Error finding users");
