@@ -4,18 +4,40 @@ const baseClientUrl = "http://localhost:8080/"
 const usersWrapper = document.querySelector(".usersWrapper")
 const userSummaryModal = document.getElementById("userSummaryModal")
 const userSummaryPage = document.getElementById("userSummaryPage")
+
+let habits
+let metrics
+let userId
+
+const habitTodaySection = document.createElement("div")
+const habitWeekSection = document.createElement("div")
+const habitMonthSection = document.createElement("div")
+habitTodaySection.style.display = "none"
+habitWeekSection.style.display = "none"
+habitMonthSection.style.display = "none"
+
+const habitsSummarySection = document.createElement("div")
+const metricsSummarySection = document.createElement("div")
+const metricsWeekSection = document.createElement("div")
+const metricsMonthSection = document.createElement("div")
+const metricsAllTimeSection = document.createElement("div")
+metricsWeekSection.className = "metricsWeekSection"
+metricsMonthSection.className = "metricsMonthSection"
+metricsAllTimeSection.className = "metricsAllTimeSection"
+
+const editCreateHabitModal = document.createElement("div")
+
 Chart.register(ChartDataLabels);
 function setAttributes(element, attributes) {
     Object.keys(attributes).forEach(attr => {
       element.setAttribute(attr, attributes[attr]);
     });
 }
-let userId
 
 const renderUsers = (user) => {
-    console.log(user)
     const userBox = document.createElement("div")
     userBox.id = user.user_id
+    userBox.className = "userToplineSummary"
 
     const usersName = document.createElement("p")
     usersName.textContent = `${user.userFirstName} ${user.userSecondName}`
@@ -39,6 +61,7 @@ const renderUsers = (user) => {
 
     userBox.addEventListener("click", getUserSummary)
 }
+
 const renderNoUsersMessage = () =>{
     const noUsersMessage = document.createElement("div")
     const noUsersMessagePara1 = document.createElement("p")
@@ -77,25 +100,7 @@ async function getAssociatedUsers() {
 }
 getAssociatedUsers()
 
-let habits
-let metrics
-const habitTodaySection = document.createElement("div")
-const habitWeekSection = document.createElement("div")
-const habitMonthSection = document.createElement("div")
-habitTodaySection.style.display = "none"
-habitWeekSection.style.display = "none"
-habitMonthSection.style.display = "none"
 
-
-const habitsSummarySection = document.createElement("div")
-const metricsSummarySection = document.createElement("div")
-const metricsWeekSection = document.createElement("div")
-const metricsMonthSection = document.createElement("div")
-const metricsAllTimeSection = document.createElement("div")
-metricsWeekSection.className = "metricsWeekSection"
-metricsMonthSection.className = "metricsMonthSection"
-metricsAllTimeSection.className = "metricsAllTimeSection"
-const editCreateHabitModal = document.createElement("div")
 
 const closeSection = (sectionName) => {
     sectionName.style.display = "none"
@@ -127,7 +132,6 @@ navLinksDiv.append(usersNavLink, connectionsNavLink, logoutNavLink)
 navSection.append(navLinksDiv)
 
 const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay, dataLabels) => {
-    console.log("dataLabels", dataLabels)
     let graphValues = []
     let graphColors = []
     let graphBorders = []
@@ -302,8 +306,7 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
 }
 
 const renderHabitBoxes = (habit) => {
-    // console.log(habit)
-    
+
     const habitBox = document.createElement("div")
     habitBox.classList.add("habitBox")
 
@@ -390,6 +393,17 @@ const renderHabitBoxes = (habit) => {
     }
 }
 
+const noHabitsDiv = document.createElement("div")
+const renderNoHabitsMessage = () => {
+    noHabitsDiv.style.display = "block"
+    const noHabitsPara1 = document.createElement("p")
+    noHabitsPara1.textContent = "This user has no habits set!"
+    const noHabitsPara2 = document.createElement("p")
+    noHabitsPara2.textContent = "Click the create habit button to create some for them"
+    noHabitsDiv.append(noHabitsPara1, noHabitsPara2)
+    userSummaryPage.append(noHabitsDiv)
+}
+
 async function getUserHabitsSummary(userId) {
     try {
         const options = {
@@ -412,7 +426,11 @@ async function getUserHabitsSummary(userId) {
         habitTodaySection.appendChild(habitDayTitle)
         habitWeekSection.appendChild(habitWeekTitle)
         habitMonthSection.appendChild(habitMonthTitle)
-        data.forEach(renderHabitBoxes)
+        if(data.length){
+            data.forEach(renderHabitBoxes)
+        }else {
+            renderNoHabitsMessage()
+        }
     } catch (err) {
         console.warn(err);
     }
@@ -429,8 +447,7 @@ async function getWeekData() {
     }
     const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
     const allHabitsData = await allHabitsResponse.json()
-    
-    //for each for habits array (add summary in first, then each habit after)
+    console.log(allHabitsData)
     const individualHabitsOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -538,8 +555,8 @@ const removeUserPage = (e) =>{
     closeSection(habitMonthSection)
     closeSection(habitsSummarySection)
     closeSection(metricsSummarySection)
+    closeSection(noHabitsDiv)
     history.back()
-    console.log("remove page and redirect")
 }
 
 const openHabitsSection = () => {
@@ -583,14 +600,16 @@ async function renderUserSummaryPage(userId) {
     userSummaryPageTopSection.append(backBtn, usersName, createHabitDiv)
     //habits/metrics area
     const habitsMetricsTitleDiv = document.createElement("div")
-    
+    habitsMetricsTitleDiv.className = "habitsMetricsTitleDiv"
     const habitsTitleDiv = document.createElement("div")
+    habitsTitleDiv.className = "habitsTitleDiv"
     const habitsTitle = document.createElement("p")
     habitsTitle.textContent = "habits"
     habitsTitleDiv.append(habitsTitle)
     habitsTitleDiv.addEventListener("click", openHabitsSection)
     
     const metricsTitleDiv = document.createElement("div")
+    metricsTitleDiv.className = "metricsTitleDiv"
     const metricsTitle = document.createElement("p")
     metricsTitle.textContent = "metrics"
     metricsTitleDiv.append(metricsTitle)
@@ -881,6 +900,7 @@ const seeMoreUserInfo = (e) => {
 
 async function getUserSummary(e) {
     closeSection(userSummaryModal)
+    userSummaryModal.className = "userSummaryModal"
     if(e.target.type !== "submit") {
     console.log("summary")
     //TODO: add in if to check if userId = e.parent...
