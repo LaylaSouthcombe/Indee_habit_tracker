@@ -1,0 +1,41 @@
+@import "nav.css";
+
+* { box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif;}
+
+html { 
+    height: 100%;
+    margin: 0;
+}
+
+a { text-decoration: none; }
+
+body {
+    display: grid;
+    grid-template-areas: 
+    "nav"
+    "main"
+    "footer";
+    grid-template-rows: 10vh 80vh 10vh;
+    position: fixed;
+    width: 100vw;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+
+main {
+    padding: 10px 0;
+    width: 100vw;
+    /* height: 100%; */
+    margin: 0 auto;
+    grid-gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    z-index: -1;
+    text-align: center;
+    grid-area: main;
+    background-color: rgba(205, 205, 245, 0.2);
+}
