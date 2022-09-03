@@ -4,7 +4,10 @@ const habitsWrapper = document.querySelector(".habitsWrapper")
 
 //if logged in and role === user
 //else render you are not logged in message
-
+const logo = document.getElementById("logo")
+logo.addEventListener("click", () => {
+    window.location.href = baseClientUrl
+})
 
 const habitTodaySection = document.createElement("div")
 const habitWeekSection = document.createElement("div")

@@ -3,7 +3,10 @@ const baseClientUrl = "http://localhost:8080/"
 
 //if logged in and role === carer || role === user
 //else render you are not logged in message
-
+const logo = document.getElementById("logo")
+logo.addEventListener("click", () => {
+    window.location.href = baseClientUrl
+})
 const role = localStorage.getItem('role')
 // const role = "user"
 const userId = localStorage.getItem('userId')
@@ -17,31 +20,38 @@ const closeSection = (sectionName) => {
         sectionName.removeChild(sectionName.lastElementChild);
     }
 }
+
 const navSection = document.getElementById("navSection")
-const navLinksDiv = document.createElement("ul")
+const navBtn = document.querySelector(".navBtn")
+
+navBtn.addEventListener("click", () => {
+    const navLinksDiv = document.querySelector(".navLinksDiv")
+    if(navLinksDiv.style.display === "block"){
+        navLinksDiv.style.display = "none"
+    }else {
+        navLinksDiv.style.display = "block"
+    }
+})
+
+const navLinksList = document.querySelector(".navLinks")
 const usersNavLink = document.createElement("li")
 const usersLink = document.createElement("a")
-usersLink.textContent = "Users"
+
+usersLink.textContent = "Indees"
 usersLink.href = "./carer"
+usersNavLink.className = "linkColor"
 usersNavLink.append(usersLink)
-const connectionsNavLink = document.createElement("li")
-const connectionsLink = document.createElement("a")
-connectionsLink.textContent = "Connections"
-connectionsLink.href = "./requests"
-connectionsNavLink.append(connectionsLink)
+
+
 const logoutNavLink = document.createElement("li")
 logoutNavLink.textContent = "Logout"
+logoutNavLink.className = "linkColor"
 const logUserOut = () => {
-    console.log("log me out pls")
     localStorage.clear()
     window.location.href = baseClientUrl
 }
 logoutNavLink.addEventListener("click", logUserOut)
-if(role === "carer"){
-navLinksDiv.append(usersNavLink)
-}
-navLinksDiv.append(connectionsNavLink, logoutNavLink)
-navSection.append(navLinksDiv)
+navLinksList.append(usersNavLink, logoutNavLink)
 
 const requestsArea = document.getElementById("requestsArea")
 const addDependentBtn = document.createElement("button")

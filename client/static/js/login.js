@@ -5,7 +5,10 @@ const homeSection = document.getElementById("home")
 homeSection.addEventListener("click", () => {
     window.location.href = baseClientUrl
 })
-
+const logo = document.getElementById("logo")
+logo.addEventListener("click", () => {
+    window.location.href = baseClientUrl
+})
 const loginFormSection = document.querySelector('.loginFormSection');
 const registerFormSection = document.querySelector('.registerFormSection');
 const switchToRegister = document.querySelector(".switchToRegister");

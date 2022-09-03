@@ -3,7 +3,10 @@ const baseClientUrl = "http://localhost:8080/"
 
 //if logged in and role === carer
 //else render you are not logged in message
-
+const logo = document.getElementById("logo")
+logo.addEventListener("click", () => {
+    window.location.href = baseClientUrl
+})
 const usersWrapper = document.querySelector(".usersWrapper")
 const userSummaryModal = document.getElementById("userSummaryModal")
 const userSummaryPage = document.getElementById("userSummaryPage")
@@ -129,13 +132,6 @@ navBtn.addEventListener("click", () => {
 })
 
 const navLinksList = document.querySelector(".navLinks")
-const usersNavLink = document.createElement("li")
-const usersLink = document.createElement("a")
-
-usersLink.textContent = "Indees"
-usersLink.href = "./carer"
-usersNavLink.className = "linkColor"
-usersNavLink.append(usersLink)
 
 const connectionsNavLink = document.createElement("li")
 connectionsNavLink.className = "linkColor"
@@ -153,7 +149,7 @@ const logUserOut = () => {
     window.location.href = baseClientUrl
 }
 logoutNavLink.addEventListener("click", logUserOut)
-navLinksList.append(usersNavLink, connectionsNavLink, logoutNavLink)
+navLinksList.append(connectionsNavLink, logoutNavLink)
 
 const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay, dataLabels) => {
     let graphValues = []
