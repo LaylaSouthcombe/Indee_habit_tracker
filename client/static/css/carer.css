@@ -29,3 +29,41 @@ main {
     border-radius: 10px;
     border: none;
 }
+
+.usersWrapper {
+    width: 85%;
+    margin: 0 auto;
+}
+.userToplineSummary {
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 15px;
+    margin: 10px 0px;
+    padding: 5px 15px;
+    align-items: center;
+}
+.userToplineSummary > p:nth-child(1){
+    margin-right: auto;
+}
+.userToplineSummary > div {
+    margin-right: 5px;
+    margin-left: 60px;
+    height: 15%;
+    
+    font-size: 1.45rem;
+}
+.userToplineSummary > p:nth-child(2)::after{
+    content: "%";
+}
+.userToplineSummary > p {
+    font-size: 1.15rem;
+    margin-top: 12.5px;
+    margin-bottom: 12.5px;
+}
+.moreUserInfoBtn {
+    display: flex;
+    align-items: center;
+}
+.moreUserIcon {
+    width: 30px;
+}

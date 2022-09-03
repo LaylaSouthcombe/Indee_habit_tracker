@@ -52,16 +52,21 @@ const renderUsers = (user) => {
     userCompletedPercent.textContent = Math.floor(user.percentCompleted)
 
     if(user.percentCompleted < 50){
-        userBox.style.backgroundColor = "red"
+        userBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
     } else if (user.percentCompleted >= 50 && user.percentCompleted < 75){
-        userBox.style.backgroundColor = "orange"
+        userBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
     } else if (user.percentCompleted >= 100){
-        userBox.style.backgroundColor = "green"
+        userBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
     }
 
-    const moreUserInfoBtn = document.createElement("button")
+    const moreUserInfoBtn = document.createElement("div")
+    const moreUserIcon = document.createElement("img")
+    moreUserIcon.src = "./static/images/ellipsis.png"
+    moreUserInfoBtn.className = "moreUserInfoBtn"
+    moreUserInfoBtn.append(moreUserIcon)
+    console.log(moreUserIcon)
+    moreUserIcon.className = "moreUserIcon"
     moreUserInfoBtn.addEventListener("click", seeMoreUserInfo)
-    moreUserInfoBtn.textContent = "..."
     userBox.append(usersName, userCompletedPercent, moreUserInfoBtn)
     usersWrapper.append(userBox)
 
