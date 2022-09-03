@@ -1,6 +1,9 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
+//if logged in and role === carer
+//else render you are not logged in message
+
 const usersWrapper = document.querySelector(".usersWrapper")
 const userSummaryModal = document.getElementById("userSummaryModal")
 const userSummaryPage = document.getElementById("userSummaryPage")

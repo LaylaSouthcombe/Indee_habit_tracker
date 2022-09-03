@@ -15,7 +15,8 @@
     <meta property="twitter:title" content="The Reading Room" />
     <meta property="twitter:image" content="http://res.cloudinary.com/getfutureproof/image/upload/v1594748755/fp_logo_on_stars.png" />
     <meta property="twitter:image:alt" content="futureproof logo" /> -->
-    <link rel="stylesheet" href="static/css/index.css">
+    <!-- <link rel="stylesheet" href="static/css/index.css"> -->
+    <link rel="stylesheet" href="static/css/layout.css">
     <link rel="stylesheet" href="static/css/login.css">
 </head>
 <body>
@@ -30,6 +31,11 @@
     </nav>
     <main>
         <div class="loginFormSection">
+            <p class="welcome">Welcome back!</p>
+            <p class="login">Login to continue</p>
+            <div class="loginImg">
+                <img src="./static/images/growth.png" alt="">
+            </div>
             <form action="">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="loginEmail" required>
@@ -37,9 +43,14 @@
                 <input type="password" name="password" id="loginPassword" required>
                 <input type="submit" value="Login" id="loginBtn">
             </form>
-            <button class="switchToRegister">Don't have an account?</button>
+            <button class="switchToRegister">Create an account</button>
         </div>
         <div class="registerFormSection">
+            <p class="welcome">Welcome!</p>
+            <p class="login">Login to get started</p>
+            <div class="loginImg">
+                <img src="./static/images/growth.png" alt="">
+            </div>
             <form action="">
                 <label for="fname">First name</label>
                 <input type="text" name="fname" id="registerFname" required>
@@ -49,13 +60,36 @@
                 <input type="email" name="email" id="registerEmail" required>
                 <label for="password">Password</label>
                 <input type="password" name="password" id="registerPassword" required>
-                <label for="userRole">User</label>
-                <input type="radio" name="role" id="userRole" value="user" required>
-                <label for="carerRole">Carer</label>
-                <input type="radio" name="role" id="carerRole" value="carer">
+                <!-- <div class="userRoleParentDiv">
+                    <p>Account type:</p>
+                    <div class="userRoleDiv">
+                        <input type="radio" name="role" id="userRole" value="user" checked required>
+                        <label for="userRole"><div class="dot"></div><span>User</span></label>
+                    </div>
+                    <div class="carerRoleDiv">
+                        
+                        <input type="radio" name="role" id="carerRole" value="carer">
+                        <label for="carerRole">
+                            <div class="dot"></div>
+                            <span>Carer</span></label>
+                    </div>
+                </div> -->
+                <div class="userRoleParentDiv">
+                    <p>Account type</p>
+                    <input type="radio" name="role" id="userRole" value="user" checked required>
+                    <input type="radio" name="role" id="carerRole" value="carer">
+                    <label for="userRole" class="option userRole">
+                        <div class="dot"></div>
+                        <span>Indee</span>
+                    </label>
+                    <label for="carerRole" class="option carerRole">
+                        <div class="dot"></div>
+                        <span>Carer</span>
+                    </label>
+                </div>
                 <input type="submit" value="Register" id="registerBtn">
             </form>
-            <button class="switchToLogin">Already have an account?</button>
+            <button class="switchToLogin">Login</button>
         </div>
     </main>
 

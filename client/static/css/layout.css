@@ -1,0 +1,58 @@
+@import "nav.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --left-bg-color: rgba(87, 84, 236, 0.7);
+    --right-bg-color: rgba(43, 43, 43, 0.8);
+    --left-btn-hover-color: rgba(87, 84, 236, 1);
+    --right-btn-hover-color: rgba(28, 122, 28, 1);
+    --hover-width: 75%;
+    --other-width: 25%;
+    --speed: 1000ms;
+    --primary: #FFFFFF;
+    --secondary: rgb(5,2,25);
+    --accent:   #312259;
+    --text-primary: var(--primary);
+    --text-secondary: var(--secondary);
+    --text-accent:  var(--primary);
+    --font-primary: 'Montserrat', sans-serif;
+    --font-accent: 'Quicksand', sans-serif;;
+    --opacity: rgba(255,255,255,0.3);
+}
+
+* { box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif;}
+
+html { 
+    height: 100%;
+    margin: 0;
+}
+
+a { text-decoration: none; }
+
+body {
+    display: grid;
+    grid-template-areas: 
+    "nav"
+    "main"
+    "footer";
+    grid-template-rows: 10vh 85vh 5vh;
+    position: fixed;
+    width: 100vw;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+main {
+    padding: 10px 0;
+    width: 100vw;
+    /* height: 100%; */
+    margin: 0 auto;
+    z-index: -1;
+    grid-area: main;
+    background-color: rgba(205, 205, 245, 0.2);
+}

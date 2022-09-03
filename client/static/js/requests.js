@@ -1,6 +1,9 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
+//if logged in and role === carer || role === user
+//else render you are not logged in message
+
 const role = localStorage.getItem('role')
 // const role = "user"
 const userId = localStorage.getItem('userId')

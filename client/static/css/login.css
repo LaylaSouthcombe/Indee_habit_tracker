@@ -3,11 +3,202 @@
 .registerFormSection {
     display: none;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+
 #home {
     width: 12.5%;
     margin-right: 30px;
     margin-top: 10px;
-  }
-  #home > img{
+}
+
+#home > img{
     width: 100%;
-  }
+}
+
+.loginImg {
+    width: 40%;
+    margin: 30px auto;
+}
+.loginImg > img {
+    width: 100%;
+}
+
+.loginFormSection,
+.registerFormSection {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.welcome {
+    text-align: left;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: rgba(43, 43, 43, 0.9);
+}
+
+.login {
+    text-align: left;
+    font-size: 1.3rem;
+    margin-top: 5px;
+    color: rgba(43, 43, 43, 0.6);
+}
+
+.loginFormSection > form {
+    display: grid;
+    grid-template-areas:
+    "emailLabel",
+    "emailInput",
+    "passwordLabel",
+    "passwordInput",
+    "loginBtn";
+    width: 100%;
+    text-align: left;
+}
+
+.registerFormSection > form {
+    display: grid;
+    grid-template-areas:
+    "fnameLabel",
+    "fnameInput",
+    "snameLabel",
+    "snameInput"
+    "emailLabel",
+    "emailInput",
+    "passwordLabel",
+    "passwordInput",
+    "roleInputs"
+    "loginBtn";
+    width: 100%;
+    text-align: left;
+}
+
+.loginFormSection > form > label,
+.registerFormSection > form > label {
+    color: rgba(43, 43, 43, 0.6);
+    margin-bottom: 8px;
+}
+
+.loginFormSection > form > input[type="email"],
+.loginFormSection > form > input[type="password"],
+.registerFormSection > form > input[type="email"],
+.registerFormSection > form > input[type="password"],
+.registerFormSection > form > input[type="text"]{
+    margin-bottom: 12px;
+    border: none;
+    background-color: rgba(205, 205, 245, 0);
+    border-bottom: 1px solid rgba(43, 43, 43, 0.6);
+    font-size: 1.1rem;
+}
+
+.loginFormSection > form > input[type="submit"],
+.registerFormSection > form > input[type="submit"]{
+    width: 75%;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 1rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.switchToRegister,
+.switchToLogin {
+    background-color: rgba(169, 169, 217, 0.3);
+    color: rgb(87, 84, 236);
+    border: none;
+    outline: none;
+    width: 75%;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.userRoleParentDiv .option{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 2.5px 10px;
+    border: 2px solid lightgrey;
+    transition: all 0.3s ease;
+}
+
+.userRoleParentDiv{
+    display: inline-flex;
+    height: 40px;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 5px;
+    color: rgba(43, 43, 43, 0.6);
+    font-size: 1.1rem;
+}
+
+.userRoleParentDiv > p {
+    white-space: nowrap;
+    margin-right: auto;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    background: #d9d9d9;
+    border-radius: 50%;
+    position: relative;
+    margin-right: 5px;
+}
+
+.dot::before{
+    position: absolute;
+    content: "";
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    background: rgb(87, 84, 236);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(1.5);
+    transition: all 0.3s ease;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+#userRole:checked:checked ~ .userRole,
+#carerRole:checked:checked ~ .carerRole{
+    border-color: rgb(87, 84, 236);
+    background: rgb(87, 84, 236);
+}
+
+#userRole:checked:checked ~ .userRole .dot,
+#carerRole:checked:checked ~ .carerRole .dot{
+    background: #fff;
+}
+
+#userRole:checked:checked ~ .userRole .dot::before,
+#carerRole:checked:checked ~ .carerRole .dot::before{
+    opacity: 1;
+    transform: scale(1);
+}
+
+.userRoleParentDiv .option span{
+    color: rgba(43, 43, 43, 0.6);
+}
+
+#userRole:checked:checked ~ .userRole span,
+#carerRole:checked:checked ~ .carerRole span{
+    color: #fff;
+}
+

@@ -2,6 +2,10 @@ const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 const habitsWrapper = document.querySelector(".habitsWrapper")
 
+//if logged in and role === user
+//else render you are not logged in message
+
+
 const habitTodaySection = document.createElement("div")
 const habitWeekSection = document.createElement("div")
 const habitMonthSection = document.createElement("div")
