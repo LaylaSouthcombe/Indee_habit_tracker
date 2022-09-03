@@ -223,9 +223,10 @@ async function addRequest(userId, resultId, addDependentModal) {
     getRequestsData()
 }
 
-
+resultUsers.className = "resultUsers"
 const renderResults = (result, addDependentModal) => {
     const resultDiv = document.createElement("div")
+    resultDiv.className = "resultDiv"
     const resultsName = document.createElement("p")
     resultsName.textContent = `${result.first_name} ${result.second_name}`
     const addUserBtn = document.createElement("button")
@@ -257,23 +258,29 @@ async function findUser(e, addDependentModal) {
 }
 
 const renderAddDependentModal = () => {
-    const addDependentModal = document.createElement("div")
-    const closeAddDependentModal = document.createElement("span")
-    closeAddDependentModal.textContent = "X"
-    closeAddDependentModal.addEventListener("click", () => {
-        addDependentModal.remove()
-    })
-    const addDependentModalTitle = document.createElement("p")
-    addDependentModalTitle.textContent = "Add new dependent"
-    const userSearchBar = document.createElement("input")
-    userSearchBar.type = "search"
-    userSearchBar.id = "userSearch"
-    userSearchBar.name = "userSearch"
-    userSearchBar.addEventListener("input", (e)=>{
-       findUser(e, addDependentModal)
-    })
-    addDependentModal.append(addDependentModalTitle, closeAddDependentModal,userSearchBar, resultUsers)
-    requestsArea.append(addDependentModal)
+    const potentialDiv = document.querySelector(".addDependentModal")
+    if(!potentialDiv){
+        const addDependentModal = document.createElement("div")
+        addDependentModal.className = "addDependentModal"
+        const closeAddDependentModal = document.createElement("span")
+        closeAddDependentModal.textContent = "X"
+        closeAddDependentModal.addEventListener("click", () => {
+            addDependentModal.remove()
+        })
+        const addDependentModalTitle = document.createElement("h3")
+        addDependentModalTitle.textContent = "Add a new Indee"
+        const addDependentModalPara = document.createElement("p")
+        addDependentModalPara.textContent = "Search by name or email"
+        const userSearchBar = document.createElement("input")
+        userSearchBar.type = "search"
+        userSearchBar.id = "userSearch"
+        userSearchBar.name = "userSearch"
+        userSearchBar.addEventListener("input", (e)=>{
+           findUser(e, addDependentModal)
+        })
+        addDependentModal.append(addDependentModalTitle, closeAddDependentModal,addDependentModalPara, userSearchBar, resultUsers)
+        requestsArea.append(addDependentModal)
+    }
 }
 
 if(role === "carer"){
