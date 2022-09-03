@@ -79,15 +79,19 @@ const pendingRequestsDiv = document.createElement("div")
 const acceptedRequestsDiv = document.createElement("div")
 const requestsHeadingsArea = document.createElement("div")
 const acceptedHeadingsArea = document.createElement("div")
-const nameHeading = document.createElement("p")
-nameHeading.textContent = "Name"
+requestsHeadingsArea.className = "requestsHeadingsArea"
+acceptedHeadingsArea.className = "acceptedHeadingsArea"
+const nameHeading1 = document.createElement("p")
+nameHeading1.textContent = "Name"
+const nameHeading2 = document.createElement("p")
+nameHeading2.textContent = "Name"
 const dateSent = document.createElement("p")
 dateSent.textContent = "Date sent"
 const dateAccepted = document.createElement("p")
 dateAccepted.textContent = "Date accepted"
-requestsHeadingsArea.append(nameHeading, dateSent)
+requestsHeadingsArea.append(nameHeading1, dateSent)
 requestsHeadingsArea.style.display = "none"
-acceptedHeadingsArea.append(nameHeading, dateAccepted)
+acceptedHeadingsArea.append(nameHeading2, dateAccepted)
 acceptedHeadingsArea.style.display = "none"
 pendingArea.append(pendingTitle, pendingRequestsEmptyPara, requestsHeadingsArea, pendingRequestsDiv)
 acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsArea, acceptedRequestsDiv)
@@ -156,9 +160,9 @@ async function answerRequest(request, responseType) {
     console.log(data)
     // request_id
     closeSection(acceptedRequestsDiv)
-    acceptedHeadingsArea.remove()
+    acceptedHeadingsArea.style.display = "none"
     closeSection(pendingRequestsDiv)
-    requestsHeadingsArea.remove()
+    requestsHeadingsArea.style.display = "none"
     getRequestsData()
 }
 const renderRequests = (request) => {
@@ -167,7 +171,7 @@ const renderRequests = (request) => {
     namePara.textContent = `${request.first_name} ${request.second_name}`
     const datePara = document.createElement("p")
     datePara.textContent = `${request.date.slice(8,10)}-${request.date.slice(5,7)}-${request.date.slice(0,4)}`
-    
+    requestBox.className = "requestBox"
     requestBox.append(namePara, datePara)
     if(role === "carer" || (role === "user" && request.status === "accepted")){
         const deleteConnectionBtn = document.createElement("button")
@@ -176,6 +180,7 @@ const renderRequests = (request) => {
             openDeleteWarning(request)
         })
         requestBox.append(deleteConnectionBtn)
+        requestsHeadingsArea.style.display = "flex"
     }
     if(role === "user" && request.status === "pending"){
         const declineConnectionBtn = document.createElement("button")
@@ -189,19 +194,18 @@ const renderRequests = (request) => {
             answerRequest(request, "accept")
         })
         requestBox.append(declineConnectionBtn, acceptConnectionBtn)
+        acceptedHeadingsArea.style.display = "flex"
     }
     if(request.status === "pending"){
         pendingRequestsDiv.append(requestBox)
         pendingRequestsEmptyPara.style.display = "none"
-        requestsHeadingsArea.style.display = "block"
+        requestsHeadingsArea.style.display = "flex"
     }
     if(request.status === "accepted"){
         acceptedRequestsDiv.append(requestBox)
         acceptedRequestsEmptyPara.style.display = "none"
-        acceptedHeadingsArea.style.display = "block"
+        acceptedHeadingsArea.style.display = "flex"
     }
-    
-
 }
 const resultUsers = document.createElement("div")
 async function addRequest(userId, resultId, addDependentModal) {

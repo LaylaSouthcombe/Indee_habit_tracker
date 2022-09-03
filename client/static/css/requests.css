@@ -73,7 +73,6 @@ main {
 .acceptedArea > h3 {
     text-align: left;
     display: inline;
-    
     border-bottom: 2px solid rgba(132, 132, 202, 0.7);
 }
 .pendingArea > p,
@@ -93,7 +92,6 @@ main {
     margin-left: auto;
     width: 95%;
     background-color: rgb(103, 101, 231);
-
     z-index: 100;
     display: grid;
     grid-template-areas: 
@@ -162,4 +160,32 @@ main {
     border: none;
     outline: none;
     border-radius: 5px;
+}
+.requestBox {
+    /* text-align: center; */
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: rgba(132, 132, 202, 0.2);
+    border-radius: 15px;
+    align-items: center;
+}
+.requestBox > button {
+    height: 50%;
+    padding: 5px 7.5px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    background-color: rgb(103, 101, 231);
+    color: white;
+}
+.requestsHeadingsArea {
+    display: flex;
+}
+.requestsHeadingsArea > p:nth-child(1){
+    margin-left: 20px;
+    margin-right: 50px;
+}
+.requestsHeadingsArea > p {
+    border-bottom: 2px solid rgba(205, 205, 245, 0.8);
 }
