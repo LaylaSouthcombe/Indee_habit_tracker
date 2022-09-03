@@ -38,10 +38,12 @@ const usersNavLink = document.createElement("li")
 const usersLink = document.createElement("a")
 
 usersLink.textContent = "Indees"
-usersLink.href = "./carer"
+// usersLink.href = "./carer"
 usersNavLink.className = "linkColor"
 usersNavLink.append(usersLink)
-
+usersNavLink.addEventListener("click", () => {
+    window.location.href = `${baseClientUrl}carer`
+})
 
 const logoutNavLink = document.createElement("li")
 logoutNavLink.textContent = "Logout"

@@ -73,7 +73,7 @@ const renderNoUsersMessage = () =>{
     noUsersMessage.className = "noUsersMessage"
     const noUsersMessageParas = document.createElement("div")
     const noUsersMessagePara1 = document.createElement("p")
-    noUsersMessagePara1.textContent = "You have no associated users yet!"
+    noUsersMessagePara1.textContent = "You have no associated Indees yet!"
     const noUsersMessagePara2 = document.createElement("p")
     noUsersMessagePara2.textContent = "Navigate to the connections page to get started"
     const takeMeThereBtn = document.createElement("button")
@@ -137,7 +137,7 @@ const connectionsNavLink = document.createElement("li")
 connectionsNavLink.className = "linkColor"
 const connectionsLink = document.createElement("a")
 connectionsLink.textContent = "Connections"
-connectionsLink.href = "./requests"
+// connectionsLink.href = "./requests"
 connectionsNavLink.append(connectionsLink)
 
 const logoutNavLink = document.createElement("li")
@@ -150,6 +150,9 @@ const logUserOut = () => {
 }
 logoutNavLink.addEventListener("click", logUserOut)
 navLinksList.append(connectionsNavLink, logoutNavLink)
+connectionsNavLink.addEventListener("click", () => {
+    window.location.href = `${baseClientUrl}requests`
+})
 
 const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay, dataLabels) => {
     let graphValues = []

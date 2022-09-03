@@ -30,7 +30,10 @@ const navLinksDiv = document.createElement("ul")
 const connectionsNavLink = document.createElement("li")
 const connectionsLink = document.createElement("a")
 connectionsLink.textContent = "Connections"
-connectionsLink.href = "./requests"
+// connectionsLink.href = "./requests"
+connectionsNavLink.addEventListener("click", () => {
+    window.location.href = `${baseClientUrl}requests`
+})
 connectionsNavLink.append(connectionsLink)
 const logoutNavLink = document.createElement("li")
 logoutNavLink.textContent = "Logout"
