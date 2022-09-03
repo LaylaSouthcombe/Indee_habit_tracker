@@ -42,3 +42,8 @@ footer a { color: var(--text-accent); }
 #login > img{
   width: 100%;
 }
+
+#contact > p {
+  margin: 0;
+  padding: 0;
+}
