@@ -39,3 +39,44 @@ main {
     grid-area: main;
     background-color: rgba(205, 205, 245, 0.2);
 }
+
+
+#requestsArea {
+    width: 85%;
+    margin: 0 auto;
+    text-align: right;
+}
+
+#requestsArea > button {
+    width: 15%;
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 10px;
+    border: none;
+}
+
+.pendingArea,
+.acceptedArea {
+    text-align: left;
+    margin-bottom: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.pendingArea > h3,
+.acceptedArea > h3 {
+    text-align: left;
+    display: inline;
+    
+    border-bottom: 2px solid rgba(132, 132, 202, 0.7);
+}
+.pendingArea > p,
+.acceptedArea > p {
+    text-align: center;
+    padding: 15px;
+    background-color: rgba(132, 132, 202, 0.2);
+    border-radius: 15px;
+}

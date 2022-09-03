@@ -63,9 +63,11 @@ if(role === "carer"){
 }
 
 const pendingArea = document.createElement("div")
+pendingArea.className = "pendingArea"
 const pendingTitle = document.createElement("h3")
 pendingTitle.textContent = "Pending"
 const acceptedArea = document.createElement("div")
+acceptedArea.className = "acceptedArea"
 const acceptedTitle = document.createElement("h3")
 acceptedTitle.textContent = "Accepted"
 const pendingRequestsEmptyPara = document.createElement("p")
