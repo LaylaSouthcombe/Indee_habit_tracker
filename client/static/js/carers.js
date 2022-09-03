@@ -67,16 +67,20 @@ const renderUsers = (user) => {
 
 const renderNoUsersMessage = () =>{
     const noUsersMessage = document.createElement("div")
+    noUsersMessage.className = "noUsersMessage"
+    const noUsersMessageParas = document.createElement("div")
     const noUsersMessagePara1 = document.createElement("p")
     noUsersMessagePara1.textContent = "You have no associated users yet!"
     const noUsersMessagePara2 = document.createElement("p")
     noUsersMessagePara2.textContent = "Navigate to the connections page to get started"
     const takeMeThereBtn = document.createElement("button")
     takeMeThereBtn.textContent = "Take me there!"
+    takeMeThereBtn.className = "takeMeThereBtn"
     takeMeThereBtn.addEventListener("click", () => {
         window.location.href = `${baseClientUrl}requests`
     })
-    noUsersMessage.append(noUsersMessagePara1, noUsersMessagePara2,takeMeThereBtn)
+    noUsersMessageParas.append(noUsersMessagePara1, noUsersMessagePara2)
+    noUsersMessage.append(noUsersMessageParas,takeMeThereBtn)
     usersWrapper.append(noUsersMessage)
 }
 async function getAssociatedUsers() {

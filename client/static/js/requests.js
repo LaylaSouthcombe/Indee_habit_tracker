@@ -50,9 +50,6 @@ if(role === "carer"){
     requestsArea.append(addDependentBtn)
 }
 
-const requestsTitle = document.createElement("h2")
-requestsTitle.textContent = "Connections"
-
 const pendingArea = document.createElement("div")
 const pendingTitle = document.createElement("h3")
 pendingTitle.textContent = "Pending"
@@ -80,7 +77,7 @@ acceptedHeadingsArea.append(nameHeading, dateAccepted)
 acceptedHeadingsArea.style.display = "none"
 pendingArea.append(pendingTitle, pendingRequestsEmptyPara, requestsHeadingsArea, pendingRequestsDiv)
 acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsArea, acceptedRequestsDiv)
-requestsArea.append(requestsTitle, pendingArea, acceptedArea)
+requestsArea.append(pendingArea, acceptedArea)
 const deleteConnectionModal = document.createElement("div")
 console.log(requestsArea)
 async function deleteRequest(request) {
