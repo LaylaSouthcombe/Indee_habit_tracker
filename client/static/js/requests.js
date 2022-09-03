@@ -255,9 +255,15 @@ async function findUser(e, addDependentModal) {
         const response = await fetch(`${baseUrl}users`, options);
         const data = await response.json()
         console.log(data)
-        data.forEach((data)=> {
-            renderResults(data, addDependentModal)
-        })
+        if(data.length){
+            data.forEach((data)=> {
+                renderResults(data, addDependentModal)
+            })
+        }else {
+            const noUsersFoundMessage = document.createElement("p")
+            noUsersFoundMessage.textContent = "No users found"
+            resultUsers.append(noUsersFoundMessage)
+        }
     }
 }
 
