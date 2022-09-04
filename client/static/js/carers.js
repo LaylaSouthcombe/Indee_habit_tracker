@@ -14,7 +14,7 @@ const userSummaryPage = document.getElementById("userSummaryPage")
 let habits
 let metrics
 let userId
-
+const carerPageH2 = document.getElementById("carerPageH2")
 const habitTodaySection = document.createElement("div")
 const habitWeekSection = document.createElement("div")
 const habitMonthSection = document.createElement("div")
@@ -141,7 +141,6 @@ const connectionsNavLink = document.createElement("li")
 connectionsNavLink.className = "linkColor"
 const connectionsLink = document.createElement("a")
 connectionsLink.textContent = "Connections"
-// connectionsLink.href = "./requests"
 connectionsNavLink.append(connectionsLink)
 
 const logoutNavLink = document.createElement("li")
@@ -914,18 +913,18 @@ window.addEventListener('hashchange', () => {
     if(window.location.href === `${baseClientUrl}carer#user${userId}`){
         console.log(`user ${userId}`)
         usersWrapper.style.display = "none"
+        carerPageH2.textContent = "Indee Summary Page"
         renderUserSummaryPage(userId)
     }if(window.location.href === `${baseClientUrl}carer`){
         console.log("carer")
         usersWrapper.style.display = "block"
+        carerPageH2.textContent = "Carer Summary Page"
     }
 });
 
 const seeMoreUserInfo = (e) => {
     userId = e.target.parentElement.id
     closeSection(userSummaryModal)
-    console.log("user id",userId)
-    
     window.location.hash = `user${userId}`
 }
 
@@ -933,8 +932,6 @@ async function getUserSummary(e) {
     closeSection(userSummaryModal)
     userSummaryModal.className = "userSummaryModal"
     if(e.target.type !== "submit") {
-    console.log("summary")
-    //TODO: add in if to check if userId = e.parent...
     
     if(e.target.parentElement.id){
         userId = e.target.parentElement.id
