@@ -597,14 +597,17 @@ async function openMetricsSection() {
     }
 }
 
-async function renderUserSummaryPage(userId, userName) {
+async function renderUserSummaryPage(userId, usersNameTitle) {
     await getUserHabitsSummary(userId)
     await getUsersMetricsSummary(userId)
     
     const userSummaryPageTopSection = document.createElement("div")
     userSummaryPageTopSection.className = "userSummaryPageTopSection"
     //top section
-    const backBtn = document.createElement("button")
+    const backBtn = document.createElement("div")
+    const backBtnIcon = document.createElement("i")
+    backBtnIcon.className = "fa-solid fa-arrow-left"
+    backBtn.append(backBtnIcon)
     backBtn.addEventListener("click", (e) => {
         removeUserPage(e)
     })
@@ -890,10 +893,12 @@ async function renderEditCreateHabitModal(method, habitId, e) {
 
 window.addEventListener('hashchange', () => {
     if(window.location.href === `${baseClientUrl}carer#user${userId}`){
+        closeSection(userSummaryPage)
         usersWrapper.style.display = "none"
         carerPageH2.textContent = "Indee Summary Page"      
         renderUserSummaryPage(userId, usersNameTitle)
     }if(window.location.href === `${baseClientUrl}carer`){
+        closeSection(userSummaryPage)
         usersWrapper.style.display = "block"
         carerPageH2.textContent = "Carer Summary Page"
     }
@@ -968,4 +973,3 @@ async function getUserSummary(e) {
     }
 }
 }
-

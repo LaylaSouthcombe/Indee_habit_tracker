@@ -111,3 +111,20 @@ main {
 #carerHomeChart {
     height: 50%;
 }
+.userSummaryPageTopSection {
+    display: flex;
+    width: 85%;
+    justify-content: space-between;
+}
+
+.userSummaryPageTopSection > div{
+    width: 15%;
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    /* outline: none; */
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    height: 40%;
+}
