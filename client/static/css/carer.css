@@ -6,6 +6,7 @@ main {
     overflow-x: hidden;
     z-index: -1;
     text-align: center;
+    position: relative;
 }
 
 .noUsersMessage > div {
@@ -66,4 +67,47 @@ main {
 }
 .moreUserIcon {
     width: 30px;
+}
+.userSummaryModal {
+    position: absolute;
+    top: 8%;
+    background-color: rgba(132, 130, 234, 1);
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    width: 85%;
+    border-radius: 15px;
+}
+
+.userSummaryModal > p {
+    color: #dbdbff;
+    font-size: 1.2rem;
+}
+.modalCloseDiv {
+    /* width: 10%; */
+    display: flex;
+    justify-content: flex-end;
+}
+.modalCloseDiv > img {
+    width: 6%;
+    margin: 20px;
+}
+.summaryUsersName {
+    margin: 0px;
+}
+.weekReviewTitle {
+    color: rgba(43, 43, 43, 0.6);
+}
+
+.lastLoginText{
+    display: inline;
+    margin-right: 15px;
+}
+.lastLoginValue{
+    display: inline;
+}
+
+#carerHomeChart {
+    height: 50%;
 }

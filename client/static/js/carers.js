@@ -64,7 +64,6 @@ const renderUsers = (user) => {
     moreUserIcon.src = "./static/images/ellipsis.png"
     moreUserInfoBtn.className = "moreUserInfoBtn"
     moreUserInfoBtn.append(moreUserIcon)
-    console.log(moreUserIcon)
     moreUserIcon.className = "moreUserIcon"
     moreUserInfoBtn.addEventListener("click", seeMoreUserInfo)
     userBox.append(usersName, userCompletedPercent, moreUserInfoBtn)
@@ -192,7 +191,7 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
     const myChart = document.createElement("canvas")
     myChart.id = chartName
     myChart.setAttribute("width", 300)
-    myChart.setAttribute("height", 300)
+    myChart.setAttribute("height", 250)
     appendedElement.append(myChart)
 
     new Chart(myChart, {
@@ -238,6 +237,9 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
                 x: {
                     grid: {
                         display: false,
+                    },
+                    ticks: {
+                        color: "#d9d9d9"
                     }
                     
                 }
@@ -920,9 +922,10 @@ window.addEventListener('hashchange', () => {
 });
 
 const seeMoreUserInfo = (e) => {
-    closeSection(userSummaryModal)
-    console.log("user id", e.target.parentElement.id)
     userId = e.target.parentElement.id
+    closeSection(userSummaryModal)
+    console.log("user id",userId)
+    
     window.location.hash = `user${userId}`
 }
 
@@ -954,11 +957,14 @@ async function getUserSummary(e) {
         const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: formattedLoginDate}, {weekReviewTitle: "This week in review"}]
         //add map in here to convert to percentages
 
+        const modalCloseDiv = document.createElement("div")
         
-        const modalCloseX = document.createElement("span")
-        modalCloseX.textContent = "X"
+        const modalCloseX = document.createElement("img")
+        modalCloseX.src = "./static/images/cross.png"
         modalCloseX.addEventListener("click", () => closeSection(userSummaryModal))
-        userSummaryModal.append(modalCloseX)
+        modalCloseDiv.className = "modalCloseDiv"
+        modalCloseDiv.append(modalCloseX)
+        userSummaryModal.append(modalCloseDiv)
         text.forEach(function(el) {
             let para = document.createElement("p")
             para.className = Object.keys(el)[0]
@@ -969,7 +975,7 @@ async function getUserSummary(e) {
         userSummaryModal.style.display = "block"
         //create the week chart
         let dataLabels = {
-                color: '#36A2EB',
+                color: '#d9d9d9',
                 anchor: 'end',
                 align: 'top',
                 formatter: function(value) {
