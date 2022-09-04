@@ -794,6 +794,7 @@ async function renderEditCreateHabitModal(method, habitId, e) {
         setAttributes(habitDescInput, {type: "text", id: "habitDescInput", name: "habitDescInput", maxlength: "30"})
     
         const frequencyArea = document.createElement("div")
+        frequencyArea.className = "frequencyArea"
         const repeatedHabitNumLabel = document.createElement("label")
         setAttributes(repeatedHabitNumLabel, {for: "repeatedHabitNumInput"})
         repeatedHabitNumLabel.textContent = "Repeated"
@@ -856,6 +857,7 @@ async function renderEditCreateHabitModal(method, habitId, e) {
         
     
         const submitEditCreateFormBtn = document.createElement("button")
+        submitEditCreateFormBtn.className = "updateCreateBtn"
         if(method === "create"){
             submitEditCreateFormBtn.textContent = "Create"  
         }
@@ -898,13 +900,14 @@ async function renderEditCreateHabitModal(method, habitId, e) {
         if(method === "edit"){
             const deleteHabitBtn = document.createElement("button")
             deleteHabitBtn.textContent = "Delete habit"
+            deleteHabitBtn.className = "deleteBtn"
             deleteHabitBtn.addEventListener("click", (e) => {
                 openDeleteHabitModal(habitId, e)
             })
             editCreateHabitModal.append(deleteHabitBtn)
         }
     }
-    editCreateHabitModal.style.display = "block"
+    editCreateHabitModal.style.display = "grid"
     userSummaryPage.append(editCreateHabitModal)
 }
 
