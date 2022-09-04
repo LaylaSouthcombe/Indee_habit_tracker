@@ -386,25 +386,26 @@ const renderHabitBoxes = (habit) => {
     }
 
     if(habit.type === "boolean") {
-        const blnBtn = document.createElement("button")
-        blnBtn.id = habit.id
+        const blnIcon = document.createElement("i")
+        blnIcon.id = habit.id
         if(habit.habit_bln_entry === true){
-            blnBtn.className = "blnTrue"
+            blnIcon.className = "fa-solid fa-check"
             habitBox.style.backgroundColor = "green"
         }           
         if(habit.habit_bln_entry === false){
-            blnBtn.className = "blnFalse"
+            blnIcon.className = "fa-solid fa-x"
             habitBox.style.backgroundColor = "red"
         }
-        habitBox.append(blnBtn)
+        habitBox.append(blnIcon)
     }
     const editHabitArea = document.createElement("div")
         editHabitArea.addEventListener("click", (e) => {
             renderEditCreateHabitModal("edit", habit.id, e)
         })
-        const editHabitImg = document.createElement("p")
-        editHabitImg.textContent = "img"
-        editHabitArea.append(editHabitImg)
+
+        const editHabitIcon = document.createElement("i")
+        editHabitIcon.className = "fa-regular fa-pen-to-square"
+        editHabitArea.append(editHabitIcon)
         habitBox.append(editHabitArea)
     if(habit.freq_unit === "day"){
         habitTodaySection.appendChild(habitBox)

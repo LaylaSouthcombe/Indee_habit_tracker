@@ -98,6 +98,7 @@ acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsAr
 requestsArea.append(pendingArea, acceptedArea)
 const deleteConnectionModal = document.createElement("div")
 console.log(requestsArea)
+
 async function deleteRequest(request) {
     console.log(request)
     const options = {
@@ -109,15 +110,12 @@ async function deleteRequest(request) {
     const data = await response.json()
     console.log(data)
     closeSection(acceptedRequestsDiv)
-    acceptedHeadingsArea.remove()
     closeSection(pendingRequestsDiv)
     closeSection(deleteConnectionModal)
-    requestsHeadingsArea.remove()
     getRequestsData()
 }
 
 const openDeleteWarning = (request) => {
-    
     const deleteConnectionPara1 = document.createElement("p")
     deleteConnectionPara1.textContent = "Warning!"
     const deleteConnectionPara2 = document.createElement("p")
@@ -180,7 +178,7 @@ const renderRequests = (request) => {
             openDeleteWarning(request)
         })
         requestBox.append(deleteConnectionBtn)
-        requestsHeadingsArea.style.display = "flex"
+        // requestsHeadingsArea.style.display = "flex"
     }
     if(role === "user" && request.status === "pending"){
         const declineConnectionBtn = document.createElement("button")
@@ -194,7 +192,7 @@ const renderRequests = (request) => {
             answerRequest(request, "accept")
         })
         requestBox.append(declineConnectionBtn, acceptConnectionBtn)
-        acceptedHeadingsArea.style.display = "flex"
+        // acceptedHeadingsArea.style.display = "flex"
     }
     if(request.status === "pending"){
         pendingRequestsDiv.append(requestBox)
@@ -219,9 +217,7 @@ async function addRequest(userId, resultId, addDependentModal) {
     const data = await response.json()
     console.log(data)
     closeSection(acceptedRequestsDiv)
-    acceptedHeadingsArea.remove()
     closeSection(pendingRequestsDiv)
-    requestsHeadingsArea.remove()
     addDependentModal.remove()
     closeSection(resultUsers)
     getRequestsData()
@@ -301,6 +297,9 @@ async function getRequestsData() {
     // post to requests/ userId, role
     pendingRequestsEmptyPara.style.display = "block"
     acceptedRequestsEmptyPara.style.display = "block"
+    requestsHeadingsArea.style.display = "none"
+    acceptedHeadingsArea.style.display = "none"
+
     const options = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },

@@ -63,15 +63,13 @@ main {
 .pendingArea,
 .acceptedArea {
     text-align: left;
-    margin-bottom: 30px;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 20px;
+    margin: 20px 20px 30px 20px;
 }
 
 .pendingArea > h3,
 .acceptedArea > h3 {
     text-align: left;
+    margin-bottom: 30px;
     display: inline;
     border-bottom: 2px solid rgba(132, 132, 202, 0.7);
 }
@@ -140,7 +138,7 @@ main {
     display: flex;
     width: 90%;
     justify-content: space-between;
-    margin: 0 auto;
+    margin: 10px auto;
     border-radius: 12.5px;
     background-color: rgba(205, 205, 245, 1);
     align-items: center;
@@ -180,12 +178,24 @@ main {
     color: white;
 }
 .requestsHeadingsArea {
-    display: flex;
+    display: none;
 }
 .requestsHeadingsArea > p:nth-child(1){
     margin-left: 20px;
     margin-right: 50px;
 }
 .requestsHeadingsArea > p {
+    border-bottom: 2px solid rgba(205, 205, 245, 0.8);
+}
+
+
+.acceptedHeadingsArea {
+    display: none;
+}
+.acceptedHeadingsArea > p:nth-child(1){
+    margin-left: 20px;
+    margin-right: 50px;
+}
+.acceptedHeadingsArea > p {
     border-bottom: 2px solid rgba(205, 205, 245, 0.8);
 }

@@ -106,9 +106,9 @@ async function increaseCounter(e) {
 async function changeBlnValue (e) {
     const habitId = parseInt(e.target.id)
     let habitValue
-    if(e.target.className === "blnFalse"){
+    if(e.target.className === "fa-solid fa-x"){
         habitValue = true
-    } else if(e.target.className === "blnTrue"){
+    } else if(e.target.className === "fa-solid fa-check"){
         habitValue = false
     }
     console.log(habitId)
@@ -122,10 +122,10 @@ async function changeBlnValue (e) {
         const data = await response.json()
         const currentHabitBox = document.getElementById(`habit${habitId}`)
         if(data.habit_bln_entry === true){
-            e.target.className = "blnTrue"
+            e.target.className = "fa-solid fa-check"
             currentHabitBox.style.backgroundColor = "green"
         } else if(data.habit_bln_entry === false){
-            e.target.className = "blnFalse"
+            e.target.className = "fa-solid fa-x"
             currentHabitBox.style.backgroundColor = "red"
         }
     } catch (err) {
@@ -192,18 +192,19 @@ async function renderHabits(habit) {
     }
 
     if(habit.type === "boolean") {
-        const blnBtn = document.createElement("button")
-        blnBtn.id = habit.id
-        blnBtn.addEventListener("click", changeBlnValue)
+        // const blnDiv = document.createElement("div")
+        const blnIcon = document.createElement("i")
+        blnIcon.id = habit.id
+        blnIcon.addEventListener("click", changeBlnValue)
         if(habit.habit_bln_entry === true){
-            blnBtn.className = "blnTrue"
+            blnIcon.className = "fa-solid fa-check"
             habitBox.style.backgroundColor = "green"
         }
         if(habit.habit_bln_entry === false){
-            blnBtn.className = "blnFalse"
+            blnIcon.className = "fa-solid fa-x"
             habitBox.style.backgroundColor = "red"
         }
-        habitBox.append(blnBtn)
+        habitBox.append(blnIcon)
     }
     if(habit.freq_unit === "day"){
         habitTodaySection.appendChild(habitBox)
