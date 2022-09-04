@@ -156,18 +156,22 @@ main {
     border: 3px solid rgba(132, 130, 234, 1);
     width: 85%;
     margin: 0 auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .habitsSummarySection > div > h2 {
-    padding-top: 20px;
-    display: inline;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin: 0px;
+    display: inline-block;
     border-bottom: 2px solid rgba(87, 84, 236, 0.9);
 }
 
 .habitBox {
     display: flex;
     justify-content: space-between;
-    width:90%;
+    width:95%;
     border-radius: 10px;
     margin: 10px auto;
     align-items: center;
@@ -175,12 +179,34 @@ main {
 .habitBox > p:nth-child(1) {
     width: 30%;
     padding: 2.5px;
+    margin: 0px;
 }
 .habitBox > p:nth-child(2) {
     width: 25%;
     padding: 2.5px;
-
+    margin: 2.5px 0px;
 }
-.habitBox > button {
-    height: 50%;
+.habitBox > .fa-x {
+    color: rgb(249, 167, 25);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.25rem;
+    width: 30%;
+}
+.habitBox > .fa-check {
+    color: green;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.25rem;
+    width: 30%;
+}
+.habitBox > div > i{
+    margin-right: 10px;
+    font-size: 1.25rem;
+}
+.goalSection > p {
+    margin: 8px 0px;
+}
+.currentValueSection > p {
+    margin: 8px 0px;
 }

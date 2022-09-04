@@ -283,7 +283,7 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
                 label: 'Line Dataset',
                 data: graphValues,
                 borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgb(75, 192, 192)'
+                backgroundColor: 'rgba(205, 205, 245, 0.2)'
             },{
                 type: 'bar',
                 label: 'Bar Dataset',
@@ -361,14 +361,15 @@ const renderHabitBoxes = (habit) => {
         const percentComplete = habit.habit_int_entry / habit.goal
                
         if(percentComplete <= 0.5){
-            habitBox.style.backgroundColor = "red"
+            habitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
-            habitBox.style.backgroundColor = "orange"
+            habitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
         } else if(percentComplete > 0.75){
-            habitBox.style.backgroundColor = "green"
+            habitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
         }
 
         const counterArea = document.createElement("div")
+        counterArea.className = "currentValueSection"
         // const counterSection = document.createElement("div")
         // counterSection.id = habit.id
         const counterTitle = document.createElement("p")
@@ -390,11 +391,11 @@ const renderHabitBoxes = (habit) => {
         blnIcon.id = habit.id
         if(habit.habit_bln_entry === true){
             blnIcon.className = "fa-solid fa-check"
-            habitBox.style.backgroundColor = "green"
+            habitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
         }           
         if(habit.habit_bln_entry === false){
             blnIcon.className = "fa-solid fa-x"
-            habitBox.style.backgroundColor = "red"
+            habitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         }
         habitBox.append(blnIcon)
     }

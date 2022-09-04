@@ -63,11 +63,11 @@ async function decreaseCounter(e) {
         const currentHabitBox = document.getElementById(`habit${habitId}`)
         
         if(percentComplete <= 0.5){
-            currentHabitBox.style.backgroundColor = "red"
+            currentHabitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
-            currentHabitBox.style.backgroundColor = "orange"
+            currentHabitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
         } else if(percentComplete > 0.75){
-            currentHabitBox.style.backgroundColor = "green"
+            currentHabitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
         }
         console.log(percentComplete)
     } catch (err) {
@@ -92,11 +92,11 @@ async function increaseCounter(e) {
         const currentHabitBox = document.getElementById(`habit${habitId}`)
         
         if(percentComplete <= 0.5){
-            currentHabitBox.style.backgroundColor = "red"
+            currentHabitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
-            currentHabitBox.style.backgroundColor = "orange"
+            currentHabitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
         } else if(percentComplete > 0.75){
-            currentHabitBox.style.backgroundColor = "green"
+            currentHabitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
         }
     } catch (err) {
         console.warn(err);
@@ -123,10 +123,10 @@ async function changeBlnValue (e) {
         const currentHabitBox = document.getElementById(`habit${habitId}`)
         if(data.habit_bln_entry === true){
             e.target.className = "fa-solid fa-check"
-            currentHabitBox.style.backgroundColor = "green"
+            currentHabitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
         } else if(data.habit_bln_entry === false){
             e.target.className = "fa-solid fa-x"
-            currentHabitBox.style.backgroundColor = "red"
+            currentHabitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         }
     } catch (err) {
         console.warn(err);
@@ -164,11 +164,11 @@ async function renderHabits(habit) {
         const percentComplete = habit.habit_int_entry / habit.goal
                
         if(percentComplete <= 0.5){
-            habitBox.style.backgroundColor = "red"
+            habitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
-            habitBox.style.backgroundColor = "orange"
+            habitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
         } else if(percentComplete > 0.75){
-            habitBox.style.backgroundColor = "green"
+            habitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
         }
         const counterArea = document.createElement("div")
         const counterSection = document.createElement("div")
@@ -198,11 +198,11 @@ async function renderHabits(habit) {
         blnIcon.addEventListener("click", changeBlnValue)
         if(habit.habit_bln_entry === true){
             blnIcon.className = "fa-solid fa-check"
-            habitBox.style.backgroundColor = "green"
+            habitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
         }
         if(habit.habit_bln_entry === false){
             blnIcon.className = "fa-solid fa-x"
-            habitBox.style.backgroundColor = "red"
+            habitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         }
         habitBox.append(blnIcon)
     }
