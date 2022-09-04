@@ -369,8 +369,8 @@ const renderHabitBoxes = (habit) => {
         }
 
         const counterArea = document.createElement("div")
-        const counterSection = document.createElement("div")
-        counterSection.id = habit.id
+        // const counterSection = document.createElement("div")
+        // counterSection.id = habit.id
         const counterTitle = document.createElement("p")
         counterTitle.textContent = "Current"
         
@@ -378,9 +378,9 @@ const renderHabitBoxes = (habit) => {
         currentValue.textContent = habit.habit_int_entry
 
         
-        counterSection.append(currentValue)
+        // counterSection.append(currentValue)
 
-        counterArea.appendChild(counterSection)
+        counterArea.append(counterTitle, currentValue)
 
         habitBox.append(counterArea)
     }
@@ -555,17 +555,23 @@ async function getUsersMetricsSummary() {
     
     const weekBtn = document.createElement("p")
     weekBtn.textContent = "Week"
+    weekBtn.className = "weekBtn"
     weekBtn.addEventListener("click", getWeekData)
     
     const monthBtn = document.createElement("p")
     monthBtn.textContent = "Month"
+    monthBtn.className = "monthBtn"
+
     monthBtn.addEventListener("click", getMonthData)
     
     const allTimeBtn = document.createElement("p")
     allTimeBtn.textContent = "All time"
+    allTimeBtn.className = "allTimeBtn"
+
     allTimeBtn.addEventListener("click", getAllTimeData)
     
     dateBtns.append(weekBtn, monthBtn, allTimeBtn)
+    dateBtns.className = "dateBtns"
     metricsSummarySection.append(dateBtns)
 }
 
@@ -634,7 +640,7 @@ async function renderUserSummaryPage(userId, usersNameTitle) {
     const habitsMetricsTitleDiv = document.createElement("div")
     habitsMetricsTitleDiv.className = "habitsMetricsTitleDiv"
     const habitsTitleDiv = document.createElement("div")
-    habitsTitleDiv.className = "habitsTitleDiv"
+    habitsTitleDiv.className = "habitsTitleDiv activeTitleDiv"
     const habitsTitle = document.createElement("p")
     habitsTitle.textContent = "habits"
     habitsTitleDiv.append(habitsTitle)
@@ -652,9 +658,10 @@ async function renderUserSummaryPage(userId, usersNameTitle) {
     //habits area
     habitsSummarySection.append(habitTodaySection, habitWeekSection, habitMonthSection)
     habitsSummarySection.style.display = "block"
-
+    habitsSummarySection.className = "habitsSummarySection"
     //metrics area
     metricsSummarySection.style.display = "none"
+    metricsSummarySection.className = "metricsSummarySection"
     metricsSummarySection.append(metricsWeekSection, metricsMonthSection, metricsAllTimeSection)
     //final append
     userSummaryPage.append(userSummaryPageTopSection, habitsMetricsTitleDiv, habitsSummarySection, metricsSummarySection)
@@ -782,7 +789,7 @@ async function renderEditCreateHabitModal(method, habitId, e) {
         setAttributes(habitDescLabel, {for: "habitDescInput"})
         habitDescLabel.textContent = "Description"
         const habitDescInput = document.createElement("input")
-        setAttributes(habitDescInput, {type: "text", id: "habitDescInput", name: "habitDescInput"})
+        setAttributes(habitDescInput, {type: "text", id: "habitDescInput", name: "habitDescInput", maxlength: "30"})
     
         const frequencyArea = document.createElement("div")
         const repeatedHabitNumLabel = document.createElement("label")

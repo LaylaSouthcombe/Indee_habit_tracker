@@ -140,3 +140,47 @@ main {
     width: 85%;
     margin: 0 auto;
 }
+.habitsTitleDiv {
+    background-color: rgba(132, 130, 234, 1);
+    width: 50%;
+}
+.metricsTitleDiv {
+    background-color: rgba(132, 130, 234, 1);
+    width: 50%;
+}
+.activeTitleDiv {
+    background-color: rgba(87, 84, 236, 0.9);
+}
+
+.habitsSummarySection {
+    border: 3px solid rgba(132, 130, 234, 1);
+    width: 85%;
+    margin: 0 auto;
+}
+
+.habitsSummarySection > div > h2 {
+    padding-top: 20px;
+    display: inline;
+    border-bottom: 2px solid rgba(87, 84, 236, 0.9);
+}
+
+.habitBox {
+    display: flex;
+    justify-content: space-between;
+    width:90%;
+    border-radius: 10px;
+    margin: 10px auto;
+    align-items: center;
+}
+.habitBox > p:nth-child(1) {
+    width: 30%;
+    padding: 2.5px;
+}
+.habitBox > p:nth-child(2) {
+    width: 25%;
+    padding: 2.5px;
+
+}
+.habitBox > button {
+    height: 50%;
+}
