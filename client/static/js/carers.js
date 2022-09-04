@@ -584,6 +584,10 @@ const removeUserPage = (e) =>{
 
 const openHabitsSection = () => {
     if(habitsSummarySection.style.display === "none"){
+        const habitsTitleDiv = document.querySelector(".habitsTitleDiv")
+        habitsTitleDiv.classList.add("activeTitleDiv")
+        const metricsTitleDiv = document.querySelector(".metricsTitleDiv")
+        metricsTitleDiv.classList.remove("activeTitleDiv")
         metricsSummarySection.style.display = "none"
         habitsSummarySection.style.display = "block"
     }
@@ -591,6 +595,10 @@ const openHabitsSection = () => {
 
 async function openMetricsSection() {
     if(metricsSummarySection.style.display === "none"){
+        const habitsTitleDiv = document.querySelector(".habitsTitleDiv")
+        habitsTitleDiv.classList.remove("activeTitleDiv")
+        const metricsTitleDiv = document.querySelector(".metricsTitleDiv")
+        metricsTitleDiv.classList.add("activeTitleDiv")
         habitsSummarySection.style.display = "none"
         await getWeekData()
         metricsSummarySection.style.display = "block"
