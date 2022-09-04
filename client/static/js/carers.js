@@ -48,7 +48,7 @@ const renderUsers = (user) => {
 
     const usersName = document.createElement("p")
     usersName.textContent = `${user.userFirstName} ${user.userSecondName}`
-    usersName.id = "usersName"
+    // usersName.id = "usersName"
     const userCompletedPercent = document.createElement("p")
     userCompletedPercent.textContent = Math.floor(user.percentCompleted)
 
@@ -94,7 +94,6 @@ const renderNoUsersMessage = () =>{
 
 async function getAssociatedUsers() {
     const carerId = localStorage.getItem('userId')
-    console.log(carerId)
     try {
         const options = {
             method: 'POST',
@@ -102,9 +101,7 @@ async function getAssociatedUsers() {
             body: JSON.stringify({user_id: carerId})
         }
         const response = await fetch(`${baseUrl}carers`, options);
-        console.log(response)
         const data = await response.json()
-        console.log(data)
         if(data.length){
            data.forEach(renderUsers) 
         }else{
@@ -149,7 +146,6 @@ const logoutNavLink = document.createElement("li")
 logoutNavLink.textContent = "Logout"
 logoutNavLink.className = "linkColor"
 const logUserOut = () => {
-    console.log("log me out pls")
     localStorage.clear()
     window.location.href = baseClientUrl
 }
@@ -410,12 +406,10 @@ const renderHabitBoxes = (habit) => {
         editHabitImg.textContent = "img"
         editHabitArea.append(editHabitImg)
         habitBox.append(editHabitArea)
-        console.log(habitBox)
     if(habit.freq_unit === "day"){
         habitTodaySection.appendChild(habitBox)
         habitTodaySection.style.display = "block"
     } else if(habit.freq_unit === "week"){
-        console.log("week")
         habitWeekSection.style.display = "block"
         habitWeekSection.appendChild(habitBox)
     } else if(habit.freq_unit === "month"){
@@ -444,7 +438,6 @@ async function getUserHabitsSummary(userId) {
         }
         const response = await fetch(`${baseUrl}habits/users`, options);
         const data = await response.json()
-        console.log(data)
         habitTodaySection.style.display = "none"
         habitWeekSection.style.display = "none"
         habitMonthSection.style.display = "none"
@@ -478,7 +471,6 @@ async function getWeekData() {
     }
     const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
     const allHabitsData = await allHabitsResponse.json()
-    console.log(allHabitsData)
     const individualHabitsOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -591,7 +583,6 @@ const removeUserPage = (e) =>{
 }
 
 const openHabitsSection = () => {
-    console.log(habitsSummarySection.style.display)
     if(habitsSummarySection.style.display === "none"){
         metricsSummarySection.style.display = "none"
         habitsSummarySection.style.display = "block"
@@ -599,7 +590,6 @@ const openHabitsSection = () => {
 }
 
 async function openMetricsSection() {
-    // console.log("openMetricsSection")
     if(metricsSummarySection.style.display === "none"){
         habitsSummarySection.style.display = "none"
         await getWeekData()
@@ -662,9 +652,7 @@ async function renderUserSummaryPage(userId, userName) {
 
 async function sendEditCreateHabitRequest(method, e, habitId) {
     e.preventDefault()
-    // console.log(habitFormInfo)
     const usersNameSection = document.querySelector(".usersName")
-    console.log(usersNameSection.textContent)
     usersNameTitle = usersNameSection.textContent
     const habitDescInput = document.getElementById("habitDescInput").value
     const repeatedHabitNumInput = document.getElementById("repeatedHabitNumInput").value
@@ -677,7 +665,6 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
         goalValueInput = document.getElementById("goalValueInput").value
         type = "int"
     }
-    console.log(goalValueInput)
 
 //add entry on create route
 //change all unit to week/day/month
@@ -703,7 +690,6 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
     }
     const habitFormResponse = await fetch(`${baseUrl}habits`, habitFormOptions);
     const habitFormData = await habitFormResponse.json()
-    console.log(habitFormData)
     closeSection(userSummaryPage)
     closeSection(habitTodaySection)
     closeSection(habitWeekSection)
@@ -717,15 +703,12 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
 async function deleteHabit(habitId, e) {
     e.preventDefault()
     const usersNameSection = document.querySelector(".usersName")
-    console.log(usersNameSection.textContent)
     let usersNameTitle = usersNameSection.textContent
     const habitDivChildren = document.getElementById(`habit${habitId}`).children
     let type = "boolean"
-    console.log(habitDivChildren.item(2).className)
     if(habitDivChildren.item(2).className === "goalSection"){
         type = "int"
     }
-    console.log("type", type)
     e.preventDefault()
     const deleteHabitOptions = {
         method: "DELETE",
@@ -734,7 +717,6 @@ async function deleteHabit(habitId, e) {
     }
     const deleteHabitResponse = await fetch(`${baseUrl}habits`, deleteHabitOptions);
     const deleteHabitData = await deleteHabitResponse.json()
-    console.log(deleteHabitData)
     closeSection(userSummaryPage)
     closeSection(habitTodaySection)
     closeSection(habitWeekSection)
@@ -769,11 +751,7 @@ const openDeleteHabitModal = (habitId, e) => {
 
 
 async function renderEditCreateHabitModal(method, habitId, e) {
-    editCreateHabitModal.className = "editCreateHabitModal"
-    console.log(editCreateHabitModal)
-    console.log(method)
-    console.log(habitId)
-    
+    editCreateHabitModal.className = "editCreateHabitModal"    
     if(!editCreateHabitModal.lastElementChild){
         const closeEditCreateModalCross = document.createElement("span")
         closeEditCreateModalCross.addEventListener("click", () => {
@@ -844,14 +822,12 @@ async function renderEditCreateHabitModal(method, habitId, e) {
     
         typeOfGoalNumInput.addEventListener('change', (e) => {
             if (e.target.checked) {
-                console.log("Num is checked..");
                 goalArea.append(goalValueLabel, goalValueInput)
                 goalArea.style.display = "block"
             }
         });
         typeOfGoalBooleanInput.addEventListener('change', (e) => {
             if (e.target.checked) {
-              console.log("Boolean is checked..");
               closeSection(goalArea)
             }
         });
@@ -873,8 +849,6 @@ async function renderEditCreateHabitModal(method, habitId, e) {
 
         if(method === "edit"){
             const habitDivChildren = document.getElementById(`habit${habitId}`).children
-            console.log(document.getElementById(`habit${habitId}`))
-            console.log(habitDivChildren)
             
             habitDescInput.value = habitDivChildren.item(0).textContent
             repeatedHabitNumInput.value = habitDivChildren.item(1).textContent.slice(9,10)
@@ -890,7 +864,6 @@ async function renderEditCreateHabitModal(method, habitId, e) {
             }
             if(habitDivChildren.item(2).className === "goalSection"){
                 typeOfGoalNumInput.checked = true
-                console.log(habitDivChildren.item(2).children.item(1).textContent)
                 goalValueInput.value = habitDivChildren.item(2).children.item(1).textContent
                 goalArea.append(goalValueLabel, goalValueInput)
                 goalArea.style.display = "block"
@@ -916,19 +889,11 @@ async function renderEditCreateHabitModal(method, habitId, e) {
 }
 
 window.addEventListener('hashchange', () => {
-    console.log("hash")
     if(window.location.href === `${baseClientUrl}carer#user${userId}`){
-        console.log(`user ${userId}`)
         usersWrapper.style.display = "none"
-        carerPageH2.textContent = "Indee Summary Page"
-    //     const usersNameSection = document.querySelector(".usersName")
-    // console.log(usersNameSection.textContent)
-    // let usersName = usersNameSection.textContent
-    console.log(usersNameTitle)
-        
+        carerPageH2.textContent = "Indee Summary Page"      
         renderUserSummaryPage(userId, usersNameTitle)
     }if(window.location.href === `${baseClientUrl}carer`){
-        console.log("carer")
         usersWrapper.style.display = "block"
         carerPageH2.textContent = "Carer Summary Page"
     }
