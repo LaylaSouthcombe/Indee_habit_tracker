@@ -14,6 +14,7 @@ const userSummaryPage = document.getElementById("userSummaryPage")
 let habits
 let metrics
 let userId
+let usersNameTitle
 const carerPageH2 = document.getElementById("carerPageH2")
 const habitTodaySection = document.createElement("div")
 const habitWeekSection = document.createElement("div")
@@ -47,7 +48,7 @@ const renderUsers = (user) => {
 
     const usersName = document.createElement("p")
     usersName.textContent = `${user.userFirstName} ${user.userSecondName}`
-
+    usersName.id = "usersName"
     const userCompletedPercent = document.createElement("p")
     userCompletedPercent.textContent = Math.floor(user.percentCompleted)
 
@@ -90,6 +91,7 @@ const renderNoUsersMessage = () =>{
     noUsersMessage.append(noUsersMessageParas,takeMeThereBtn)
     usersWrapper.append(noUsersMessage)
 }
+
 async function getAssociatedUsers() {
     const carerId = localStorage.getItem('userId')
     console.log(carerId)
@@ -605,7 +607,7 @@ async function openMetricsSection() {
     }
 }
 
-async function renderUserSummaryPage(userId) {
+async function renderUserSummaryPage(userId, userName) {
     await getUserHabitsSummary(userId)
     await getUsersMetricsSummary(userId)
     
@@ -618,8 +620,8 @@ async function renderUserSummaryPage(userId) {
     })
 
     const usersName = document.createElement("p")
-    usersName.textContent = "users name"
-    
+    usersName.textContent = usersNameTitle
+    usersName.classList = "usersName"
     const createHabitDiv = document.createElement("div")
     createHabitDiv.textContent = "+"
     createHabitDiv.addEventListener("click", () => {
@@ -661,7 +663,9 @@ async function renderUserSummaryPage(userId) {
 async function sendEditCreateHabitRequest(method, e, habitId) {
     e.preventDefault()
     // console.log(habitFormInfo)
-
+    const usersNameSection = document.querySelector(".usersName")
+    console.log(usersNameSection.textContent)
+    usersNameTitle = usersNameSection.textContent
     const habitDescInput = document.getElementById("habitDescInput").value
     const repeatedHabitNumInput = document.getElementById("repeatedHabitNumInput").value
     const repeatedHabitUnitInput = document.getElementById("repeatedHabitUnitInput").value
@@ -707,11 +711,14 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
     closeSection(habitsSummarySection)
     closeSection(metricsSummarySection)
     closeSection(editCreateHabitModal)
-    renderUserSummaryPage(userId)
+    renderUserSummaryPage(userId, usersNameTitle)
 }
 
 async function deleteHabit(habitId, e) {
     e.preventDefault()
+    const usersNameSection = document.querySelector(".usersName")
+    console.log(usersNameSection.textContent)
+    let usersNameTitle = usersNameSection.textContent
     const habitDivChildren = document.getElementById(`habit${habitId}`).children
     let type = "boolean"
     console.log(habitDivChildren.item(2).className)
@@ -735,7 +742,7 @@ async function deleteHabit(habitId, e) {
     closeSection(habitsSummarySection)
     closeSection(metricsSummarySection)
     closeSection(editCreateHabitModal)
-    renderUserSummaryPage(userId)
+    renderUserSummaryPage(userId, usersNameTitle)
 }
 
 const openDeleteHabitModal = (habitId, e) => {
@@ -914,7 +921,12 @@ window.addEventListener('hashchange', () => {
         console.log(`user ${userId}`)
         usersWrapper.style.display = "none"
         carerPageH2.textContent = "Indee Summary Page"
-        renderUserSummaryPage(userId)
+    //     const usersNameSection = document.querySelector(".usersName")
+    // console.log(usersNameSection.textContent)
+    // let usersName = usersNameSection.textContent
+    console.log(usersNameTitle)
+        
+        renderUserSummaryPage(userId, usersNameTitle)
     }if(window.location.href === `${baseClientUrl}carer`){
         console.log("carer")
         usersWrapper.style.display = "block"
@@ -951,6 +963,7 @@ async function getUserSummary(e) {
         const data = await response.json()
         //declare text to be present in modal
         const formattedLoginDate = `${data.lastLogin.slice(11,19)} ${data.lastLogin.slice(8,10)}-${data.lastLogin.slice(5,7)}-${data.lastLogin.slice(0,4)}`
+        usersNameTitle = `${data.userFirstName} ${data.userSecondName}`
         const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: formattedLoginDate}, {weekReviewTitle: "This week in review"}]
         //add map in here to convert to percentages
 
