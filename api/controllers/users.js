@@ -32,7 +32,7 @@ async function findUsersSummary(req, res) {
 async function findUsersIndividualHabitsSummary(req, res) {
     try {
         // const authors = [];
-        console.log(req.body)
+        console.log("findUsersIndividualHabitsSummary", req.body)
         const info = await User.findUsersIndividualHabitsSummary(req.body)
         res.status(200).json(info);
     } catch (err) {

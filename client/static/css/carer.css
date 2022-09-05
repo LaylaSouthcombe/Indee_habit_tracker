@@ -202,7 +202,7 @@ main {
     padding: 2.5px;
     margin: 2.5px 0px;
 }
-.habitBox > .fa-x {
+/* .habitBox > .fa-x {
     color: rgb(249, 167, 25);
     padding: 5px;
     border-radius: 5px;
@@ -215,6 +215,25 @@ main {
     border-radius: 5px;
     font-size: 1.25rem;
     width: 30%;
+} */
+
+.habitBox > .fa-x {
+    color: rgb(251, 111, 65);
+    background-color: rgb(253, 201, 88);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.75rem;
+    width: 12.5%;
+    margin: 0px 30px;
+}
+.habitBox > .fa-check {
+    color: rgb(55, 173, 55);
+    background-color: rgb(174, 245, 149);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.75rem;
+    width: 12.5%;
+    margin: 0px 30px;
 }
 .habitBox > div > i{
     margin-right: 10px;

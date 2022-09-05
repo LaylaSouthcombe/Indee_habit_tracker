@@ -63,11 +63,11 @@ module.exports = class Habit {
                 let result = await db.query(`INSERT INTO habits_info (user_id, type, description, freq_unit, freq_value, goal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`, [ user_id, type, description, freq_unit, freq_value, goal])
                 console.log("create", result.rows[0])
                 if(type === "int"){
-                    const newEntry = await db.query(`INSERT INTO int_entries (habit_int_id) VALUES ($1) RETURNING *;`, [result.rows[0].id]);
+                    const newEntry = await db.query(`INSERT INTO int_entries (habit_int_id, habit_int_entry) VALUES ($1, 0) RETURNING *;`, [result.rows[0].id]);
                     console.log("data entered for int habit", newEntry.rows)
                 }
                 if(type === "boolean"){
-                    await db.query(`INSERT INTO boolean_entries (habit_bln_id) VALUES ($1);`, [result.rows[0].id]);
+                    await db.query(`INSERT INTO boolean_entries (habit_bln_id, habit_bln_entry) VALUES ($1, false);`, [result.rows[0].id]);
                     console.log("data entered for bln habit", result.rows[0].id)
                 }
                 resolve (result.rows[0]);

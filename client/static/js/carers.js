@@ -45,7 +45,7 @@ const renderUsers = (user) => {
     const userBox = document.createElement("div")
     userBox.id = user.user_id
     userBox.className = "userToplineSummary"
-
+    // console.log(user)
     const usersName = document.createElement("p")
     usersName.textContent = `${user.userFirstName} ${user.userSecondName}`
     // usersName.id = "usersName"
@@ -103,6 +103,7 @@ async function getAssociatedUsers() {
         }
         const response = await fetch(`${baseUrl}carers`, options);
         const data = await response.json()
+        // console.log(data)
         if(data.length){
            data.forEach(renderUsers) 
         }else{
@@ -156,7 +157,7 @@ connectionsNavLink.addEventListener("click", () => {
     window.location.href = `${baseClientUrl}requests`
 })
 
-const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay, dataLabels) => {
+const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay) => {
     let color
     if(appendedElement.classList.contains("userSummaryModal")){
         color = "#d9d9d9"
@@ -184,6 +185,7 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
                }
             }
         }
+        console.log(graphValues)
     const past7Days = [...Array(7).keys()].map(index => {
         const date = new Date();
         date.setDate(date.getDate() - index);
@@ -224,7 +226,14 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
                 legend: {
                     display: false
                 },
-                datalabels: dataLabels
+                datalabels: {
+                    color: '#d9d9d9',
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: function(value) {
+                        return value + '%'
+                    }
+            }
             },
             scales: {
                 y: {
@@ -272,6 +281,7 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
                }
             }
         }
+        console.log(numOfDays)
     const pastDays = [...Array(numOfDays).keys()].map(index => {
         const date = new Date();
         date.setDate(date.getDate() - index);
@@ -280,6 +290,7 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
     });
 
     const formattedPastDays = pastDays.reverse()
+    console.log(formattedPastDays)
     const myChart = document.createElement("canvas")
     myChart.id = chartName
     myChart.setAttribute("width", 300)
@@ -489,12 +500,11 @@ async function getWeekData() {
     }
     const individualHabitsResponse = await fetch(`${baseUrl}users/habit/summary`, individualHabitsOptions);
     const individualHabitsData = await individualHabitsResponse.json()
-
+    console.log("individualHabitsData", individualHabitsData)
     individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
 
-    let dataLabels = {display: false}
     individualHabitsData.dataArr.forEach(function(x) {
-        createWeekGraph(`individualHabitsSummary-habit${x.habitId}`, metricsWeekSection, x.entriesData, x.habitTitle, true, true, dataLabels)
+        createWeekGraph(`individualHabitsSummary-habit${x.habitId}`, metricsWeekSection, x.entriesData, x.habitTitle, true, true)
     })
     
     metricsWeekSection.style.display = "block"
@@ -512,7 +522,7 @@ async function getMonthData() {
     }
     const allHabitsResponse = await fetch(`${baseUrl}users/summary`, allHabitsOptions);
     const allHabitsData = await allHabitsResponse.json()
-
+    // console.log("allHabitsData", allHabitsData)
     //for each for habits array (add summary in first, then each habit after)
     const individualHabitsOptions = {
         method: 'POST',
@@ -521,11 +531,11 @@ async function getMonthData() {
     }
     const individualHabitsResponse = await fetch(`${baseUrl}users/habit/summary`, individualHabitsOptions);
     const individualHabitsData = await individualHabitsResponse.json()
-
+    console.log("individualHabitsData", individualHabitsData)
     individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
-
+    console.log("individualHabitsData", individualHabitsData)
     individualHabitsData.dataArr.forEach(function(x) {
-        createMixedGraph(`individualHabitsMonthSummary-habit${x.habitId}`, metricsMonthSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
+        createMixedGraph(`individualHabitsMonthSummary-habit${x.habitId}`, metricsMonthSection, x.entriesData, x.habitTitle, individualHabitsData.number_of_days)
     })
     metricsMonthSection.style.display = "block"
 }
@@ -551,9 +561,11 @@ async function getAllTimeData() {
     }
     const individualHabitsResponse = await fetch(`${baseUrl}users/habit/summary`, individualHabitsOptions);
     const individualHabitsData = await individualHabitsResponse.json()
+    console.log("individualHabitsData", individualHabitsData)
     individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
+    // console.log("all time", individualHabitsData.number_of_days)
     individualHabitsData.dataArr.forEach(function(x) {
-        createMixedGraph(`individualHabitsMonthSummary-habit${x.habitId}`, metricsAllTimeSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
+        createMixedGraph(`individualHabitsMonthSummary-habit${x.habitId}`, metricsAllTimeSection, x.entriesData, x.habitTitle, individualHabitsData.number_of_days)
     })
     metricsAllTimeSection.style.display = "block"
 }
@@ -1019,15 +1031,7 @@ async function getUserSummary(e) {
 
         userSummaryModal.style.display = "block"
         //create the week chart
-        let dataLabels = {
-                color: '#d9d9d9',
-                anchor: 'end',
-                align: 'top',
-                formatter: function(value) {
-                    return value + '%'
-                }
-        }
-        createWeekGraph("carerHomeChart", userSummaryModal, data.entriesData, "% complete last 7 days", false, false, dataLabels)
+        createWeekGraph("carerHomeChart", userSummaryModal, data.entriesData, "% complete last 7 days", false, false)
 
         const seeMoreDetails = document.createElement("p")
         seeMoreDetails.textContent = "See more details"
