@@ -10,12 +10,12 @@ Welcome to Indee! This is a full stack web application with an HTML/CSS/JS clien
 - seeds db for development
 - serves client on localhost:8080
 - serves api on localhost:3000
-
+<!-- 
 **bash _scripts/startTest.sh**
 - starts api & db services
 - runs db migrations
 - attaches to api container and triggers full test run
-- no ports mapped to local host
+- no ports mapped to local host -->
 
 **bash _scripts/teardown.sh**
 - stop all running services
