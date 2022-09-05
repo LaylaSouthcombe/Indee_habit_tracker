@@ -85,16 +85,19 @@ main {
     font-size: 1.2rem;
 }
 .modalCloseDiv {
-    /* width: 10%; */
-    display: flex;
-    justify-content: flex-end;
-}
-.modalCloseDiv > img {
-    width: 6%;
+    display: inline-block;
+    width: 5%;
     margin: 20px;
 }
-.summaryUsersName {
-    margin: 0px;
+.modalCloseDiv > img {
+    width: 100%;
+}
+.usersNameTitle {
+    margin: 20px 0px 0px 0px;
+    font-size: 1.6rem !important;
+    display: inline-block;
+    width: 80%;
+    padding-left: 50px;
 }
 .weekReviewTitle {
     color: rgba(43, 43, 43, 0.6);
@@ -485,6 +488,14 @@ label[for="repeatedHabitUnitInput"]{
 }
 canvas {
     padding: 10px 5px;
+
+}
+.userSummaryModal > canvas {
+    width: 90%;
+    margin: 0 auto;
+    background-color: rgba(214, 214, 255, 0.4);
+
+    border-radius: 8px;
 }
 
 .deleteHabitModal {

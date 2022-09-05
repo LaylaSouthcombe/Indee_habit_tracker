@@ -215,12 +215,16 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
         },
         options: 
             {
-                plugins:{
+            plugins:{
                 title: {
                     display: true,
                     text: title,
                     font: {
-                        size: 16
+                        size: 18
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
                     }
                 },
                 legend: {
@@ -321,7 +325,11 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
                     display: true,
                     text: title,
                     font: {
-                        size: 16
+                        size: 18
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
                     }
                 },
                 legend: {
@@ -928,7 +936,7 @@ async function renderEditCreateHabitModal(method, habitId, e) {
             const habitDivChildren = document.getElementById(`habit${habitId}`).children
             
             habitDescInput.value = habitDivChildren.item(0).textContent
-            repeatedHabitNumInput.value = habitDivChildren.item(1).textContent.slice(9,10)
+            repeatedHabitNumInput.value = habitDivChildren.item(1).textContent.slice(0,1)
             
             if(habitDivChildren.item(1).textContent.includes("day")){
                 repeatedHabitUnitInput.value = "day"
@@ -1009,11 +1017,13 @@ async function getUserSummary(e) {
         const data = await response.json()
         console.log(data)
         //declare text to be present in modal
-        const formattedLoginDate = `${data.lastLogin.slice(11,19)} ${data.lastLogin.slice(8,10)}-${data.lastLogin.slice(5,7)}-${data.lastLogin.slice(0,4)}`
-        usersNameTitle = `${data.userFirstName} ${data.userSecondName}`
-        const text = [{summaryUsersName: `${data.userFirstName} ${data.userSecondName}`}, {completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: formattedLoginDate}, {weekReviewTitle: "This week in review"}]
+        const formattedLoginDate = `${data.lastLogin.slice(11,16)} ${data.lastLogin.slice(8,10)}-${data.lastLogin.slice(5,7)}-${data.lastLogin.slice(0,4)}`
+        
+        const text = [{completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: formattedLoginDate}, {weekReviewTitle: "This week in review"}]
         //add map in here to convert to percentages
-
+        const usersNameTitle = document.createElement("p")
+        usersNameTitle.textContent = `${data.userFirstName} ${data.userSecondName}`
+        usersNameTitle.className = "usersNameTitle"
         const modalCloseDiv = document.createElement("div")
         
         const modalCloseX = document.createElement("img")
@@ -1021,7 +1031,7 @@ async function getUserSummary(e) {
         modalCloseX.addEventListener("click", () => closeSection(userSummaryModal))
         modalCloseDiv.className = "modalCloseDiv"
         modalCloseDiv.append(modalCloseX)
-        userSummaryModal.append(modalCloseDiv)
+        userSummaryModal.append(usersNameTitle, modalCloseDiv)
         text.forEach(function(el) {
             let para = document.createElement("p")
             para.className = Object.keys(el)[0]
