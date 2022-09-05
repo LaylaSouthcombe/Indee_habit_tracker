@@ -9,6 +9,7 @@ module.exports = class User {
         this.password_digest = data.password_digest;
         this.email = data.email;
         this.carer_id = data.carer_id;
+        this.last_login = data.last_login;
     };
     
     static get all(){ 
@@ -27,24 +28,37 @@ module.exports = class User {
         // console.log(fname)
         return new Promise (async (resolve, reject) => {
             try {
+                //TODO: add in today's date
                 const result = await db.query('INSERT INTO users (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4) RETURNING *;', [fname, sname, password, email])
                 const user = new User(result.rows[0]);
-                // console.log(user)
+                console.log(user)
                 resolve(user)
             }catch(err){
                 reject("User account could not be created");
             }
         })
     }
-    //name
-    //number of daily habits last 7 days
-    //number completed today last 7 days
-    //last login
+    // const lastLogin = await User.updateLoginDate(person.id)
+    static async updateLoginDate(userId){
+        return new Promise (async (resolve, reject) => {
+            try {
+                console.log(userId)
+                let todaysDate = new Date()
+                console.log("todaysDate", todaysDate)
+                let result = await db.query(`UPDATE users SET last_login = $1 WHERE id = $2 RETURNING *;`, [ todaysDate, userId])
+                console.log(result.rows[0])
+                resolve(result.rows[0].last_login)
+            }catch(err){
+                reject("Error assigning users");
+            }
+        })
+    }
 
     static async findUsersSummary({user_id, number_of_days}) {
         return new Promise (async (resolve, reject) => {
             try {
                 const userInfo = await db.query('SELECT first_name, second_name, last_login FROM users WHERE id = $1;', [user_id])
+                console.log(userInfo.rows[0])
                 // let habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [user_id]);
                 // let habitTotalNum = habitsInfo.rows.length;
   
@@ -95,7 +109,7 @@ module.exports = class User {
                 
                 let obj = { "userFirstName": userInfo.rows[0].first_name, "userSecondName": userInfo.rows[0].second_name, "numOfHabitsCompleted": entriesData[1].complete, "numOfHabits": entriesData[1].total, "lastLogin": userInfo.rows[0].last_login, 
                 entriesData: entriesData, number_of_days: number_of_days}
-                // console.log(obj)
+                console.log(obj)
                 resolve(obj)
             }catch(err){
                 reject("Users habit history could not be found");
@@ -170,7 +184,7 @@ module.exports = class User {
     }
     
     static async findUsersByNameOrEmail(searchText, carerId){
-        // console.log("user model searchText", searchText)
+        console.log("user model searchText", searchText)
         return new Promise (async (resolve, reject) => {
             try {
                 let initialUsers;
@@ -186,6 +200,8 @@ module.exports = class User {
                     const newSearchTerm = searchText.concat(percentSign)
                     const result = await db.query('SELECT * FROM users WHERE (first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1) AND carer_id = 0;', [ newSearchTerm ]);
                     initialUsers = result.rows
+                    console.log(initialUsers)
+
                 }
                 let users = []
                 for(let i = 0; i < initialUsers.length; i++){
@@ -196,6 +212,17 @@ module.exports = class User {
                     }
                 }
                 resolve(users)
+            }catch(err){
+                reject("Error finding users");
+            }
+        })
+    }
+    static async findUsersByEmail(searchText){
+        console.log("user model searchText", searchText)
+        return new Promise (async (resolve, reject) => {
+            try {
+                    const result = await db.query('SELECT * FROM users WHERE email ILIKE $1;', [ searchText ]);
+                resolve(result.rows)
             }catch(err){
                 reject("Error finding users");
             }

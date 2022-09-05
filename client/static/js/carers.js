@@ -986,6 +986,7 @@ async function getUserSummary(e) {
         }
         userSummaryModal.id = userId
     try {
+        console.log(userId)
         //post request to get summary info
         const options = {
             method: 'POST',
@@ -994,6 +995,7 @@ async function getUserSummary(e) {
         }
         const response = await fetch(`${baseUrl}users/summary`, options);
         const data = await response.json()
+        console.log(data)
         //declare text to be present in modal
         const formattedLoginDate = `${data.lastLogin.slice(11,19)} ${data.lastLogin.slice(8,10)}-${data.lastLogin.slice(5,7)}-${data.lastLogin.slice(0,4)}`
         usersNameTitle = `${data.userFirstName} ${data.userSecondName}`
