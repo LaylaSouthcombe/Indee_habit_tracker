@@ -817,7 +817,7 @@ async function renderEditCreateHabitModal(method, habitId, e) {
         habitDescLabel.textContent = "Description"
         const habitDescInput = document.createElement("input")
         setAttributes(habitDescInput, {type: "text", id: "habitDescInput", name: "habitDescInput", maxlength: "30"})
-    
+        habitDescInput.setAttribute('required', '')
         const frequencyArea = document.createElement("div")
         frequencyArea.className = "frequencyArea"
         const repeatedHabitNumLabel = document.createElement("label")
@@ -827,7 +827,17 @@ async function renderEditCreateHabitModal(method, habitId, e) {
         setAttributes(repeatedHabitNumInput, {type: "number", id: "repeatedHabitNumInput", name: "repeatedHabitNumInput", min: "1", step: "1", value: "1"})
         const repeatedHabitUnitLabel = document.createElement("label")
         setAttributes(repeatedHabitUnitLabel, {for: "repeatedHabitUnitInput"})
-        repeatedHabitUnitLabel.textContent = "time(s) per"
+        const repeatedAdditionalText = document.createElement("span")
+        repeatedAdditionalText.textContent = "time"
+        repeatedHabitNumInput.addEventListener("input", () => {
+            console.log(typeof repeatedHabitNumInput.value)
+            if(repeatedHabitNumInput.value === "1"){
+                repeatedAdditionalText.textContent = "time"
+            } else {
+                repeatedAdditionalText.textContent = "times"
+            }
+        })
+        repeatedHabitUnitLabel.textContent = "per"
         const repeatedHabitUnitInput = document.createElement("select")
         setAttributes(repeatedHabitUnitInput, {id: "repeatedHabitUnitInput", name: "repeatedHabitUnitInput"})
         const freqOptions = ["day", "week", "month"]
@@ -838,7 +848,7 @@ async function renderEditCreateHabitModal(method, habitId, e) {
             repeatedHabitUnitInput.appendChild(freqElement)
         })
         
-        frequencyArea.append(repeatedHabitNumLabel, repeatedHabitNumInput, repeatedHabitUnitLabel, repeatedHabitUnitInput)
+        frequencyArea.append(repeatedHabitNumLabel, repeatedHabitNumInput, repeatedAdditionalText, repeatedHabitUnitLabel, repeatedHabitUnitInput)
         
         const goalArea = document.createElement("div")
     
