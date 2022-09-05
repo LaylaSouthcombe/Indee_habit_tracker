@@ -33,7 +33,7 @@
     border-radius: 5px;
     font-size: 1.75rem;
     width: 12.5%;
-    margin: 0px 30px;
+    margin: 0px 30px 0px 50px;
 }
 .habitBox > .fa-check {
     color: rgb(55, 173, 55);
@@ -42,9 +42,14 @@
     border-radius: 5px;
     font-size: 1.75rem;
     width: 12.5%;
-    margin: 0px 30px;
+    margin: 0px 30px 0px 50px;
+
 }
-.habitBox > div > i{
+.habitBox > div > .fa-check{
+    margin-right: 10px;
+    font-size: 1.25rem;
+}
+.habitBox > div > .fa-x{
     margin-right: 10px;
     font-size: 1.25rem;
 }
@@ -61,3 +66,21 @@
     display: inline-block;
     border-bottom: 2px solid rgba(87, 84, 236, 0.9);
 }
+
+.counterSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right:10px;
+}
+.counterSection > p {
+    margin: 7.5px;
+}
+.counterSection > i {
+    height: 50%;
+    padding: 5px;
+    /* margin: 0 auto; */
+    margin: 0;
+    border-radius: 8px;
+}
+

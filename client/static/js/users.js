@@ -187,20 +187,22 @@ async function renderHabits(habit) {
         counterSection.id = habit.id
         const counterTitle = document.createElement("p")
         counterTitle.textContent = "Current"
-        const minusCounterBtn = document.createElement("button")
-        minusCounterBtn.style.backgroundColor = "blue"
+        const minusCounterBtn = document.createElement("i")
+        minusCounterBtn.className = "fa-solid fa-minus"
+        minusCounterBtn.style.backgroundColor = "rgba(169, 169, 217, 0.9)"
         minusCounterBtn.addEventListener("click", decreaseCounter)
-        const plusCounterBtn = document.createElement("button")
-        plusCounterBtn.style.backgroundColor = "green"
+        const plusCounterBtn = document.createElement("i")
+        plusCounterBtn.className = "fa-solid fa-plus"
+        plusCounterBtn.style.backgroundColor = "rgba(87, 84, 236, 0.9)"
         plusCounterBtn.addEventListener("click", increaseCounter)
         const currentValue = document.createElement("p")
         currentValue.textContent = habit.habit_int_entry
 
         counterSection.append(minusCounterBtn, currentValue, plusCounterBtn)
+        counterSection.className = "counterSection"
+        // counterArea.appendChild(counterSection)
 
-        counterArea.appendChild(counterSection)
-
-        habitBox.appendChild(counterArea)
+        habitBox.appendChild(counterSection)
     }
 
     if(habit.type === "boolean") {
