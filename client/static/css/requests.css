@@ -190,7 +190,27 @@ main {
     border-bottom: 2px solid rgba(205, 205, 245, 0.8);
 }
 
+.responseBtns {
+    width:30%;
+    text-align: right;
+}
 
+.responseBtns > button {
+    width: 80%;
+    margin: 5px;
+    padding: 5px;
+    font-size: 1rem;
+    outline: none;
+    color: white;
+    border-radius: 8px;
+    border: none;
+}
+.acceptConnectionBtn {
+    background-color: rgba(87, 84, 236, 0.9);
+}
+.declineConnectionBtn {
+    background-color: rgba(169, 169, 217, 0.8);
+}
 .acceptedHeadingsArea {
     display: none;
 }

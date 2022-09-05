@@ -26,25 +26,37 @@ habitWeekSection.appendChild(habitWeekTitle)
 habitMonthSection.appendChild(habitMonthTitle)
 
 const navSection = document.getElementById("navSection")
-const navLinksDiv = document.createElement("ul")
+const navBtn = document.querySelector(".navBtn")
+
+navBtn.addEventListener("click", () => {
+    const navLinksDiv = document.querySelector(".navLinksDiv")
+    if(navLinksDiv.style.display === "block"){
+        navLinksDiv.style.display = "none"
+    }else {
+        navLinksDiv.style.display = "block"
+    }
+})
+
+const navLinksList = document.querySelector(".navLinks")
+
 const connectionsNavLink = document.createElement("li")
+connectionsNavLink.className = "linkColor"
 const connectionsLink = document.createElement("a")
 connectionsLink.textContent = "Connections"
-// connectionsLink.href = "./requests"
-connectionsNavLink.addEventListener("click", () => {
-    window.location.href = `${baseClientUrl}requests`
-})
 connectionsNavLink.append(connectionsLink)
+
 const logoutNavLink = document.createElement("li")
 logoutNavLink.textContent = "Logout"
+logoutNavLink.className = "linkColor"
 const logUserOut = () => {
-    console.log("log me out pls")
     localStorage.clear()
     window.location.href = baseClientUrl
 }
 logoutNavLink.addEventListener("click", logUserOut)
-navLinksDiv.append(connectionsNavLink, logoutNavLink)
-navSection.append(navLinksDiv)
+navLinksList.append(connectionsNavLink, logoutNavLink)
+connectionsNavLink.addEventListener("click", () => {
+    window.location.href = `${baseClientUrl}requests`
+})
 
 async function decreaseCounter(e) {
     const habitId = parseInt(e.target.parentElement.id)
@@ -218,6 +230,7 @@ async function renderHabits(habit) {
     }
 }
 const noHabitsDiv = document.createElement("div")
+noHabitsDiv.className = "noHabitsMessage"
 const renderNoHabitsMessage = () => {
     const noHabitsPara1 = document.createElement("p")
     noHabitsPara1.textContent = "You have no habits set!"

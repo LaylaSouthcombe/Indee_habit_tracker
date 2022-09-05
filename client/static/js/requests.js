@@ -36,13 +36,23 @@ navBtn.addEventListener("click", () => {
 const navLinksList = document.querySelector(".navLinks")
 const usersNavLink = document.createElement("li")
 const usersLink = document.createElement("a")
-
-usersLink.textContent = "Indees"
+if(role === "carer"){
+    usersLink.textContent = "Indees"
+}
+if(role === "user"){
+    usersLink.textContent = "Habits"
+}
 // usersLink.href = "./carer"
 usersNavLink.className = "linkColor"
 usersNavLink.append(usersLink)
 usersNavLink.addEventListener("click", () => {
-    window.location.href = `${baseClientUrl}carer`
+    if(role === "carer"){
+        window.location.href = `${baseClientUrl}carer`
+    }
+    if(role === "user"){
+        window.location.href = `${baseClientUrl}user`
+    }
+    
 })
 
 const logoutNavLink = document.createElement("li")
@@ -184,17 +194,22 @@ const renderRequests = (request) => {
         // requestsHeadingsArea.style.display = "flex"
     }
     if(role === "user" && request.status === "pending"){
+        const responseBtns = document.createElement("div")
+        responseBtns.className = "responseBtns"
         const declineConnectionBtn = document.createElement("button")
         declineConnectionBtn.textContent = "Decline"
+        declineConnectionBtn.className = "declineConnectionBtn"
         declineConnectionBtn.addEventListener("click", () => {
             answerRequest(request, "decline")
         })
         const acceptConnectionBtn = document.createElement("button")
         acceptConnectionBtn.textContent = "Accept"
+        acceptConnectionBtn.className = "acceptConnectionBtn"
         acceptConnectionBtn.addEventListener("click", () => {
             answerRequest(request, "accept")
         })
-        requestBox.append(declineConnectionBtn, acceptConnectionBtn)
+        responseBtns.append(acceptConnectionBtn, declineConnectionBtn)
+        requestBox.append(responseBtns)
         // acceptedHeadingsArea.style.display = "flex"
     }
     if(request.status === "pending"){
