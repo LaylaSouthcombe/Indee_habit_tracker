@@ -65,6 +65,7 @@ const renderUsers = (user) => {
     moreUserIcon.src = "./static/images/ellipsis.png"
     moreUserInfoBtn.className = "moreUserInfoBtn"
     moreUserInfoBtn.append(moreUserIcon)
+    moreUserInfoBtn.id = user.user_id
     moreUserIcon.className = "moreUserIcon"
     moreUserInfoBtn.addEventListener("click", seeMoreUserInfo)
     userBox.append(usersName, userCompletedPercent, moreUserInfoBtn)
@@ -156,6 +157,12 @@ connectionsNavLink.addEventListener("click", () => {
 })
 
 const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay, dataLabels) => {
+    let color
+    if(appendedElement.classList.contains("userSummaryModal")){
+        color = "#d9d9d9"
+    } else {
+        color = "rgba(43, 43, 43, 0.9)"
+    }
     let graphValues = []
     let graphColors = []
     let graphBorders = []
@@ -225,6 +232,7 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
                     ticks: {
                         display: axisTicksDisplay,
                         beginAtZero: true,
+                        color: color
                     },
                     grid: {
                         display: false
@@ -236,7 +244,7 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
                         display: false,
                     },
                     ticks: {
-                        color: "#d9d9d9"
+                        color: color
                     }
                     
                 }
@@ -947,6 +955,7 @@ window.addEventListener('hashchange', () => {
 });
 
 const seeMoreUserInfo = (e) => {
+    console.log(e.target.parentElement.id)
     userId = e.target.parentElement.id
     closeSection(userSummaryModal)
     window.location.hash = `user${userId}`
@@ -955,15 +964,14 @@ const seeMoreUserInfo = (e) => {
 async function getUserSummary(e) {
     closeSection(userSummaryModal)
     userSummaryModal.className = "userSummaryModal"
-    if(e.target.type !== "submit") {
-    
-    if(e.target.parentElement.id){
-        userId = e.target.parentElement.id
-    }
-    if(e.target.id){
-        userId = e.target.id
-    }
-    userSummaryModal.id = userId
+    if(e.target.className !== "moreUserIcon") {
+        if(e.target.parentElement.id){
+            userId = e.target.parentElement.id
+        }
+        if(e.target.id){
+            userId = e.target.id
+        }
+        userSummaryModal.id = userId
     try {
         //post request to get summary info
         const options = {
