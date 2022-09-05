@@ -832,15 +832,21 @@ async function renderEditCreateHabitModal(method, habitId, e) {
     
         const typeOfGoalNumLabel = document.createElement("label")
         const typeOfGoalNumInput = document.createElement("input")
-        setAttributes(typeOfGoalNumLabel, {for: "typeOfGoalNumInput"})
-        typeOfGoalNumLabel.textContent = "Number goal"
+        const typeOfGoalNumText = document.createElement("span")
+        typeOfGoalNumText.textContent = "Numbered goal"
+        typeOfGoalNumLabel.append(typeOfGoalNumInput, typeOfGoalNumText)
+        // setAttributes(typeOfGoalNumLabel, {for: "typeOfGoalNumInput"})
         setAttributes(typeOfGoalNumInput, {type: "radio", id: "typeOfGoalNumInput", name: "typeOfGoalInput", value: "int"})
+
         const typeOfGoalBooleanLabel = document.createElement("label")
         const typeOfGoalBooleanInput = document.createElement("input")
+        const typeOfGoalBooleanText = document.createElement("span")
+
         setAttributes(typeOfGoalBooleanLabel, {for: "typeOfGoalBooleanInput"})
-        typeOfGoalBooleanLabel.textContent = "Yes/no complete"
+        typeOfGoalBooleanLabel.append(typeOfGoalBooleanInput, typeOfGoalBooleanText)
+        typeOfGoalBooleanText.textContent = "Yes/no complete"
         setAttributes(typeOfGoalBooleanInput, {type: "radio", id: "typeOfGoalBooleanInput", name: "typeOfGoalInput", value: "boolean"})
-    
+        goalArea.className = "goalArea"
         typeOfGoalNumInput.addEventListener('change', (e) => {
             if (e.target.checked) {
                 goalArea.append(goalValueLabel, goalValueInput)
@@ -853,7 +859,7 @@ async function renderEditCreateHabitModal(method, habitId, e) {
             }
         });
     
-        typeOfGoalArea.append(typeOfGoalLabel, typeOfGoalNumInput,typeOfGoalNumLabel, goalArea, typeOfGoalBooleanInput, typeOfGoalBooleanLabel)
+        typeOfGoalArea.append(typeOfGoalLabel, typeOfGoalNumLabel, goalArea, typeOfGoalBooleanLabel)
         
     
         const submitEditCreateFormBtn = document.createElement("button")

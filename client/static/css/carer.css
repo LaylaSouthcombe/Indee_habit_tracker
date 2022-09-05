@@ -226,7 +226,7 @@ main {
     margin-right: auto;
     top: 15%;
     border-radius: 10px;
-    color: white;
+    color: rgba(43, 43, 43, 0.9);
     grid-template-areas: 
     "title cross"
     "form form"
@@ -236,7 +236,7 @@ main {
 }
 .editCreateHabitModal > p {
     grid-area: title;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     padding-left: 50px;
     padding-top: 15px;
 }
@@ -255,33 +255,43 @@ main {
     "goal goal";
     grid-area: form;
     grid-template-columns: 50% 50%;
-
+    align-items: center;
 }
 .editCreateHabitModal > form > label {
     font-size: 1.2rem;
 }
 label[for="habitDescInput"] {
     grid-area: desc;
+    padding-left: 70px;
+    margin-bottom: 10px;
 }
 #habitDescInput {
     grid-area: descInput;
     width: 75%;
-    margin: 0 auto;
-    margin-bottom: 30px;
+    margin-right: 20px;
+    margin-left: 10px;
     border-radius: 10px;
     height: 30px;
     outline: none;
     border: none;
     padding-left: 10px;
+    text-align: center;
+    /* margin-bottom: 20px; */
 }
+
 .frequencyArea {
     grid-area: repeated;
     display: grid;
-    /* flex-wrap: wrap; */
+    grid-template-areas: 
+    "label1 input1"
+    "label2 input2";
+    align-items: center;
+    width: 75%;
+    margin: 0 auto;
 }
 .frequencyArea > input {
-    width: 25%;
-    margin: 15px auto;
+    width: 50%;
+    margin: 15px 0px 10px 30px;
     border-radius: 10px;
     height: 30px;
     outline: none;
@@ -289,8 +299,8 @@ label[for="habitDescInput"] {
     text-align: center;
 }
 .frequencyArea > select {
-    width: 35%;
-    margin: 15px auto;
+    width: 75%;
+    margin: 15px 0px 15px 20px;
     border-radius: 10px;
     height: 30px;
     outline: none;
@@ -300,11 +310,77 @@ label[for="habitDescInput"] {
 .typeOfGoalArea {
     grid-area: goal;
     font-size: 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
-/* .editCreateHabitModal > button {
-    width: 75%;
-    margin: 0 auto;
+/* .typeOfGoalArea > label > input:checked + span {
+    background-color: #00005c;
+}
+.typeOfGoalArea > label > input:before {
+    background-color: #00005c;
 } */
+.typeOfGoalArea > label {
+    display: flex;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.375em;
+    justify-content: center;
+}
+.typeOfGoalArea > label > span {
+    color: rgba(43, 43, 43, 0.9);
+}
+.goalArea > label {
+    padding-right: 10px;
+    font-size: 1.2rem;
+}
+.goalArea > input {
+    width: 25%;
+    margin-right: 20px;
+    margin-left: 10px;
+    border-radius: 10px;
+    height: 30px;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.typeOfGoalArea > label input {
+    position: absolute;
+    left: -9999px;
+}
+.typeOfGoalArea > label input:checked + span {
+    background-color: #d6d6e5;
+}
+.typeOfGoalArea > label input:checked + span:before {
+    box-shadow: inset 0 0 0 0.4375em #00005c;
+}
+.typeOfGoalArea > label span {
+    display: flex;
+    align-items: center;
+    padding: 0.375em 0.75em 0.375em 0.375em;
+    border-radius: 99em;
+    transition: 0.25s ease;
+}
+.typeOfGoalArea > label span:hover {
+    background-color: #d6d6e5;
+}
+.typeOfGoalArea > label span:before {
+    display: flex;
+    flex-shrink: 0;
+    content: "";
+    background-color: #fff;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    margin-right: 0.375em;
+    transition: 0.25s ease;
+    box-shadow: inset 0 0 0 0.125em #00005c;
+}
+
 .updateCreateBtn {
     grid-area: btn1;
     width: 75%;
@@ -330,3 +406,9 @@ label[for="habitDescInput"] {
     font-size: 1rem;
     border-radius: 10px;
 }
+label[for="repeatedHabitNumInput"],
+label[for="repeatedHabitUnitInput"]{
+    padding-left: 40px;
+    font-size: 1.2rem
+}
+
