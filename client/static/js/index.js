@@ -28,7 +28,6 @@ left.addEventListener('mouseenter', () => {
 
 left.addEventListener('mouseleave', () => {
     container.classList.remove('hover-left')
-    // infoTextLeft.style.display = "none"
 })
  
 right.addEventListener('mouseenter', () => {
@@ -38,5 +37,4 @@ right.addEventListener('mouseenter', () => {
 })
 right.addEventListener('mouseleave', () => {
     container.classList.remove('hover-right')
-    // infoTextRight.style.display = "none"
 })

@@ -10,6 +10,7 @@ const logo = document.getElementById("logo")
 logo.addEventListener("click", () => {
     window.location.href = baseClientUrl
 })
+
 const loginFormSection = document.querySelector('.loginFormSection');
 const registerFormSection = document.querySelector('.registerFormSection');
 const switchToRegister = document.querySelector(".switchToRegister");
@@ -38,6 +39,7 @@ errorTriangle.clasName = "triangle-after"
 errorPopUp.append(errorPopUpIcon, errorPopUpText, errorTriangle)
 const mainSection = document.querySelector("main")
 mainSection.append(errorPopUp)
+
 function login(person) {
   localStorage.setItem('fname', person.first_name)
   localStorage.setItem('sname', person.second_name)
@@ -48,10 +50,8 @@ function login(person) {
 
 const sendLogin = async (e) => {
     e.preventDefault()
-    const url = `${baseUrl}auth/login`
     const email = loginEmail.value
     const password = loginPassword.value
-    console.log(password)
     if(!email.includes("@")){
       errorPopUp.className = "loginEmailError errorMsg"
       errorPopUpText.textContent = "Please enter a valid email address"
@@ -60,7 +60,7 @@ const sendLogin = async (e) => {
       errorPopUpText.textContent = "Please enter a password"
     } else {
       try {
-          const response = await fetch(url, {
+          const response = await fetch(`${baseUrl}auth/login`, {
             method: 'POST',
             body: JSON.stringify({ email, password }),
             headers: {
@@ -68,7 +68,6 @@ const sendLogin = async (e) => {
             },
           })
           const data = await response.json()
-          console.log(data)
           if (data.err) {
             throw new Error(data.err)
           } else {
@@ -85,80 +84,72 @@ const sendLogin = async (e) => {
 }
 
 async function sendRegister(e) {
-    e.preventDefault()
-    const fname = registerFname.value
-    const sname = registerSname.value
-    const email = registerEmail.value
-    const password = registerPassword.value
+  e.preventDefault()
+  const fname = registerFname.value
+  const sname = registerSname.value
+  const email = registerEmail.value
+  const password = registerPassword.value
 
-    if(!email.includes("@")){
-      errorPopUp.className = "regEmailError errorMsg"
-      errorPopUpText.textContent = "Please enter a valid email address"
-    } else if (password === "") {
-      errorPopUp.className = "regPasswordError errorMsg"
-      errorPopUpText.textContent = "Please enter a password"
-    } else if (fname === "") {
-      errorPopUp.className = "regFNameError errorMsg"
-      errorPopUpText.textContent = "Please enter your first name"
-    } else if (sname === "") {
-      errorPopUp.className = "regSNameError errorMsg"
-      errorPopUpText.textContent = "Please enter your second name"
-    } else {
-      try {
-        let role
-        if(userRole.checked){
-            role = "user"
-        }
-        if(carerRole.checked){
-            role = "carer"
-        }
-        const url = `${baseUrl}auth/${role}/register`
-        console.log(JSON.stringify({ fname, sname, email, password }))
-        const response = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify({ fname, sname, email, password }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-  
-        const data = await response.json()
-      
-        if (data.err) {
-          console.log('Error registering: ', data.err)
-          errorPopUp.className = "regEmailError"
-        } else {
-          registerFname.value = ''
-          registerSname.value = ''
-          registerEmail.value = ''
-          registerPassword.value = ''
-          login(data.person)
-          window.location.href = `${baseClientUrl}${data.person.role}`
-        }
-      } catch(err){
-        console.log(err)
-          errorPopUp.className = "loginEmailError"
+  if(!email.includes("@")){
+    errorPopUp.className = "regEmailError errorMsg"
+    errorPopUpText.textContent = "Please enter a valid email address"
+  } else if (password === "") {
+    errorPopUp.className = "regPasswordError errorMsg"
+    errorPopUpText.textContent = "Please enter a password"
+  } else if (fname === "") {
+    errorPopUp.className = "regFNameError errorMsg"
+    errorPopUpText.textContent = "Please enter your first name"
+  } else if (sname === "") {
+    errorPopUp.className = "regSNameError errorMsg"
+    errorPopUpText.textContent = "Please enter your second name"
+  } else {
+    try {
+      let role
+      if(userRole.checked){
+          role = "user"
       }
+      if(carerRole.checked){
+          role = "carer"
+      }
+      const response = await fetch(`${baseUrl}auth/${role}/register`, {
+        method: 'POST',
+        body: JSON.stringify({ fname, sname, email, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const data = await response.json()
+    
+      if (data.err) {
+        errorPopUp.className = "regEmailError"
+      } else {
+        registerFname.value = ''
+        registerSname.value = ''
+        registerEmail.value = ''
+        registerPassword.value = ''
+        login(data.person)
+        window.location.href = `${baseClientUrl}${data.person.role}`
+      }
+    } catch(err){
+      console.log(err)
+        errorPopUp.className = "loginEmailError"
     }
   }
+}
 
 const hideLoginForm = (e) => {
-    e.preventDefault()
-    loginFormSection.style.display = "none"
-    registerFormSection.style.display = "block"
+  e.preventDefault()
+  loginFormSection.style.display = "none"
+  registerFormSection.style.display = "block"
 }
 
 const hideRegisterForm = (e) => {
-    e.preventDefault()
-    registerFormSection.style.display = "none"
-    loginFormSection.style.display = "block"
+  e.preventDefault()
+  registerFormSection.style.display = "none"
+  loginFormSection.style.display = "block"
 }
-
 
 switchToRegister.addEventListener("click", hideLoginForm)
 switchToLogin.addEventListener("click", hideRegisterForm)
 loginBtn.addEventListener("click", sendLogin)
 registerBtn.addEventListener("click", sendRegister)
-
-
-

@@ -1,5 +1,4 @@
 const db = require('../dbConfig/init');
-const User = require('./User');
 
 module.exports = class Carer {
     constructor(data){
@@ -8,19 +7,6 @@ module.exports = class Carer {
         this.second_name = data.second_name;
         this.password_digest = data.password_digest;
         this.email = data.email;
-    };
-    
-    static get all(){ 
-        return new Promise (async (resolve, reject) => {
-            try {
-                // console.log(db);
-                const result = await db.query('SELECT * FROM carers;')
-                const carers = result.rows.map(a => new Carer(a))
-                resolve(carers);
-            } catch (err) {
-                reject("Error retrieving carers")
-            }
-        })
     };
 
     static async create( {fname, sname, email, password}) {
@@ -36,7 +22,6 @@ module.exports = class Carer {
     }
 
     static async findCarersByNameOrEmail(searchText){
-        // console.log("carer model searchText", searchText)
         return new Promise (async (resolve, reject) => {
             try {
                 let carers;
@@ -52,84 +37,50 @@ module.exports = class Carer {
                     const result = await db.query('SELECT * FROM carers WHERE first_name ILIKE $1 OR second_name ILIKE $1 OR email ILIKE $1', [ newSearchTerm]);
                     carers = result.rows
                 }
-                // console.log("carer model result", carers)
                 resolve(carers)
             }catch(err){
                 reject("Error finding carers");
             }
-        })}
+        })
+    }
 
     static async getUsersAndTopline({user_id}){
         return new Promise (async (resolve, reject) => {
-            //TODO: have date cut off for today only
             try {
                 let dataToDisplay = []
-                //find users associated with a carer
                 const results = await db.query('SELECT * FROM carers JOIN users on carers.id = users.carer_id WHERE carers.id = $1 ORDER BY (last_login) DESC', [user_id]);
-                // console.log(results.rows)
                 for(let i = 0; i < results.rows.length; i++){
-                    //find how many habits they are tracking
                     let habits = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [results.rows[i].id]);
-                    
                     let habitTotalNum = habits.rows.length;
-                    //find out how many int entries are complete
                     let intEntries = await db.query('SELECT * FROM int_entries JOIN habits_info ON habits_info.id = int_entries.habit_int_id WHERE user_id = $1 AND date = CURRENT_DATE;', [results.rows[i].id]);
-                    // console.log("int entries", intEntries.rows)
                     let intHabitsCompleted = 0;
                     for(let j = 0; j < intEntries.rows.length; j++){
                         if(intEntries.rows[j].habit_int_entry >= intEntries.rows[j].goal){
-                            // console.log("int entry", intEntries.rows[j].habit_int_entry)
-                            // console.log("int goal", intEntries.rows[j].goal)
                             intHabitsCompleted += 1;
                         }
                     } 
-                    //find out how many bln entries are complete
                     let blnEntries = await db.query('SELECT * FROM boolean_entries JOIN habits_info ON habits_info.id = boolean_entries.habit_bln_id WHERE user_id = $1 AND date = CURRENT_DATE ORDER BY (date) DESC;', [results.rows[i].id]);
                     let blnHabitsCompleted = 0;
-                    // console.log("bln entries", blnEntries.rows)
                     for(let j = 0; j < blnEntries.rows.length; j++){
                         if(blnEntries.rows[j].habit_bln_entry === true){
                             blnHabitsCompleted += 1;
                         }
                     }
-                    // console.log("intHabitsCompleted", intHabitsCompleted)
-                    // console.log("blnHabitsCompleted", blnHabitsCompleted)
-
-                    //turn to a percent
                     let totalHabitsCompleted = intHabitsCompleted + blnHabitsCompleted
-                    // console.log("totalHabitsCompleted", totalHabitsCompleted)
                     let percentCompleted
                     if(totalHabitsCompleted > 0) {
                         percentCompleted = Math.floor((totalHabitsCompleted / habitTotalNum) * 100)
                     } else {
                         percentCompleted = 0
                     }
-                    //send back add object to array
                     let obj = { "userFirstName": results.rows[i].first_name, "userSecondName": results.rows[i].
                     second_name, "percentCompleted": percentCompleted, "user_id": results.rows[i].id}
                     dataToDisplay.push(obj)
                 }
-                // console.log(dataToDisplay)
                 resolve(dataToDisplay);
             } catch (err) {
                 reject("Carer's users and user info could not be found");
             };
         });
     };
-
-    
-    
-
-
-
-    destroy(){
-        return new Promise(async(resolve, reject) => {
-            try {
-                const result = await db.query('DELETE FROM carers WHERE id = $1 RETURNING id', [ this.id ]);
-                resolve(`carer ${result.id} was deleted`)
-            } catch (err) {
-                reject('carer could not be deleted')
-            }
-        })   
-    }
 };

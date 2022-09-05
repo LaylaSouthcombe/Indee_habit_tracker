@@ -6,16 +6,13 @@ async function registerUser (req, res) {
     try {
         const user = await User.findUsersByEmail(req.body.email)
         const carer = await Carer.findCarersByNameOrEmail(req.body.email)
-
         if(!user.length && !carer.length){
-        console.log(req.body)
-        const salt = await bcrypt.genSalt();
-        const hashed = await bcrypt.hash(req.body.password, salt);
-        console.log(hashed)
-        let person = await User.create({...req.body, password: hashed});
-        await User.updateLoginDate(person.id)
-        console.log("created person", person)
-        res.status(201).json({msg: 'User created', person: {...person, role: "user"}});
+            const salt = await bcrypt.genSalt();
+            const hashed = await bcrypt.hash(req.body.password, salt);
+            console.log(hashed)
+            let person = await User.create({...req.body, password: hashed});
+            await User.updateLoginDate(person.id)
+            res.status(201).json({msg: 'User created', person: {...person, role: "user"}});
         }else {
             throw new Error
         }
@@ -25,14 +22,14 @@ async function registerUser (req, res) {
 }
 
  async function registerCarer (req, res) { 
-    // assuming a body of eg. { username: 'Gingertonic', email: 'email@address.com, password: 'weak-password!' }
     try {
         const user = await User.findUsersByEmail(req.body.email)
         const carer = await Carer.findCarersByNameOrEmail(req.body.email)
         if(!user.length && !carer.length){
-            const salt = await bcrypt.genSalt(); // generate salt
-            const hashed = await bcrypt.hash(req.body.password, salt); // hash password and add salt
-            let person = await Carer.create({...req.body, password: hashed}); // insert new user into db
+            const salt = await bcrypt.genSalt();
+            const hashed = await bcrypt.hash(req.body.password, salt);
+            console.log(hashed)
+            let person = await Carer.create({...req.body, password: hashed});
             res.status(201).json({msg: 'Carer created', person: {...person, role: "carer"}});
         }else {
             throw new Error('Error in token generation')
@@ -43,30 +40,25 @@ async function registerUser (req, res) {
 }
 
 async function loginUser (req, res) {
-// assuming a body of eg. { email: 'email@address.com, password: 'weak-password!' }
-console.log(req.body.email)
     try {
         const user = await User.findUsersByEmail(req.body.email)
-        const carer = await Carer.findCarersByNameOrEmail(req.body.email) // find user record
+        const carer = await Carer.findCarersByNameOrEmail(req.body.email)
         let authed
         let person
         let role
-        console.log("user in auth", user)
         if(user.length === 1){
-            authed = bcrypt.compare(req.body.password, user[0].password_digest) // compare given password to stored hashed password
+            authed = bcrypt.compare(req.body.password, user[0].password_digest)
             person = user[0]
             role = "user"
         }
         if(carer.length === 1){
-            authed = bcrypt.compare(req.body.password, carer[0].password_digest) // compare given password to stored hashed password
+            authed = bcrypt.compare(req.body.password, carer[0].password_digest)
             person = carer[0]
             role = "carer"
         }
         if(authed){
             if(role === "user"){
-                console.log("person.id", person.id)
-                const lastLogin = await User.updateLoginDate(person.id)
-                // console.log(lastLogin)
+                await User.updateLoginDate(person.id)
             }
             res.status(200).json({msg: 'Logged in', person: { ...person, role: role }})
         } else {

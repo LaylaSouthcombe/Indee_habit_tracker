@@ -35,6 +35,7 @@ main {
     width: 85%;
     margin: 0 auto;
 }
+
 .userToplineSummary {
     display: flex;
     justify-content: flex-end;
@@ -43,31 +44,37 @@ main {
     padding: 5px 15px;
     align-items: center;
 }
+
 .userToplineSummary > p:nth-child(1){
     margin-right: auto;
 }
+
 .userToplineSummary > div {
     margin-right: 5px;
     margin-left: 60px;
     height: 15%;
-    
     font-size: 1.45rem;
 }
+
 .userToplineSummary > p:nth-child(2)::after{
     content: "%";
 }
+
 .userToplineSummary > p {
     font-size: 1.15rem;
     margin-top: 12.5px;
     margin-bottom: 12.5px;
 }
+
 .moreUserInfoBtn {
     display: flex;
     align-items: center;
 }
+
 .moreUserIcon {
     width: 30px;
 }
+
 .userSummaryModal {
     position: absolute;
     top: 8%;
@@ -84,14 +91,17 @@ main {
     color: #dbdbff;
     font-size: 1.2rem;
 }
+
 .modalCloseDiv {
     display: inline-block;
     width: 5%;
     margin: 20px;
 }
+
 .modalCloseDiv > img {
     width: 100%;
 }
+
 .usersNameTitle {
     margin: 20px 0px 0px 0px;
     font-size: 1.6rem !important;
@@ -99,6 +109,7 @@ main {
     width: 80%;
     padding-left: 50px;
 }
+
 .weekReviewTitle {
     color: rgba(43, 43, 43, 0.6);
 }
@@ -107,6 +118,7 @@ main {
     display: inline;
     margin-right: 15px;
 }
+
 .lastLoginValue{
     display: inline;
 }
@@ -131,7 +143,6 @@ main {
     width: 15%;
     padding: 5px 10px;
     font-size: 1.5rem;
-    /* outline: none; */
     background-color: rgba(87, 84, 236, 0.9);
     color: white;
     border-radius: 8px;
@@ -148,22 +159,25 @@ main {
     width: 85%;
     margin: 10px auto 0px auto;
 }
+
 .metricsSummarySection {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     margin-bottom: 10px;
 }
+
 .habitsTitleDiv {
     background-color: rgba(132, 130, 234, 1);
     width: 50%;
     border-top-left-radius: 8px;
 }
+
 .metricsTitleDiv {
     background-color: rgba(132, 130, 234, 1);
     width: 50%;
     border-top-right-radius: 8px;
-
 }
+
 .activeTitleDiv {
     background-color: rgba(87, 84, 236, 0.9);
 }
@@ -195,30 +209,18 @@ main {
     margin: 10px auto;
     align-items: center;
 }
+
 .habitBox > p:nth-child(1) {
     width: 30%;
     padding: 2.5px;
     margin: 0px;
 }
+
 .habitBox > p:nth-child(2) {
     width: 25%;
     padding: 2.5px;
     margin: 2.5px 0px;
 }
-/* .habitBox > .fa-x {
-    color: rgb(249, 167, 25);
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 1.25rem;
-    width: 30%;
-}
-.habitBox > .fa-check {
-    color: green;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 1.25rem;
-    width: 30%;
-} */
 
 .habitBox > .fa-x {
     color: rgb(251, 111, 65);
@@ -229,25 +231,30 @@ main {
     width: 12.5%;
     margin: 0px 30px;
 }
+
 .habitBox > .fa-check {
     color: rgb(55, 173, 55);
-    background-color: rgb(174, 245, 149);
+    background-color: rgb(201, 251, 183);
     padding: 5px;
     border-radius: 5px;
     font-size: 1.75rem;
     width: 12.5%;
     margin: 0px 30px;
 }
+
 .habitBox > div > i{
     margin-right: 10px;
     font-size: 1.25rem;
 }
+
 .goalSection > p {
     margin: 8px 0px;
 }
+
 .currentValueSection > p {
     margin: 8px 0px;
 }
+
 .editCreateHabitModal {
     position: absolute;
     background-color:rgb(176, 175, 249);
@@ -268,6 +275,7 @@ main {
     grid-template-columns: 85% 15%;
     text-align: left;
 }
+
 .editCreateHabitModal > p {
     grid-area: title;
     font-size: 1.3rem;
@@ -277,6 +285,7 @@ main {
     margin-bottom: 20px;
     text-align: center;
 }
+
 .editCreateHabitModal > span {
     grid-area: cross;
     margin: 10px 10px 20px 10px;
@@ -284,6 +293,7 @@ main {
     padding-top: 5px;
     font-size: 1.2rem;
 }
+
 .editCreateHabitModal > form {
     display: grid;
     grid-template-areas: 
@@ -296,12 +306,15 @@ main {
     width: 75%;
     margin: 0 auto 0 40px;
 }
+
 .editCreateHabitModal > form > label {
     font-size: 1rem;
 }
+
 label[for="habitDescInput"] {
     grid-area: desc;
 }
+
 #habitDescInput {
     grid-area: descInput;
     width: 100%;
@@ -325,20 +338,21 @@ label[for="habitDescInput"] {
     font-size: 1.1rem;
     grid-template-columns: 30% 50% 20%;
 }
+
 .frequencyArea > span {
     grid-area: span;
 }
+
 label[for="repeatedHabitNumInput"] {
     grid-area: label1;
     font-size: 1rem;
-
 }
 
 label[for="repeatedHabitUnitInput"]{
     grid-area: label2;
     font-size: 1rem;
-
 }
+
 .frequencyArea > input {
     width: 50%;
     margin: 15px 0px 12px 30px;
@@ -366,6 +380,7 @@ label[for="repeatedHabitUnitInput"]{
     outline: none;
     font-size: 1.1rem;
 }
+
 .typeOfGoalArea {
     grid-area: goal;
     display: flex;
@@ -373,10 +388,12 @@ label[for="repeatedHabitUnitInput"]{
     flex-direction: column;
     justify-content: flex-start;
 }
+
 .typeOfGoalArea > p {
     margin: 10px 0px 5px 0px;
     font-size: 1rem;
 }
+
 .typeOfGoalArea > label {
     display: flex;
     cursor: pointer;
@@ -385,14 +402,16 @@ label[for="repeatedHabitUnitInput"]{
     overflow: hidden;
     justify-content: flex-start;
     font-size: 1.1rem;
-
 }
+
 .typeOfGoalArea > label > span {
     color: rgba(43, 43, 43, 0.9);
 }
+
 .goalArea > label {
     padding-left: 10px;
 }
+
 .goalArea > input {
     width: 25%;
     margin: 15px 0px 12px 15px;
@@ -405,16 +424,20 @@ label[for="repeatedHabitUnitInput"]{
     font-size: 1.1rem;
     outline: none;
 }
+
 .typeOfGoalArea > label input {
     position: absolute;
     left: -9999px;
 }
+
 .typeOfGoalArea > label input:checked + span {
     background-color: #d6d6e5;
 }
+
 .typeOfGoalArea > label input:checked + span:before {
     box-shadow: inset 0 0 0 0.4375em #00005c;
 }
+
 .typeOfGoalArea > label span {
     display: flex;
     align-items: center;
@@ -422,9 +445,11 @@ label[for="repeatedHabitUnitInput"]{
     border-radius: 99em;
     transition: 0.25s ease;
 }
+
 .typeOfGoalArea > label span:hover {
     background-color: #d6d6e5;
 }
+
 .typeOfGoalArea > label span:before {
     display: flex;
     flex-shrink: 0;
@@ -451,6 +476,7 @@ label[for="repeatedHabitUnitInput"]{
     border: none;
     box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
+
 .deleteBtn {
     grid-area: btn2;
     background-color: rgba(205, 205, 250, 0.7);
@@ -470,31 +496,33 @@ label[for="repeatedHabitUnitInput"]{
     border: 3px solid rgba(132, 130, 234, 1);
 
 }
+
 .dateBtns {
     display: flex;
     background-color: rgb(176, 175, 249);
     justify-content: space-evenly;
     border-bottom: 3px solid rgba(132, 130, 234, 1);
-
 }
+
 .dateBtns > .activeDateBtn {
     background-color: #65659a;
 }
+
 .dateBtns > p {
     margin: 0;
     height: 100%;
     padding: 10px 20px;
     width: 33%;
 }
+
 canvas {
     padding: 10px 5px;
-
 }
+
 .userSummaryModal > canvas {
     width: 90%;
     margin: 0 auto;
     background-color: rgba(214, 214, 255, 0.4);
-
     border-radius: 8px;
 }
 
@@ -509,6 +537,7 @@ canvas {
     margin-left: auto;
     top: 30%;
 }
+
 .continueBtn {
     width: 35%;
     margin: 10px;
@@ -521,6 +550,7 @@ canvas {
     border: none;
     box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
+
 .cancelBtn {
     background-color: rgba(169, 169, 217, 0.3);
     color: rgb(87, 84, 236);

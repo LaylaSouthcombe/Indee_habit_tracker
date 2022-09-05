@@ -210,9 +210,7 @@ input[type="radio"]{
     color: white;
     animation-name: errorOpacity;
     animation-duration: 4s;
-    /* opacity: 0; */
     position: absolute;
-    /* display: none; */
     display: flex;
     flex-wrap: wrap;
     padding: 5px;
@@ -221,7 +219,6 @@ input[type="radio"]{
 }
 .errorMsg > p {
     position:relative;
-    /* background-color:#e15915; */
 }
 
 .errorMsg > p:after {
@@ -236,20 +233,21 @@ input[type="radio"]{
     border-left: solid 25px transparent;
     border-right: solid 25px transparent;
 }
-.fa-triangle-exclamation {
-    /* display: none; */
-}
+
 .errorMsg > p {
     margin: 5px;
 }
+
 .errorMsg > .fa-triangle-exclamation {
     display: inline;
 }
+
 .loginEmailError, 
 .regFNameError {
     top: 36%;
     right: 6%;
 }
+
 .loginPasswordError,
 .regSNameError {
     top: 46%;
@@ -265,7 +263,6 @@ input[type="radio"]{
     top: 64%;
     right: 6%;
 }
-
 
 @keyframes errorOpacity {
     0%{opacity: 1;}

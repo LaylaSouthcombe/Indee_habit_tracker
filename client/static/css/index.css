@@ -18,6 +18,7 @@ main {
     width: 100%;
     margin-left: 2.5px;
 }
+
 .intro > p {
     width: 70%;
     margin: 5px auto;
@@ -26,7 +27,6 @@ main {
     line-height: 1.5rem;
     font-weight: bold;
     color: rgba(43, 43, 43, 0.8);
-    /* background-color: rgba(43, 43, 43, 0.1); */
     border-radius: 20px;
 }
 
@@ -51,7 +51,6 @@ main {
     left: 25%;
     font-size: 2rem;
     top: 25%;
-    /* transform: translateX(-50%); */
     white-space: nowrap;
 }
 
@@ -118,18 +117,22 @@ main {
 .hover-left .right {
   width: var(--other-width);
 }
+
 .hover-left > .left > h1 {
     left: 35%;
     top: 7.5%;
 }
+
 .hover-left > .right > h1 {
     left: 0%;
     top: 20%;
 }
+
 .hover-right > .right > h1 {
     left: 35%;
     top: 7.5%;
 }
+
 .hover-right > .left > h1 {
     left: 0%;
     top: 20%;
@@ -139,14 +142,17 @@ main {
     left: 25%;
     top: 75%;
 }
+
 .hover-left > .right > .btn {
     left: -30%;
     top: 65%;
 }
+
 .hover-right > .right > .btn {
     left: 25%;
     top: 75%;
 }
+
 .hover-right > .left > .btn {
     left: -30%;
     top: 65%;
@@ -157,16 +163,19 @@ main {
     animation-name: fadeInText;
     animation-duration: 0.2s;
 }
+
 .hover-left > .right > .infoTextRight {
     opacity: 0;
     animation-name: fadeOutText;
     animation-duration: 0.2s;
 }
+
 .hover-right > .left > .infoTextLeft {
     opacity: 0;
     animation-name: fadeOutText;
     animation-duration: 0.2s;
 }
+
 .hover-right > .right > .infoTextRight {
     opacity: 1;
     animation-name: fadeInText;
@@ -188,25 +197,30 @@ main {
 .infoTextRight {
     left: 25%;
 }
+
 .featuresList {
     text-align: left;
     width: 90%;
     margin: 0;
     padding: 0;
 }
+
 .featuresList > li {
     padding-top: 10px;
 }
+
 .hover-left > .right > h1,
 .hover-left > .right > .btn {
     transform: rotate(-90deg);
     transition: all var(--speed) ease-in-out;
 }
+
 .hover-left > .left > h1,
 .hover-left > .left > .btn {
     transform: rotate(0deg);
     transition: all var(--speed) ease-in-out;
 }
+
 .hover-right > .left > h1,
 .hover-right > .left > .btn {
     transform: rotate(-90deg);
@@ -234,10 +248,12 @@ main {
   }
 
 }
+
 @keyframes fadeOutText {
     from {opacity: 1;}
     to {opacity: 0; display: "none";}
 }
+
 @keyframes fadeInText {
     from {opacity: 0;display: "none";}
     to {opacity: 1; display: "block";}

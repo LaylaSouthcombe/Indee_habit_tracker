@@ -1,20 +1,13 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
-//if logged in and role === carer || role === user
-//else render you are not logged in message
 const logo = document.getElementById("logo")
 logo.addEventListener("click", () => {
     window.location.href = baseClientUrl
 })
 const role = localStorage.getItem('role')
-// const role = "user"
 const userId = localStorage.getItem('userId')
-// const userId = "4"
-console.log(role)
-console.log(userId)
-//if role == carer, get carer requests
-//if role user, get user requests, render accept buttons
+
 const closeSection = (sectionName) => {
     while (sectionName.lastElementChild) {
         sectionName.removeChild(sectionName.lastElementChild);
@@ -28,7 +21,7 @@ navBtn.addEventListener("click", () => {
     const navLinksDiv = document.querySelector(".navLinksDiv")
     if(navLinksDiv.style.display === "block"){
         navLinksDiv.style.display = "none"
-    }else {
+    } else {
         navLinksDiv.style.display = "block"
     }
 })
@@ -36,13 +29,14 @@ navBtn.addEventListener("click", () => {
 const navLinksList = document.querySelector(".navLinks")
 const usersNavLink = document.createElement("li")
 const usersLink = document.createElement("a")
+
 if(role === "carer"){
     usersLink.textContent = "Indees"
 }
 if(role === "user"){
     usersLink.textContent = "Habits"
 }
-// usersLink.href = "./carer"
+
 usersNavLink.className = "linkColor"
 usersNavLink.append(usersLink)
 usersNavLink.addEventListener("click", () => {
@@ -52,7 +46,6 @@ usersNavLink.addEventListener("click", () => {
     if(role === "user"){
         window.location.href = `${baseClientUrl}user`
     }
-    
 })
 
 const logoutNavLink = document.createElement("li")
@@ -108,22 +101,24 @@ acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsAr
 requestsArea.append(pendingArea, acceptedArea)
 const deleteConnectionModal = document.createElement("div")
 deleteConnectionModal.className = "deleteConnectionModal"
-console.log(requestsArea)
 
 async function deleteRequest(request) {
-    console.log(request)
-    const options = {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({request_id: request.id, user_id: request.user_id})
+    try {
+        const options = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({request_id: request.id, user_id: request.user_id})
+        }
+        const response = await fetch(`${baseUrl}requests/delete`, options);
+        await response.json()
+        closeSection(acceptedRequestsDiv)
+        closeSection(pendingRequestsDiv)
+        closeSection(deleteConnectionModal)
+        deleteConnectionModal.remove()
+        getRequestsData()
+    } catch (err) {
+        console.warn(err);
     }
-    const response = await fetch(`${baseUrl}requests/delete`, options);
-    const data = await response.json()
-    console.log(data)
-    closeSection(acceptedRequestsDiv)
-    closeSection(pendingRequestsDiv)
-    closeSection(deleteConnectionModal)
-    getRequestsData()
 }
 
 const openDeleteWarning = (request) => {
@@ -156,26 +151,25 @@ const openDeleteWarning = (request) => {
     requestsArea.append(deleteConnectionModal)
 }
 
-
 async function answerRequest(request, responseType) {
-    console.log(request)
-    console.log(responseType)
-    // responseType, request_id
-    const options = {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({request_id: request.id, responseType: responseType})
+    try {
+        const options = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({request_id: request.id, responseType: responseType})
+        }
+        const response = await fetch(`${baseUrl}requests/respond`, options);
+        await response.json()
+        closeSection(acceptedRequestsDiv)
+        acceptedHeadingsArea.style.display = "none"
+        closeSection(pendingRequestsDiv)
+        requestsHeadingsArea.style.display = "none"
+        getRequestsData()
+    } catch (err) {
+        console.warn(err);
     }
-    const response = await fetch(`${baseUrl}requests/respond`, options);
-    const data = await response.json()
-    console.log(data)
-    // request_id
-    closeSection(acceptedRequestsDiv)
-    acceptedHeadingsArea.style.display = "none"
-    closeSection(pendingRequestsDiv)
-    requestsHeadingsArea.style.display = "none"
-    getRequestsData()
 }
+
 const renderRequests = (request) => {
     const requestBox = document.createElement("div")
     const namePara = document.createElement("p")
@@ -184,6 +178,7 @@ const renderRequests = (request) => {
     datePara.textContent = `${request.date.slice(8,10)}-${request.date.slice(5,7)}-${request.date.slice(0,4)}`
     requestBox.className = "requestBox"
     requestBox.append(namePara, datePara)
+
     if(role === "carer" || (role === "user" && request.status === "accepted")){
         const deleteConnectionBtn = document.createElement("button")
         deleteConnectionBtn.textContent = "Delete"
@@ -191,8 +186,8 @@ const renderRequests = (request) => {
             openDeleteWarning(request)
         })
         requestBox.append(deleteConnectionBtn)
-        // requestsHeadingsArea.style.display = "flex"
     }
+
     if(role === "user" && request.status === "pending"){
         const responseBtns = document.createElement("div")
         responseBtns.className = "responseBtns"
@@ -210,38 +205,42 @@ const renderRequests = (request) => {
         })
         responseBtns.append(acceptConnectionBtn, declineConnectionBtn)
         requestBox.append(responseBtns)
-        // acceptedHeadingsArea.style.display = "flex"
     }
+
     if(request.status === "pending"){
         pendingRequestsDiv.append(requestBox)
         pendingRequestsEmptyPara.style.display = "none"
         requestsHeadingsArea.style.display = "flex"
     }
+
     if(request.status === "accepted"){
         acceptedRequestsDiv.append(requestBox)
         acceptedRequestsEmptyPara.style.display = "none"
         acceptedHeadingsArea.style.display = "flex"
     }
 }
+
 const resultUsers = document.createElement("div")
+resultUsers.className = "resultUsers"
 async function addRequest(userId, resultId, addDependentModal) {
-    console.log(userId, resultId)
-    const options = {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({carerId: userId, userId: resultId})
+    try {
+        const options = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({carerId: userId, userId: resultId})
+        }
+        const response = await fetch(`${baseUrl}carers/adduser`, options);
+        await response.json()
+        closeSection(acceptedRequestsDiv)
+        closeSection(pendingRequestsDiv)
+        addDependentModal.remove()
+        closeSection(resultUsers)
+        getRequestsData()
+    } catch (err) {
+        console.warn(err);
     }
-    const response = await fetch(`${baseUrl}carers/adduser`, options);
-    const data = await response.json()
-    console.log(data)
-    closeSection(acceptedRequestsDiv)
-    closeSection(pendingRequestsDiv)
-    addDependentModal.remove()
-    closeSection(resultUsers)
-    getRequestsData()
 }
 
-resultUsers.className = "resultUsers"
 const renderResults = (result, addDependentModal) => {
     const resultDiv = document.createElement("div")
     resultDiv.className = "resultDiv"
@@ -257,27 +256,28 @@ const renderResults = (result, addDependentModal) => {
 }
 
 async function findUser(e, addDependentModal) {
-    console.log(e.target.value)
-    //append results
     closeSection(resultUsers)
-    if(e.target.value !== ""){
-        const options = {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({searchTerm: e.target.value, carerId: userId})
+    try {
+        if(e.target.value !== ""){
+            const options = {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({searchTerm: e.target.value, carerId: userId})
+            }
+            const response = await fetch(`${baseUrl}users`, options);
+            const data = await response.json()
+            if(data.length){
+                data.forEach((data)=> {
+                    renderResults(data, addDependentModal)
+                })
+            }else {
+                const noUsersFoundMessage = document.createElement("p")
+                noUsersFoundMessage.textContent = "No users found"
+                resultUsers.append(noUsersFoundMessage)
+            }
         }
-        const response = await fetch(`${baseUrl}users`, options);
-        const data = await response.json()
-        console.log(data)
-        if(data.length){
-            data.forEach((data)=> {
-                renderResults(data, addDependentModal)
-            })
-        }else {
-            const noUsersFoundMessage = document.createElement("p")
-            noUsersFoundMessage.textContent = "No users found"
-            resultUsers.append(noUsersFoundMessage)
-        }
+    } catch (err) {
+        console.warn(err);
     }
 }
 
@@ -312,20 +312,21 @@ if(role === "carer"){
 }
 
 async function getRequestsData() {
-    // post to requests/ userId, role
     pendingRequestsEmptyPara.style.display = "block"
     acceptedRequestsEmptyPara.style.display = "block"
     requestsHeadingsArea.style.display = "none"
     acceptedHeadingsArea.style.display = "none"
-
-    const options = {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({userId: userId, role: role})
+    try {
+        const options = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({userId: userId, role: role})
+        }
+        const response = await fetch(`${baseUrl}requests`, options);
+        const data = await response.json()
+        data.forEach(renderRequests)
+    } catch (err) {
+        console.warn(err);
     }
-    const response = await fetch(`${baseUrl}requests`, options);
-    const data = await response.json()
-    console.log(data)
-    data.forEach(renderRequests)
 }
 getRequestsData()

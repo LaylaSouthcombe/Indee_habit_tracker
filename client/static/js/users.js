@@ -2,8 +2,6 @@ const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 const habitsWrapper = document.querySelector(".habitsWrapper")
 
-//if logged in and role === user
-//else render you are not logged in message
 const logo = document.getElementById("logo")
 logo.addEventListener("click", () => {
     window.location.href = baseClientUrl
@@ -32,7 +30,7 @@ navBtn.addEventListener("click", () => {
     const navLinksDiv = document.querySelector(".navLinksDiv")
     if(navLinksDiv.style.display === "block"){
         navLinksDiv.style.display = "none"
-    }else {
+    } else {
         navLinksDiv.style.display = "block"
     }
 })
@@ -72,16 +70,15 @@ async function decreaseCounter(e) {
         e.target.nextElementSibling.textContent = data.entry.habit_int_entry
 
         const percentComplete = data.entry.habit_int_entry / data.goal
-        const currentHabitBox = document.getElementById(`habit${habitId}`)
+        const currentHabitBox = document.getElementById(`habitInt${habitId}`)
         
         if(percentComplete <= 0.5){
             currentHabitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
             currentHabitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
         } else if(percentComplete > 0.75){
-            currentHabitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
+            currentHabitBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
         }
-        console.log(percentComplete)
     } catch (err) {
         console.warn(err);
     }
@@ -101,14 +98,14 @@ async function increaseCounter(e) {
         e.target.previousElementSibling.textContent = data.entry.habit_int_entry
 
         const percentComplete = data.entry.habit_int_entry / data.goal
-        const currentHabitBox = document.getElementById(`habit${habitId}`)
+        const currentHabitBox = document.getElementById(`habitInt${habitId}`)
         
         if(percentComplete <= 0.5){
             currentHabitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
             currentHabitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
         } else if(percentComplete > 0.75){
-            currentHabitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
+            currentHabitBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
         }
     } catch (err) {
         console.warn(err);
@@ -123,7 +120,6 @@ async function changeBlnValue (e) {
     } else if(e.target.className === "fa-solid fa-check"){
         habitValue = false
     }
-    console.log(habitId)
     try {
         const options = {
             method: 'PATCH',
@@ -132,10 +128,10 @@ async function changeBlnValue (e) {
         }
         const response = await fetch(`${baseUrl}blns`, options);
         const data = await response.json()
-        const currentHabitBox = document.getElementById(`habit${habitId}`)
+        const currentHabitBox = document.getElementById(`habitBln${habitId}`)
         if(data.habit_bln_entry === true){
             e.target.className = "fa-solid fa-check"
-            currentHabitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
+            currentHabitBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
         } else if(data.habit_bln_entry === false){
             e.target.className = "fa-solid fa-x"
             currentHabitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
@@ -145,23 +141,20 @@ async function changeBlnValue (e) {
     }
 }
 
-
 async function renderHabits(habit) {
-    console.log(habit)
     const habitBox = document.createElement("div")
     habitBox.classList.add("habitBox")
-
     const habitDesc = document.createElement("p")
     habitDesc.textContent = habit.description
-
     const habitRepeat = document.createElement("p")
     habitRepeat.textContent = `${habit.freq_value} times a ${habit.freq_unit}`
 
     habitBox.appendChild(habitDesc)
     habitBox.appendChild(habitRepeat)
-    habitBox.id = `habit${habit.id}`
+    
     
     if(habit.type === "int") {
+        habitBox.id = `habitInt${habit.id}`
         const habitGoal = document.createElement("p")
         const habitGoalValue = document.createElement("p")
         habitGoal.textContent = "Goal"
@@ -172,17 +165,15 @@ async function renderHabits(habit) {
         goalSection.appendChild(habitGoalValue)
         habitBox.appendChild(goalSection)
         
-
         const percentComplete = habit.habit_int_entry / habit.goal
-               
         if(percentComplete <= 0.5){
             habitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
             habitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
         } else if(percentComplete > 0.75){
-            habitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
+            habitBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
         }
-        const counterArea = document.createElement("div")
+
         const counterSection = document.createElement("div")
         counterSection.id = habit.id
         const counterTitle = document.createElement("p")
@@ -200,19 +191,17 @@ async function renderHabits(habit) {
 
         counterSection.append(minusCounterBtn, currentValue, plusCounterBtn)
         counterSection.className = "counterSection"
-        // counterArea.appendChild(counterSection)
-
         habitBox.appendChild(counterSection)
     }
 
     if(habit.type === "boolean") {
-        // const blnDiv = document.createElement("div")
+        habitBox.id = `habitBln${habit.id}`
         const blnIcon = document.createElement("i")
         blnIcon.id = habit.id
         blnIcon.addEventListener("click", changeBlnValue)
         if(habit.habit_bln_entry === true){
             blnIcon.className = "fa-solid fa-check"
-            habitBox.style.backgroundColor = "rgba(35, 247, 99, 0.8)"
+            habitBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
         }
         if(habit.habit_bln_entry === false){
             blnIcon.className = "fa-solid fa-x"
@@ -220,6 +209,7 @@ async function renderHabits(habit) {
         }
         habitBox.append(blnIcon)
     }
+
     if(habit.freq_unit === "day"){
         habitTodaySection.appendChild(habitBox)
         habitTodaySection.style.display = "block"
@@ -231,6 +221,7 @@ async function renderHabits(habit) {
         habitMonthSection.style.display = "block"
     }
 }
+
 const noHabitsDiv = document.createElement("div")
 noHabitsDiv.className = "noHabitsMessage"
 const renderNoHabitsMessage = () => {
@@ -240,9 +231,9 @@ const renderNoHabitsMessage = () => {
     noHabitsPara2.textContent = "Contact your carer to set up some new habits for you"
     noHabitsDiv.append(noHabitsPara1, noHabitsPara2)
 }
+
 async function getUsersHabits() {
     const userId = localStorage.getItem('userId')
-    console.log(userId)
     try {
         const options = {
             method: 'POST',
@@ -250,9 +241,7 @@ async function getUsersHabits() {
             body: JSON.stringify({user_id: userId})
         }
         const response = await fetch(`${baseUrl}habits/users`, options);
-        console.log(response)
         const data = await response.json()
-        console.log(data)
         if(data.length){
             data.forEach(renderHabits)
             habitsWrapper.append(habitTodaySection, habitWeekSection, habitMonthSection) 

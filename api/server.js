@@ -33,9 +33,7 @@ async function addHabitEntryForEveryUser() {
         try {
             const users = await db.query(`SELECT * FROM users;`)
             for (i = 0; i < users.rows.length; i++) {
-                console.log("user id", users.rows[i].id)
                 const habitsInfo = await db.query('SELECT * FROM habits_info WHERE user_id = $1', [users.rows[i].id]);
-                console.log("habitsInfo", habitsInfo.rows)
                 for(let j = 0; j < habitsInfo.rows.length; j++){
                     if(habitsInfo.rows[j].type === "int"){
                         await db.query(`INSERT INTO int_entries (habit_int_id) VALUES ($1);`, [habitsInfo.rows[j].id]);
@@ -46,9 +44,8 @@ async function addHabitEntryForEveryUser() {
                         console.log("data entered for bln habit", habitsInfo.rows[j].id)
                     }
                 }
-            console.log(`user entries created for ${users.rows[i].id}`)    
+                console.log(`user entries created for ${users.rows[i].id}`)    
             }
-            
             resolve(`User entries created for users`);
         } catch (err) {
             console.log(err);
