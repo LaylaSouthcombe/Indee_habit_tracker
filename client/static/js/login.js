@@ -1,6 +1,7 @@
 const baseUrl = "http://localhost:3000/"
 const baseClientUrl = "http://localhost:8080/"
 
+
 const homeSection = document.getElementById("home")
 homeSection.addEventListener("click", () => {
     window.location.href = baseClientUrl
@@ -26,24 +27,23 @@ const registerSname = document.querySelector("#registerSname");
 
 const userRole = document.querySelector("#userRole");
 const carerRole = document.querySelector("#carerRole");
-
-
+const errorPopUp = document.createElement("div")
+const errorPopUpIcon = document.createElement("i")
+const errorPopUpText = document.createElement("p")
+errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
+errorPopUp.className = "errorMsg loginPasswordError"
+errorPopUpText.textContent = "Please enter a valid email address"
+const errorTriangle = document.createElement("div")
+errorTriangle.clasName = "triangle-after"
+errorPopUp.append(errorPopUpIcon, errorPopUpText, errorTriangle)
+const mainSection = document.querySelector("main")
+mainSection.append(errorPopUp)
 function login(person) {
-    // const user = jwt_decode(person.token)
-    // localStorage.setItem('token', person.token)
-    localStorage.setItem('fname', person.first_name)
-    localStorage.setItem('sname', person.second_name)
-    localStorage.setItem('userEmail', person.email)
-    localStorage.setItem('role', person.role)
-    localStorage.setItem('userId', person.id)
-  
-    // if (btn2.classList.contains('disabled')) {
-    //   btn2.classList.remove('disabled')
-    //   btn3.classList.remove('disabled')
-    //   loginBtn.classList.add('disabled')
-    //   logoutBtn.classList.remove('disabled')
-    // }
-  //render page
+  localStorage.setItem('fname', person.first_name)
+  localStorage.setItem('sname', person.second_name)
+  localStorage.setItem('userEmail', person.email)
+  localStorage.setItem('role', person.role)
+  localStorage.setItem('userId', person.id)
 }
 
 const sendLogin = async (e) => {
@@ -51,79 +51,95 @@ const sendLogin = async (e) => {
     const url = `${baseUrl}auth/login`
     const email = loginEmail.value
     const password = loginPassword.value
-//    console.log(JSON.stringify({ email, password }))
-    try {
-        const response = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify({ email, password }),
-          headers: {
-            'Content-Type': 'application/json',
-            // Authorization: token,
-          },
-        })
-    
-        const data = await response.json()
-        console.log(data)
-        if (data.err) {
-          throw new Error(data.err)
-        } else {
-          console.log('app.js - data received from server after logging in: ', data)
-          loginEmail.value = ''
-          loginPassword.value = ''
-    
-          console.log('saving token to localStorage: ', { data })
-          login(data.person)
-          window.location.href = `${baseClientUrl}${data.person.role}`
+    console.log(password)
+    if(!email.includes("@")){
+      errorPopUp.className = "loginEmailError errorMsg"
+      errorPopUpText.textContent = "Please enter a valid email address"
+    } else if(password === "") {
+      errorPopUp.className = "loginPasswordError errorMsg"
+      errorPopUpText.textContent = "Please enter a password"
+    } else {
+      try {
+          const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          const data = await response.json()
+          console.log(data)
+          if (data.err) {
+            throw new Error(data.err)
+          } else {
+            loginEmail.value = ''
+            loginPassword.value = ''
+            login(data.person)
+            window.location.href = `${baseClientUrl}${data.person.role}`
+          }
+        } catch (err) {
+          console.log(err)
+          errorPopUp.className = "loginEmailError errorMsg"
         }
-      } catch (err) {
-        console.log(err)
-      }
+    }
 }
 
 async function sendRegister(e) {
     e.preventDefault()
-    let role
-    if(userRole.checked){
-        role = "user"
-    }
-    if(carerRole.checked){
-        role = "carer"
-    }
-    const url = `${baseUrl}auth/${role}/register`
-  
     const fname = registerFname.value
     const sname = registerSname.value
     const email = registerEmail.value
     const password = registerPassword.value
 
-  console.log(JSON.stringify({ fname, sname, email, password }))
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({ fname, sname, email, password }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  
-    const data = await response.json()
-  
-    if (data.err) {
-      console.log('Error registering: add a pop up somewhere: ', data.err)
+    if(!email.includes("@")){
+      errorPopUp.className = "regEmailError errorMsg"
+      errorPopUpText.textContent = "Please enter a valid email address"
+    } else if (password === "") {
+      errorPopUp.className = "regPasswordError errorMsg"
+      errorPopUpText.textContent = "Please enter a password"
+    } else if (fname === "") {
+      errorPopUp.className = "regFNameError errorMsg"
+      errorPopUpText.textContent = "Please enter your first name"
+    } else if (sname === "") {
+      errorPopUp.className = "regSNameError errorMsg"
+      errorPopUpText.textContent = "Please enter your second name"
     } else {
-      console.log(
-        'app.js - data received from server after registering in: ',
-        data
-      )
-      registerFname.value = ''
-      registerSname.value = ''
-      registerEmail.value = ''
-      registerPassword.value = ''
+      try {
+        let role
+        if(userRole.checked){
+            role = "user"
+        }
+        if(carerRole.checked){
+            role = "carer"
+        }
+        const url = `${baseUrl}auth/${role}/register`
+        console.log(JSON.stringify({ fname, sname, email, password }))
+        const response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({ fname, sname, email, password }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
   
-      console.log('saving token to localStorage: ', { data })
-      login(data.person)
-      window.location.href = `${baseClientUrl}${data.person.role}`
+        const data = await response.json()
+      
+        if (data.err) {
+          console.log('Error registering: ', data.err)
+          errorPopUp.className = "regEmailError"
+        } else {
+          registerFname.value = ''
+          registerSname.value = ''
+          registerEmail.value = ''
+          registerPassword.value = ''
+          login(data.person)
+          window.location.href = `${baseClientUrl}${data.person.role}`
+        }
+      } catch(err){
+        console.log(err)
+          errorPopUp.className = "loginEmailError"
+      }
     }
-    // modal.classList.add('disabled')
   }
 
 const hideLoginForm = (e) => {
