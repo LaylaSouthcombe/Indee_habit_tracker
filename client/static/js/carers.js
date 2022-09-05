@@ -350,7 +350,7 @@ const renderHabitBoxes = (habit) => {
     habitDesc.textContent = habit.description
 
     const habitRepeat = document.createElement("p")
-    habitRepeat.textContent = `Repeated ${habit.freq_value} times a ${habit.freq_unit}`
+    habitRepeat.textContent = `${habit.freq_value} times a ${habit.freq_unit}`
 
     habitBox.appendChild(habitDesc)
     habitBox.appendChild(habitRepeat)
@@ -774,6 +774,7 @@ async function deleteHabit(habitId, e) {
 
 const openDeleteHabitModal = (habitId, e) => {
     const deleteHabitModal = document.createElement("div")
+    deleteHabitModal.className = "deleteHabitModal"
     const deleteHabitPara1 = document.createElement("p")
     deleteHabitPara1.textContent = "Warning!"
     const deleteHabitPara2 = document.createElement("p")
@@ -783,9 +784,10 @@ const openDeleteHabitModal = (habitId, e) => {
     continueBtn.addEventListener("click", (e) => {
         deleteHabit(habitId, e)
     })
+    continueBtn.className = "continueBtn"
     const cancelBtn = document.createElement("button")
     cancelBtn.textContent = "Cancel"
-
+    cancelBtn.className = "cancelBtn"
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault()
         deleteHabitModal.remove()

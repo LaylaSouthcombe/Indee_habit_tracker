@@ -97,6 +97,7 @@ pendingArea.append(pendingTitle, pendingRequestsEmptyPara, requestsHeadingsArea,
 acceptedArea.append(acceptedTitle, acceptedRequestsEmptyPara, acceptedHeadingsArea, acceptedRequestsDiv)
 requestsArea.append(pendingArea, acceptedArea)
 const deleteConnectionModal = document.createElement("div")
+deleteConnectionModal.className = "deleteConnectionModal"
 console.log(requestsArea)
 
 async function deleteRequest(request) {
@@ -129,14 +130,16 @@ const openDeleteWarning = (request) => {
     deleteConnectionPara2.textContent = `Deleting this connection will remove the user as your ${roleTerm}`
     const continueBtn = document.createElement("button")
     continueBtn.textContent = "Continue"
+    continueBtn.className = "continueBtn"
     continueBtn.addEventListener("click", () => {
         deleteRequest(request)
     })
     const cancelBtn = document.createElement("button")
     cancelBtn.textContent = "Cancel"
-
+    cancelBtn.className = "cancelBtn"
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault()
+        closeSection(deleteConnectionModal)
         deleteConnectionModal.remove()
     })
     deleteConnectionModal.append(deleteConnectionPara1, deleteConnectionPara2, continueBtn, cancelBtn)

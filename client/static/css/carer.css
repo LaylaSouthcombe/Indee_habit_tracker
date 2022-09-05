@@ -13,7 +13,7 @@ main {
     width: 80%;
     background-color: rgba(169, 169, 217, 0.3);
     margin: 0 auto;
-    border-radius: 15px;
+    border-radius: 8px;
     padding: 15px 35px;
     color: rgba(43, 43, 43, 0.9);
     font-size: 1.15rem;
@@ -38,7 +38,7 @@ main {
 .userToplineSummary {
     display: flex;
     justify-content: flex-end;
-    border-radius: 15px;
+    border-radius: 8px;
     margin: 10px 0px;
     padding: 5px 15px;
     align-items: center;
@@ -77,7 +77,7 @@ main {
     margin-right: auto;
     margin-left: auto;
     width: 85%;
-    border-radius: 15px;
+    border-radius: 8px;
 }
 
 .userSummaryModal > p {
@@ -131,7 +131,7 @@ main {
     /* outline: none; */
     background-color: rgba(87, 84, 236, 0.9);
     color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     border: none;
     height: 40%;
 }
@@ -145,13 +145,21 @@ main {
     width: 85%;
     margin: 10px auto 0px auto;
 }
+.metricsSummarySection {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-bottom: 10px;
+}
 .habitsTitleDiv {
     background-color: rgba(132, 130, 234, 1);
     width: 50%;
+    border-top-left-radius: 8px;
 }
 .metricsTitleDiv {
     background-color: rgba(132, 130, 234, 1);
     width: 50%;
+    border-top-right-radius: 8px;
+
 }
 .activeTitleDiv {
     background-color: rgba(87, 84, 236, 0.9);
@@ -163,6 +171,9 @@ main {
     margin: 0 auto;
     padding-top: 15px;
     padding-bottom: 15px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-bottom: 10px;
 }
 
 .habitsSummarySection > div > h2 {
@@ -177,7 +188,7 @@ main {
     display: flex;
     justify-content: space-between;
     width:95%;
-    border-radius: 10px;
+    border-radius: 8px;
     margin: 10px auto;
     align-items: center;
 }
@@ -225,7 +236,7 @@ main {
     margin-left: auto;
     margin-right: auto;
     top: 17%;
-    border-radius: 10px;
+    border-radius: 8px;
     color: rgba(43, 43, 43, 0.9);
     grid-template-areas: 
     "title cross"
@@ -414,7 +425,7 @@ label[for="repeatedHabitUnitInput"]{
     outline: none;
     background-color: rgba(87, 84, 236, 0.9);
     color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     border: none;
     box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
@@ -428,7 +439,7 @@ label[for="repeatedHabitUnitInput"]{
     margin: 10px auto;
     padding: 10px;
     font-size: 1rem;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .metricsSummarySection {
@@ -455,4 +466,39 @@ label[for="repeatedHabitUnitInput"]{
 }
 canvas {
     padding: 10px 5px;
+}
+
+.deleteHabitModal {
+    position: absolute;
+    width: 65%;
+    background-color: #dbdbff;
+    border-radius: 8px;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    top: 30%;
+}
+.continueBtn {
+    width: 35%;
+    margin: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.cancelBtn {
+    background-color: rgba(169, 169, 217, 0.3);
+    color: rgb(87, 84, 236);
+    border: none;
+    outline: none;
+    width: 35%;
+    margin: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
 }

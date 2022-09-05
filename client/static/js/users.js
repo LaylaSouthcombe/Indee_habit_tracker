@@ -143,7 +143,7 @@ async function renderHabits(habit) {
     habitDesc.textContent = habit.description
 
     const habitRepeat = document.createElement("p")
-    habitRepeat.textContent = `Repeated ${habit.freq_value} times a ${habit.freq_unit}`
+    habitRepeat.textContent = `${habit.freq_value} times a ${habit.freq_unit}`
 
     habitBox.appendChild(habitDesc)
     habitBox.appendChild(habitRepeat)
