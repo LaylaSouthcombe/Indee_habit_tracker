@@ -232,7 +232,8 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
                     ticks: {
                         display: axisTicksDisplay,
                         beginAtZero: true,
-                        color: color
+                        color: color,
+                        stepSize: 25
                     },
                     grid: {
                         display: false
@@ -321,9 +322,9 @@ const createMixedGraph = (chartName, appendedElement, data, title, numOfDays) =>
             scales: {
                 y: {
                     ticks: {
-                        beginAtZero: true,
-                        stepSize: 25
+                        stepSize: 25,
                     },
+                    beginAtZero: true,
                     suggestedMax: 100,
                     grid: {
                         display: false,
@@ -493,7 +494,7 @@ async function getWeekData() {
 
     let dataLabels = {display: false}
     individualHabitsData.dataArr.forEach(function(x) {
-        createWeekGraph(`individualHabitsSummary habit${x.habitId}`, metricsWeekSection, x.entriesData, x.habitTitle, true, true, dataLabels)
+        createWeekGraph(`individualHabitsSummary-habit${x.habitId}`, metricsWeekSection, x.entriesData, x.habitTitle, true, true, dataLabels)
     })
     
     metricsWeekSection.style.display = "block"
@@ -524,7 +525,7 @@ async function getMonthData() {
     individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
 
     individualHabitsData.dataArr.forEach(function(x) {
-        createMixedGraph(`individualHabitsMonthSummary habit${x.habitId}`, metricsMonthSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
+        createMixedGraph(`individualHabitsMonthSummary-habit${x.habitId}`, metricsMonthSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
     })
     metricsMonthSection.style.display = "block"
 }
@@ -552,7 +553,7 @@ async function getAllTimeData() {
     const individualHabitsData = await individualHabitsResponse.json()
     individualHabitsData.dataArr.unshift({habitId: "Overall", habitTitle: "Overall", entriesData: allHabitsData.entriesData})
     individualHabitsData.dataArr.forEach(function(x) {
-        createMixedGraph(`individualHabitsMonthSummary habit${x.habitId}`, metricsAllTimeSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
+        createMixedGraph(`individualHabitsMonthSummary-habit${x.habitId}`, metricsAllTimeSection, x.entriesData, x.habitTitle, individualHabitsData.numOfDays)
     })
     metricsAllTimeSection.style.display = "block"
 }

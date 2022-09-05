@@ -143,7 +143,7 @@ main {
 .habitsMetricsTitleDiv {
     display: flex;
     width: 85%;
-    margin: 0 auto;
+    margin: 10px auto 0px auto;
 }
 .habitsTitleDiv {
     background-color: rgba(132, 130, 234, 1);
@@ -408,11 +408,15 @@ label[for="repeatedHabitUnitInput"]{
 .metricsSummarySection {
     width: 85%;
     margin: 0 auto;
+    border: 3px solid rgba(132, 130, 234, 1);
+
 }
 .dateBtns {
     display: flex;
     background-color: rgb(176, 175, 249);
     justify-content: space-evenly;
+    border-bottom: 3px solid rgba(132, 130, 234, 1);
+
 }
 .dateBtns > .activeDateBtn {
     background-color: #65659a;
@@ -422,4 +426,7 @@ label[for="repeatedHabitUnitInput"]{
     height: 100%;
     padding: 10px 20px;
     width: 33%;
+}
+canvas {
+    padding: 10px 5px;
 }
