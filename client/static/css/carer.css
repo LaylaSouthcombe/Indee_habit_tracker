@@ -276,7 +276,6 @@ label[for="habitDescInput"] {
     border: none;
     padding-left: 10px;
     text-align: center;
-    /* margin-bottom: 20px; */
 }
 
 .frequencyArea {
@@ -314,12 +313,7 @@ label[for="habitDescInput"] {
     flex-wrap: wrap;
     flex-direction: column;
 }
-/* .typeOfGoalArea > label > input:checked + span {
-    background-color: #00005c;
-}
-.typeOfGoalArea > label > input:before {
-    background-color: #00005c;
-} */
+
 .typeOfGoalArea > label {
     display: flex;
     cursor: pointer;
@@ -411,4 +405,21 @@ label[for="repeatedHabitUnitInput"]{
     padding-left: 40px;
     font-size: 1.2rem
 }
-
+.metricsSummarySection {
+    width: 85%;
+    margin: 0 auto;
+}
+.dateBtns {
+    display: flex;
+    background-color: rgb(176, 175, 249);
+    justify-content: space-evenly;
+}
+.dateBtns > .activeDateBtn {
+    background-color: #65659a;
+}
+.dateBtns > p {
+    margin: 0;
+    height: 100%;
+    padding: 10px 20px;
+    width: 33%;
+}

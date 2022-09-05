@@ -557,20 +557,36 @@ async function getUsersMetricsSummary() {
     
     const weekBtn = document.createElement("p")
     weekBtn.textContent = "Week"
-    weekBtn.className = "weekBtn"
-    weekBtn.addEventListener("click", getWeekData)
+    weekBtn.className = "weekBtn activeDateBtn"
+    
     
     const monthBtn = document.createElement("p")
     monthBtn.textContent = "Month"
     monthBtn.className = "monthBtn"
-
-    monthBtn.addEventListener("click", getMonthData)
+    
     
     const allTimeBtn = document.createElement("p")
     allTimeBtn.textContent = "All time"
     allTimeBtn.className = "allTimeBtn"
 
-    allTimeBtn.addEventListener("click", getAllTimeData)
+    weekBtn.addEventListener("click", () => {
+        monthBtn.classList.remove("activeDateBtn")
+        allTimeBtn.classList.remove("activeDateBtn")
+        weekBtn.classList.add("activeDateBtn")
+        getWeekData()
+    })
+    monthBtn.addEventListener("click", () => {
+        weekBtn.classList.remove("activeDateBtn")
+        allTimeBtn.classList.remove("activeDateBtn")
+        monthBtn.classList.add("activeDateBtn")
+        getMonthData()
+    })
+    allTimeBtn.addEventListener("click", () => {
+        monthBtn.classList.remove("activeDateBtn")
+        weekBtn.classList.remove("activeDateBtn")
+        allTimeBtn.classList.add("activeDateBtn")
+        getAllTimeData()
+    })
     
     dateBtns.append(weekBtn, monthBtn, allTimeBtn)
     dateBtns.className = "dateBtns"
