@@ -1,0 +1,564 @@
+@import "nav.css";
+
+main {
+    grid-gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    z-index: -1;
+    text-align: center;
+    position: relative;
+}
+
+.noUsersMessage > div {
+    width: 80%;
+    background-color: rgba(169, 169, 217, 0.3);
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 15px 35px;
+    color: rgba(43, 43, 43, 0.9);
+    font-size: 1.15rem;
+}
+
+.takeMeThereBtn {
+    width: 75%;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 1rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 10px;
+    border: none;
+}
+
+.usersWrapper {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.userToplineSummary {
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 8px;
+    margin: 10px 0px;
+    padding: 5px 15px;
+    align-items: center;
+}
+
+.userToplineSummary > p:nth-child(1){
+    margin-right: auto;
+}
+
+.userToplineSummary > div {
+    margin-right: 5px;
+    margin-left: 60px;
+    height: 15%;
+    font-size: 1.45rem;
+}
+
+.userToplineSummary > p:nth-child(2)::after{
+    content: "%";
+}
+
+.userToplineSummary > p {
+    font-size: 1.15rem;
+    margin-top: 12.5px;
+    margin-bottom: 12.5px;
+}
+
+.moreUserInfoBtn {
+    display: flex;
+    align-items: center;
+}
+
+.moreUserIcon {
+    width: 30px;
+}
+
+.userSummaryModal {
+    position: absolute;
+    top: 8%;
+    background-color: rgba(132, 130, 234, 1);
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    width: 85%;
+    border-radius: 8px;
+}
+
+.userSummaryModal > p {
+    color: #dbdbff;
+    font-size: 1.2rem;
+}
+
+.modalCloseDiv {
+    display: inline-block;
+    width: 5%;
+    margin: 20px;
+}
+
+.modalCloseDiv > img {
+    width: 100%;
+}
+
+.usersNameTitle {
+    margin: 20px 0px 0px 0px;
+    font-size: 1.6rem !important;
+    display: inline-block;
+    width: 80%;
+    padding-left: 50px;
+}
+
+.weekReviewTitle {
+    color: rgba(43, 43, 43, 0.6);
+}
+
+.lastLoginText{
+    display: inline;
+    margin-right: 15px;
+}
+
+.lastLoginValue{
+    display: inline;
+}
+
+#carerHomeChart {
+    height: 50%;
+}
+
+.userSummaryPage {
+    position: relative;
+}
+
+.userSummaryPageTopSection {
+    display: flex;
+    width: 85%;
+    justify-content: space-between;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.userSummaryPageTopSection > div{
+    width: 15%;
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    height: 40%;
+}
+
+.userSummaryPageTopSection > p {
+    font-size: 1.25rem;
+}
+
+.habitsMetricsTitleDiv {
+    display: flex;
+    width: 85%;
+    margin: 10px auto 0px auto;
+}
+
+.metricsSummarySection {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.habitsTitleDiv {
+    background-color: rgba(132, 130, 234, 1);
+    width: 50%;
+    border-top-left-radius: 8px;
+}
+
+.metricsTitleDiv {
+    background-color: rgba(132, 130, 234, 1);
+    width: 50%;
+    border-top-right-radius: 8px;
+}
+
+.activeTitleDiv {
+    background-color: rgba(87, 84, 236, 0.9);
+}
+
+.habitsSummarySection {
+    border: 3px solid rgba(132, 130, 234, 1);
+    width: 85%;
+    margin: 0 auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.habitsSummarySection > div > h2 {
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin: 0px;
+    display: inline-block;
+    border-bottom: 2px solid rgba(87, 84, 236, 0.9);
+}
+
+.habitBox {
+    display: flex;
+    justify-content: space-between;
+    width:95%;
+    border-radius: 8px;
+    margin: 10px auto;
+    align-items: center;
+}
+
+.habitBox > p:nth-child(1) {
+    width: 30%;
+    padding: 2.5px;
+    margin: 0px;
+}
+
+.habitBox > p:nth-child(2) {
+    width: 25%;
+    padding: 2.5px;
+    margin: 2.5px 0px;
+}
+
+.habitBox > .fa-x {
+    color: rgb(251, 111, 65);
+    background-color: rgb(253, 201, 88);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.75rem;
+    width: 12.5%;
+    margin: 0px 30px;
+}
+
+.habitBox > .fa-check {
+    color: rgb(55, 173, 55);
+    background-color: rgb(201, 251, 183);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.75rem;
+    width: 12.5%;
+    margin: 0px 30px;
+}
+
+.habitBox > div > i{
+    margin-right: 10px;
+    font-size: 1.25rem;
+}
+
+.goalSection > p {
+    margin: 8px 0px;
+}
+
+.currentValueSection > p {
+    margin: 8px 0px;
+}
+
+.editCreateHabitModal {
+    position: absolute;
+    background-color:rgb(176, 175, 249);
+    display: grid;
+    width: 90%;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 17%;
+    border-radius: 8px;
+    color: rgba(43, 43, 43, 0.9);
+    grid-template-areas: 
+    "title cross"
+    "form form"
+    "btn1 btn1"
+    "btn2 btn2";
+    grid-template-columns: 85% 15%;
+    text-align: left;
+}
+
+.editCreateHabitModal > p {
+    grid-area: title;
+    font-size: 1.3rem;
+    padding-left: 50px;
+    padding-top: 20px;
+    margin: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.editCreateHabitModal > span {
+    grid-area: cross;
+    margin: 10px 10px 20px 10px;
+    width: 25%;
+    padding-top: 5px;
+    font-size: 1.2rem;
+}
+
+.editCreateHabitModal > form {
+    display: grid;
+    grid-template-areas: 
+    "desc"
+    "descInput"
+    "repeated"
+    "goal";
+    grid-area: form;
+    align-items: center;
+    width: 75%;
+    margin: 0 auto 0 40px;
+}
+
+.editCreateHabitModal > form > label {
+    font-size: 1rem;
+}
+
+label[for="habitDescInput"] {
+    grid-area: desc;
+}
+
+#habitDescInput {
+    grid-area: descInput;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 12px;
+    border: none;
+    background-color:rgb(176, 175, 249);
+    border-bottom: 1px solid rgba(43, 43, 43, 0.6);
+    font-size: 1.1rem;
+    outline: none;
+}
+
+.frequencyArea {
+    grid-area: repeated;
+    display: grid;
+    grid-template-areas: 
+    "label1 input1 span"
+    "label2 input2 input2";
+    align-items: center;
+    width: 100%;
+    font-size: 1.1rem;
+    grid-template-columns: 30% 50% 20%;
+}
+
+.frequencyArea > span {
+    grid-area: span;
+}
+
+label[for="repeatedHabitNumInput"] {
+    grid-area: label1;
+    font-size: 1rem;
+}
+
+label[for="repeatedHabitUnitInput"]{
+    grid-area: label2;
+    font-size: 1rem;
+}
+
+.frequencyArea > input {
+    width: 50%;
+    margin: 15px 0px 12px 30px;
+    height: 30px;
+    outline: none;
+    border: none;
+    text-align: center;
+    grid-area: input1;
+    background-color:rgb(176, 175, 249);
+    border-bottom: 1px solid rgba(43, 43, 43, 0.6);
+    font-size: 1.1rem;
+    outline: none;
+}
+
+.frequencyArea > select {
+    width: 50%;
+    margin: 15px 0px 12px 0px;
+    height: 30px;
+    outline: none;
+    border: none;
+    text-align: center;
+    grid-area: input2;
+    background-color:rgb(176, 175, 249);
+    border-bottom: 1px solid rgba(43, 43, 43, 0.6);
+    outline: none;
+    font-size: 1.1rem;
+}
+
+.typeOfGoalArea {
+    grid-area: goal;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.typeOfGoalArea > p {
+    margin: 10px 0px 5px 0px;
+    font-size: 1rem;
+}
+
+.typeOfGoalArea > label {
+    display: flex;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    justify-content: flex-start;
+    font-size: 1.1rem;
+}
+
+.typeOfGoalArea > label > span {
+    color: rgba(43, 43, 43, 0.9);
+}
+
+.goalArea > label {
+    padding-left: 10px;
+}
+
+.goalArea > input {
+    width: 25%;
+    margin: 15px 0px 12px 15px;
+    height: 30px;
+    outline: none;
+    border: none;
+    text-align: center;
+    background-color:rgb(176, 175, 249);
+    border-bottom: 1px solid rgba(43, 43, 43, 0.6);
+    font-size: 1.1rem;
+    outline: none;
+}
+
+.typeOfGoalArea > label input {
+    position: absolute;
+    left: -9999px;
+}
+
+.typeOfGoalArea > label input:checked + span {
+    background-color: #d6d6e5;
+}
+
+.typeOfGoalArea > label input:checked + span:before {
+    box-shadow: inset 0 0 0 0.4375em #00005c;
+}
+
+.typeOfGoalArea > label span {
+    display: flex;
+    align-items: center;
+    padding: 0.375em 0.75em 0.375em 0.375em;
+    border-radius: 99em;
+    transition: 0.25s ease;
+}
+
+.typeOfGoalArea > label span:hover {
+    background-color: #d6d6e5;
+}
+
+.typeOfGoalArea > label span:before {
+    display: flex;
+    flex-shrink: 0;
+    content: "";
+    background-color: #fff;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    margin-right: 0.375em;
+    transition: 0.25s ease;
+    box-shadow: inset 0 0 0 0.125em #00005c;
+}
+
+.updateCreateBtn {
+    grid-area: btn1;
+    width: 75%;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 1rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.deleteBtn {
+    grid-area: btn2;
+    background-color: rgba(205, 205, 250, 0.7);
+    color: rgb(87, 84, 236);
+    border: none;
+    outline: none;
+    width: 75%;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+}
+
+.metricsSummarySection {
+    width: 85%;
+    margin: 0 auto;
+    border: 3px solid rgba(132, 130, 234, 1);
+
+}
+
+.dateBtns {
+    display: flex;
+    background-color: rgb(176, 175, 249);
+    justify-content: space-evenly;
+    border-bottom: 3px solid rgba(132, 130, 234, 1);
+}
+
+.dateBtns > .activeDateBtn {
+    background-color: #65659a;
+}
+
+.dateBtns > p {
+    margin: 0;
+    height: 100%;
+    padding: 10px 20px;
+    width: 33%;
+}
+
+canvas {
+    padding: 10px 5px;
+}
+
+.userSummaryModal > canvas {
+    width: 90%;
+    margin: 0 auto;
+    background-color: rgba(214, 214, 255, 0.4);
+    border-radius: 8px;
+}
+
+.deleteHabitModal {
+    position: absolute;
+    width: 65%;
+    background-color: #dbdbff;
+    border-radius: 8px;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    top: 30%;
+}
+
+.continueBtn {
+    width: 35%;
+    margin: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.cancelBtn {
+    background-color: rgba(169, 169, 217, 0.3);
+    color: rgb(87, 84, 236);
+    border: none;
+    outline: none;
+    width: 35%;
+    margin: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+}

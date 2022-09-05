@@ -1,0 +1,284 @@
+@import "nav.css";
+
+* { 
+    box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif;
+}
+
+html { 
+    height: 100%;
+    margin: 0;
+}
+
+a { 
+    text-decoration: none; 
+}
+
+body {
+    display: grid;
+    grid-template-areas: 
+    "nav"
+    "main"
+    "footer";
+    grid-template-rows: 10vh 80vh 10vh;
+    position: fixed;
+    width: 100vw;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+
+main {
+    padding: 0;
+    width: 100vw;
+    margin: 0 auto;
+    grid-gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    z-index: -1;
+    text-align: center;
+    grid-area: main;
+    background-color: rgba(205, 205, 245, 0.2);
+}
+
+#requestsArea {
+    width: 85%;
+    margin: 0 auto;
+    text-align: right;
+    position: relative;
+}
+
+#requestsArea > button {
+    width: 15%;
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 8px;
+    border: none;
+}
+
+.pendingArea,
+.acceptedArea {
+    text-align: left;
+    margin: 20px 20px 30px 20px;
+}
+
+.pendingArea > h3,
+.acceptedArea > h3 {
+    text-align: left;
+    margin-bottom: 30px;
+    display: inline;
+    border-bottom: 2px solid rgba(132, 132, 202, 0.7);
+}
+
+.pendingArea > p,
+.acceptedArea > p {
+    text-align: center;
+    padding: 15px;
+    background-color: rgba(132, 132, 202, 0.2);
+    border-radius: 8px;
+}
+
+.addDependentModal {
+    position: absolute;
+    top: 17.5%;
+    color: rgba(43, 43, 43, 0.9);
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    width: 95%;
+    background-color: rgb(158, 157, 247);
+    z-index: 100;
+    display: grid;
+    grid-template-areas: 
+    "title cross"
+    "searchPara searchPara"
+    "searchBar searchBar"
+    "results results";
+    border-radius: 8px;
+    grid-template-columns: 85% 15%;
+    text-align: center;
+}
+
+.addDependentModal > h3 {
+    grid-area: title;
+    font-size: 1.2rem;
+    padding-left: 40px;
+    padding-top: 15px;
+}
+
+.addDependentModal > span {
+    grid-area: cross;
+    margin: 10px;
+    width: 25%;
+    padding-top: 15px;
+}
+
+.addDependentModal > p {
+    grid-area: searchPara;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    padding-bottom: 25px;
+}
+
+.addDependentModal > input {
+    grid-area: searchBar;
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    height: 30px;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+    background-color: rgb(158, 157, 247);
+    border-bottom: 1px solid rgba(43, 43, 43, 0.6);
+    font-size: 1.1rem;
+}
+
+.resultUsers {
+    grid-area: results;
+    padding-bottom: 30px;
+}
+
+.resultDiv {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    margin: 10px auto;
+    border-radius: 8px;
+    background-color: rgba(205, 205, 245, 1);
+    align-items: center;
+}
+
+.resultDiv > p {
+    font-size: 1rem;
+    padding-left: 20px;
+    color: rgb(103, 101, 231);
+    font-weight: bold;
+}
+
+.resultDiv > button {
+    font-size: 1.5rem;
+    margin-right: 20px;
+    height: 50%;
+    background-color: rgb(103, 101, 231);
+    color: rgba(205, 205, 245, 1);
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.requestBox {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: rgba(132, 132, 202, 0.2);
+    border-radius: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.requestBox > button {
+    height: 50%;
+    padding: 5px 7.5px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    background-color: rgb(103, 101, 231);
+    color: white;
+}
+
+.requestsHeadingsArea {
+    display: none;
+}
+
+.requestsHeadingsArea > p:nth-child(1){
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
+.requestsHeadingsArea > p {
+    border-bottom: 2px solid rgba(205, 205, 245, 0.8);
+}
+
+.responseBtns {
+    width:30%;
+    text-align: right;
+}
+
+.responseBtns > button {
+    width: 80%;
+    margin: 5px;
+    padding: 5px;
+    font-size: 1rem;
+    outline: none;
+    color: white;
+    border-radius: 8px;
+    border: none;
+}
+
+.acceptConnectionBtn {
+    background-color: rgba(87, 84, 236, 0.9);
+}
+
+.declineConnectionBtn {
+    background-color: rgba(169, 169, 217, 0.8);
+}
+
+.acceptedHeadingsArea {
+    display: none;
+}
+
+.acceptedHeadingsArea > p:nth-child(1){
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
+.acceptedHeadingsArea > p {
+    border-bottom: 2px solid rgba(205, 205, 245, 0.8);
+}
+
+.deleteConnectionModal {
+    position: absolute;
+    width: 90%;
+    background-color: #dbdbff;
+    border-radius: 8px;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    top: 30%;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.continueBtn {
+    width: 35%;
+    margin: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    outline: none;
+    background-color: rgba(87, 84, 236, 0.9);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    box-shadow: rgba(87, 84, 236, 0.25) 0px 4px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.cancelBtn {
+    background-color: rgba(169, 169, 217, 0.3);
+    color: rgb(87, 84, 236);
+    border: none;
+    outline: none;
+    width: 35%;
+    margin: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+}

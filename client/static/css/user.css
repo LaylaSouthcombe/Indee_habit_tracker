@@ -1,0 +1,95 @@
+.noHabitsMessage {
+    width: 80%;
+    background-color: rgba(169, 169, 217, 0.3);
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 15px 35px;
+    color: rgba(43, 43, 43, 0.9);
+    font-size: 1.15rem;
+}
+
+.habitBox {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    border-radius: 8px;
+    margin: 10px auto;
+    align-items: center;
+    padding: 5px 0px;
+}
+
+.habitBox > p:nth-child(1) {
+    width: 30%;
+    padding: 2.5px;
+    margin: 0px;
+}
+
+.habitBox > p:nth-child(2) {
+    width: 25%;
+    padding: 2.5px;
+    margin: 2.5px 0px;
+}
+
+.habitBox > .fa-x {
+    color: rgb(251, 111, 65);
+    background-color: rgb(253, 201, 88);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.75rem;
+    width: 12.5%;
+    margin: 0px 30px 0px 50px;
+}
+
+.habitBox > .fa-check {
+    color: rgb(55, 173, 55);
+    background-color: rgb(201, 251, 183);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.75rem;
+    width: 12.5%;
+    margin: 0px 30px 0px 50px;
+}
+
+.habitBox > div > .fa-check{
+    margin-right: 10px;
+    font-size: 1.25rem;
+}
+
+.habitBox > div > .fa-x{
+    margin-right: 10px;
+    font-size: 1.25rem;
+}
+
+.goalSection > p {
+    margin: 8px 0px;
+}
+
+.currentValueSection > p {
+    margin: 8px 0px;
+}
+
+.habitsWrapper > div > h2 {
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin: 0px;
+    display: inline-block;
+    border-bottom: 2px solid rgba(87, 84, 236, 0.9);
+}
+
+.counterSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right:10px;
+}
+
+.counterSection > p {
+    margin: 7.5px;
+}
+
+.counterSection > i {
+    height: 50%;
+    padding: 5px;
+    margin: 0;
+    border-radius: 8px;
+}

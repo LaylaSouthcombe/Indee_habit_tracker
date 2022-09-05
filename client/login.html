@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Indee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="./static/images/favicon.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/28616f8881.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="static/css/login.css">
+</head>
+<body>
+    <nav>
+        <div id="logo" href="./index">
+            <img src="./static/images/indeeLogo.png" alt="">
+        </div>
+        <div id="home">
+            <img src="./static/images/homeIcon.png" alt="">
+        </div>
+    </nav>
+    <main>
+        <div class="loginFormSection">
+            <p class="welcome">Welcome back!</p>
+            <p class="login">Login to continue</p>
+            <div class="loginImg">
+                <img src="./static/images/growth.png" alt="">
+            </div>
+            <form action="">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="loginEmail" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="loginPassword" required>
+                <input type="submit" value="Login" id="loginBtn">
+            </form>
+            <button class="switchToRegister">Create an account</button>
+        </div>
+        <div class="registerFormSection">
+            <p class="welcome">Welcome!</p>
+            <p class="login">Login to get started</p>
+            <div class="loginImg">
+                <img src="./static/images/growth.png" alt="">
+            </div>
+            <form action="">
+                <label for="fname">First name</label>
+                <input type="text" name="fname" id="registerFname" required>
+                <label for="sname">Second name</label>
+                <input type="text" name="sname" id="registerSname" required>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="registerEmail" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="registerPassword" required>
+                <div class="userRoleParentDiv">
+                    <p>Account type</p>
+                    <input type="radio" name="role" id="userRole" value="user" checked required>
+                    <input type="radio" name="role" id="carerRole" value="carer">
+                    <label for="userRole" class="option userRole">
+                        <div class="dot"></div>
+                        <span>Indee</span>
+                    </label>
+                    <label for="carerRole" class="option carerRole">
+                        <div class="dot"></div>
+                        <span>Carer</span>
+                    </label>
+                </div>
+                <input type="submit" value="Register" id="registerBtn">
+            </form>
+            <button class="switchToLogin">Login</button>
+        </div>
+    </main>
+    <footer>
+        <section id="contact">
+            <p>© Indee 2022</p>
+        </section>
+    </footer>
+    <script src='static/js/login.js'></script>
+</body>
+</html>

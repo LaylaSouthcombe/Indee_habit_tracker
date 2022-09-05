@@ -5,7 +5,7 @@ CREATE TABLE users (
     first_name varchar(100) NOT NULL,
     second_name varchar(100) NOT NULL,
     password_digest varchar NOT NULL,
-    email varchar(200) NOT NULL,
-    carer_id int,
-    last_login timestamp
+    email varchar(200) NOT NULL UNIQUE,
+    carer_id int DEFAULT 0,
+    last_login date DEFAULT CURRENT_TIMESTAMP 
 );
