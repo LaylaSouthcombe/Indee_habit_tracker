@@ -6,6 +6,13 @@ async function registerUser (req, res) {
 // assuming a body of eg. { username: 'Gingertonic', email: 'email@address.com, password: 'weak-password!' }
     try {
         console.log(req.body)
+        const user = await User.findUsersByEmail(req.body.email)
+        const carer = await Carer.findCarersByNameOrEmail(req.body.email)
+        console.log(user.length)
+        console.log(carer.length)
+
+        if(!user.length && !carer.length){
+        console.log(req.body)
         const salt = await bcrypt.genSalt(); // generate salt
         const hashed = await bcrypt.hash(req.body.password, salt); // hash password and add salt
         console.log(hashed)
@@ -13,6 +20,9 @@ async function registerUser (req, res) {
         await User.updateLoginDate(person.id)
         console.log("created person", person)
         res.status(201).json({msg: 'User created', person: {...person, role: "user"}});
+        }else {
+            throw new Error('This email is already in use, please either login with this email or register with a different one')
+        }
     } catch (err) {
         res.status(500).json({err});
     }
@@ -21,10 +31,16 @@ async function registerUser (req, res) {
  async function registerCarer (req, res) { 
     // assuming a body of eg. { username: 'Gingertonic', email: 'email@address.com, password: 'weak-password!' }
     try {
-        const salt = await bcrypt.genSalt(); // generate salt
-        const hashed = await bcrypt.hash(req.body.password, salt); // hash password and add salt
-        let person = await Carer.create({...req.body, password: hashed}); // insert new user into db
-        res.status(201).json({msg: 'Carer created', person: {...person, role: "carer"}});
+        const user = await User.findUsersByEmail(req.body.email)
+        const carer = await Carer.findCarersByNameOrEmail(req.body.email)
+        if(!user.length && !carer.length){
+            const salt = await bcrypt.genSalt(); // generate salt
+            const hashed = await bcrypt.hash(req.body.password, salt); // hash password and add salt
+            let person = await Carer.create({...req.body, password: hashed}); // insert new user into db
+            res.status(201).json({msg: 'Carer created', person: {...person, role: "carer"}});
+        }else {
+            throw new Error('Error in token generation')
+        }
     } catch (err) {
         res.status(500).json({err});
     }
