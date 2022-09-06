@@ -64,7 +64,6 @@ main {
     background-size: cover;
 }
 
-@media (min-width: 320px){}
 @media (min-width: 500px){
     main {
         background-image: url("../images/mediumBackground.png");
@@ -75,7 +74,3 @@ main {
         background-image: url("../images/largeBackground.png");
     }
 }
-@media (min-width: 1024px) {
-    
-}
-@media (min-width: 1200px) {}
