@@ -60,7 +60,6 @@ navLinksList.append(usersNavLink, logoutNavLink)
 
 const loggedIn = localStorage.getItem("loggedIn")
 
-console.log(loggedIn)
 if(loggedIn === "loggedIn"){
 
 const requestsArea = document.getElementById("requestsArea")

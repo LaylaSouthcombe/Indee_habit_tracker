@@ -40,7 +40,6 @@ connectionsNavLink.addEventListener("click", () => {
 const loggedIn = localStorage.getItem("loggedIn")
 const role = localStorage.getItem("role")
 
-console.log(loggedIn)
 if(loggedIn === "loggedIn" && role === "carer"){
 
 const usersWrapper = document.querySelector(".usersWrapper")
