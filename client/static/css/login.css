@@ -277,7 +277,7 @@ input[type="radio"]{
 
 @media (min-width: 500px){
     #home {
-        max-width: 60px;
+        max-width: 55px;
     }
     
     .loginImg {
@@ -316,6 +316,3 @@ input[type="radio"]{
         left: 45%;
     }
 }
-@media (min-width: 768px) {}
-@media (min-width: 1024px) {}
-@media (min-width: 1200px) {}
