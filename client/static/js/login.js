@@ -31,9 +31,9 @@ const carerRole = document.querySelector("#carerRole");
 const errorPopUp = document.createElement("div")
 const errorPopUpIcon = document.createElement("i")
 const errorPopUpText = document.createElement("p")
-errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
-errorPopUp.className = "errorMsg loginPasswordError"
-errorPopUpText.textContent = "Please enter a valid email address"
+errorPopUpIcon.className = ""
+errorPopUp.className = ""
+errorPopUpText.textContent = ""
 const errorTriangle = document.createElement("div")
 errorTriangle.clasName = "triangle-after"
 errorPopUp.append(errorPopUpIcon, errorPopUpText, errorTriangle)
@@ -47,17 +47,27 @@ function login(person) {
   localStorage.setItem('role', person.role)
   localStorage.setItem('userId', person.id)
 }
-
+const removeErrorMsg = () => {
+  setTimeout(function(){
+    errorPopUp.className = ""
+    errorPopUpIcon.className = ""
+    errorPopUpText.textContent = ""
+  }, 3000)
+}
 const sendLogin = async (e) => {
     e.preventDefault()
     const email = loginEmail.value
     const password = loginPassword.value
     if(!email.includes("@")){
-      errorPopUp.className = "loginEmailError errorMsg"
-      errorPopUpText.textContent = "Please enter a valid email address"
+        errorPopUp.className = "loginEmailError errorMsg"
+        errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
+        errorPopUpText.textContent = "Please enter a valid email address"
+        removeErrorMsg()
     } else if(password === "") {
       errorPopUp.className = "loginPasswordError errorMsg"
       errorPopUpText.textContent = "Please enter a password"
+      errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
+      removeErrorMsg()
     } else {
       try {
           const response = await fetch(`${baseUrl}auth/login`, {
@@ -93,15 +103,23 @@ async function sendRegister(e) {
   if(!email.includes("@")){
     errorPopUp.className = "regEmailError errorMsg"
     errorPopUpText.textContent = "Please enter a valid email address"
+    errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
+    removeErrorMsg()
   } else if (password === "") {
     errorPopUp.className = "regPasswordError errorMsg"
     errorPopUpText.textContent = "Please enter a password"
+    errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
+    removeErrorMsg()
   } else if (fname === "") {
     errorPopUp.className = "regFNameError errorMsg"
     errorPopUpText.textContent = "Please enter your first name"
+    errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
+    removeErrorMsg()
   } else if (sname === "") {
     errorPopUp.className = "regSNameError errorMsg"
     errorPopUpText.textContent = "Please enter your second name"
+    errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
+    removeErrorMsg()
   } else {
     try {
       let role
@@ -121,7 +139,8 @@ async function sendRegister(e) {
       const data = await response.json()
     
       if (data.err) {
-        errorPopUp.className = "regEmailError"
+        errorPopUp.className = "regEmailError errorMsg"
+        errorPopUpIcon.className = "fa-solid fa-triangle-exclamation"
       } else {
         registerFname.value = ''
         registerSname.value = ''

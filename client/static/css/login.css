@@ -209,13 +209,14 @@ input[type="radio"]{
     background-color: rgb(0, 0, 0);
     color: white;
     animation-name: errorOpacity;
-    animation-duration: 4s;
+    animation-duration: 3s;
     position: absolute;
     display: flex;
     flex-wrap: wrap;
     padding: 5px;
     align-items: center;
     font-size: 0.9rem;
+    opacity: 0;
 }
 .errorMsg > p {
     position:relative;
