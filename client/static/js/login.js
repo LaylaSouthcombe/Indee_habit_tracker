@@ -46,6 +46,7 @@ function login(person) {
   localStorage.setItem('userEmail', person.email)
   localStorage.setItem('role', person.role)
   localStorage.setItem('userId', person.id)
+  localStorage.setItem('loggedIn', "loggedIn")
 }
 const removeErrorMsg = () => {
   setTimeout(function(){
