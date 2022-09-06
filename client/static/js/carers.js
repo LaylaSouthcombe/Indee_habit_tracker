@@ -5,6 +5,42 @@ const logo = document.getElementById("logo")
 logo.addEventListener("click", () => {
     window.location.href = baseClientUrl
 })
+const navSection = document.getElementById("navSection")
+const navBtn = document.querySelector(".navBtn")
+const navLinksDiv = document.querySelector(".navLinksDiv")
+navBtn.addEventListener("click", () => {
+    
+    if(navLinksDiv.style.display === "block"){
+        navLinksDiv.style.display = "none"
+    } else {
+        navLinksDiv.style.display = "block"
+    }
+})
+
+const navLinksList = document.querySelector(".navLinks")
+
+const connectionsNavLink = document.createElement("li")
+connectionsNavLink.className = "linkColor"
+const connectionsLink = document.createElement("a")
+connectionsLink.textContent = "Connections"
+connectionsNavLink.append(connectionsLink)
+
+const logoutNavLink = document.createElement("li")
+logoutNavLink.textContent = "Logout"
+logoutNavLink.className = "linkColor"
+const logUserOut = () => {
+    localStorage.clear()
+    window.location.href = baseClientUrl
+}
+logoutNavLink.addEventListener("click", logUserOut)
+navLinksList.append(connectionsNavLink, logoutNavLink)
+connectionsNavLink.addEventListener("click", () => {
+    window.location.href = `${baseClientUrl}requests`
+})
+const loggedIn = localStorage.getItem("loggedIn")
+const role = localStorage.getItem("role")
+
+if(loggedIn === "loggedIn" && role === "carer"){
 
 const usersWrapper = document.querySelector(".usersWrapper")
 const userSummaryModal = document.getElementById("userSummaryModal")
@@ -119,38 +155,7 @@ const closeSection = (sectionName) => {
     }
 }
 
-const navSection = document.getElementById("navSection")
-const navBtn = document.querySelector(".navBtn")
 
-navBtn.addEventListener("click", () => {
-    const navLinksDiv = document.querySelector(".navLinksDiv")
-    if(navLinksDiv.style.display === "block"){
-        navLinksDiv.style.display = "none"
-    } else {
-        navLinksDiv.style.display = "block"
-    }
-})
-
-const navLinksList = document.querySelector(".navLinks")
-
-const connectionsNavLink = document.createElement("li")
-connectionsNavLink.className = "linkColor"
-const connectionsLink = document.createElement("a")
-connectionsLink.textContent = "Connections"
-connectionsNavLink.append(connectionsLink)
-
-const logoutNavLink = document.createElement("li")
-logoutNavLink.textContent = "Logout"
-logoutNavLink.className = "linkColor"
-const logUserOut = () => {
-    localStorage.clear()
-    window.location.href = baseClientUrl
-}
-logoutNavLink.addEventListener("click", logUserOut)
-navLinksList.append(connectionsNavLink, logoutNavLink)
-connectionsNavLink.addEventListener("click", () => {
-    window.location.href = `${baseClientUrl}requests`
-})
 
 const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, axisTicksDisplay) => {
     let color
@@ -1017,4 +1022,16 @@ async function getUserSummary(e) {
             console.warn(err);
         }
     }
+}} else {
+    const pleaseLoginModal = document.createElement("div")
+    const pleaseLoginModalText = document.createElement("p")
+    pleaseLoginModalText.textContent = "Please login as a carer to view this page"
+    pleaseLoginModal.className = "pleaseLoginModal"
+    const redirectLink = document.createElement("a")
+    redirectLink.href = "./login"
+    redirectLink.className = "btn"
+    redirectLink.textContent = "Take me there!"
+    pleaseLoginModal.append(pleaseLoginModalText, redirectLink)
+    const carerPageH2 = document.getElementById("carerPageH2")
+    carerPageH2.append(pleaseLoginModal)
 }

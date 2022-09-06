@@ -58,6 +58,10 @@ const logUserOut = () => {
 logoutNavLink.addEventListener("click", logUserOut)
 navLinksList.append(usersNavLink, logoutNavLink)
 
+const loggedIn = localStorage.getItem("loggedIn")
+
+if(loggedIn === "loggedIn"){
+
 const requestsArea = document.getElementById("requestsArea")
 const addDependentBtn = document.createElement("button")
 if(role === "carer"){
@@ -330,3 +334,18 @@ async function getRequestsData() {
     }
 }
 getRequestsData()
+
+
+} else {
+    const pleaseLoginModal = document.createElement("div")
+    const pleaseLoginModalText = document.createElement("p")
+    pleaseLoginModalText.textContent = "Please login to view this page"
+    pleaseLoginModal.className = "pleaseLoginModal"
+    const redirectLink = document.createElement("a")
+    redirectLink.href = "./login"
+    redirectLink.className = "btn"
+    redirectLink.textContent = "Take me there!"
+    pleaseLoginModal.append(pleaseLoginModalText, redirectLink)
+    const requestsPageH2 = document.getElementById("requestsPageH2")
+    requestsPageH2.append(pleaseLoginModal)
+}

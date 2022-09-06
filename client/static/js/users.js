@@ -55,7 +55,8 @@ navLinksList.append(connectionsNavLink, logoutNavLink)
 connectionsNavLink.addEventListener("click", () => {
     window.location.href = `${baseClientUrl}requests`
 })
-
+const loggedIn = localStorage.getItem("loggedIn")
+if(loggedIn === "loggedIn" && role === "user"){
 async function decreaseCounter(e) {
     const habitId = parseInt(e.target.parentElement.id)
     const habitValue = e.target.nextElementSibling.textContent - 1
@@ -254,3 +255,18 @@ async function getUsersHabits() {
     }
 }
 getUsersHabits()
+
+
+} else {
+    const pleaseLoginModal = document.createElement("div")
+    const pleaseLoginModalText = document.createElement("p")
+    pleaseLoginModalText.textContent = "Please login as an Indee to view this page"
+    pleaseLoginModal.className = "pleaseLoginModal"
+    const redirectLink = document.createElement("a")
+    redirectLink.href = "./login"
+    redirectLink.className = "btn"
+    redirectLink.textContent = "Take me there!"
+    pleaseLoginModal.append(pleaseLoginModalText, redirectLink)
+    const userPageH2 = document.getElementById("userPageH2")
+    userPageH2.append(pleaseLoginModal)
+}
