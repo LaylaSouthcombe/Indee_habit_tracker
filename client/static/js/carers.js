@@ -87,11 +87,11 @@ const renderUsers = (user) => {
     userCompletedPercent.textContent = Math.floor(user.percentCompleted)
 
     if(user.percentCompleted < 50){
-        userBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
+        userBox.style.backgroundColor = "rgb(255, 69, 66)"
     } else if (user.percentCompleted >= 50 && user.percentCompleted < 75){
-        userBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
+        userBox.style.backgroundColor = "rgb(247, 130, 35)"
     } else if (user.percentCompleted >= 100){
-        userBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
+        userBox.style.backgroundColor = "rgb(152, 247, 114)"
     }
 
     const moreUserInfoBtn = document.createElement("div")
@@ -165,7 +165,7 @@ const createWeekGraph = (chartName, appendedElement, data, title, axisDisplay, a
     if(appendedElement.classList.contains("userSummaryModal")){
         color = "#d9d9d9"
     } else {
-        color = "rgba(43, 43, 43, 0.9)"
+        color = "rgb(43, 43, 43)"
     }
     let graphValues = []
     let graphColors = []
@@ -383,11 +383,11 @@ const renderHabitBoxes = (habit) => {
         
         const percentComplete = habit.habit_int_entry / habit.goal
         if(percentComplete <= 0.5){
-            habitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
+            habitBox.style.backgroundColor = "rgb(255, 69, 66)"
         } else if(percentComplete > 0.5 && percentComplete <= 0.75){
-            habitBox.style.backgroundColor = "rgba(247, 130, 35, 0.8)"
+            habitBox.style.backgroundColor = "rgb(247, 130, 35)"
         } else if(percentComplete > 0.75){
-            habitBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
+            habitBox.style.backgroundColor = "rgb(152, 247, 114)"
         }
 
         const counterArea = document.createElement("div")
@@ -405,11 +405,11 @@ const renderHabitBoxes = (habit) => {
         blnIcon.id = habit.id
         if(habit.habit_bln_entry === true){
             blnIcon.className = "fa-solid fa-check"
-            habitBox.style.backgroundColor = "rgba(152, 247, 114, 0.8)"
+            habitBox.style.backgroundColor = "rgb(152, 247, 114)"
         }           
         if(habit.habit_bln_entry === false){
             blnIcon.className = "fa-solid fa-x"
-            habitBox.style.backgroundColor = "rgba(247, 52, 35, 0.8)"
+            habitBox.style.backgroundColor = "rgb(255, 69, 66)"
         }
         habitBox.append(blnIcon)
     }
