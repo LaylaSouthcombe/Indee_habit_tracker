@@ -56,6 +56,7 @@ connectionsNavLink.addEventListener("click", () => {
     window.location.href = `${baseClientUrl}requests`
 })
 const loggedIn = localStorage.getItem("loggedIn")
+const role = localStorage.getItem("role")
 if(loggedIn === "loggedIn" && role === "user"){
 async function decreaseCounter(e) {
     const habitId = parseInt(e.target.parentElement.id)

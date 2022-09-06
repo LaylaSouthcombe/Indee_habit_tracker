@@ -25,6 +25,7 @@ input:-webkit-autofill:focus {
 .loginImg {
     width: 40%;
     margin: 30px auto;
+    max-width: 140px;
 }
 .loginImg > img {
     width: 100%;
@@ -92,7 +93,7 @@ input:-webkit-autofill:focus {
 .registerFormSection > form > input[type="text"]{
     margin-bottom: 12px;
     border: none;
-    background-color: rgba(205, 205, 245, 0);
+    background-color: rgb(245, 245, 253);
     border-bottom: 1px solid rgba(43, 43, 43, 0.6);
     font-size: 1.1rem;
 }
@@ -113,8 +114,8 @@ input:-webkit-autofill:focus {
 
 .switchToRegister,
 .switchToLogin {
-    background-color: rgba(169, 169, 217, 0.3);
-    color: rgb(87, 84, 236);
+    background-color: rgb(169, 169, 217);
+    color: rgb(96, 93, 255);
     border: none;
     outline: none;
     width: 75%;
@@ -212,11 +213,13 @@ input[type="radio"]{
     animation-duration: 3s;
     position: absolute;
     display: flex;
+    justify-content: space-around;
     flex-wrap: wrap;
     padding: 5px;
     align-items: center;
     font-size: 0.9rem;
     opacity: 0;
+    width: 265px;
 }
 .errorMsg > p {
     position:relative;
@@ -270,4 +273,46 @@ input[type="radio"]{
     25%{opacity: 1;}
     75%{opacity: 1;}
     100%{opacity: 0;}
+}
+
+@media (min-width: 500px){
+    #home {
+        max-width: 55px;
+    }
+    
+    .loginImg {
+        max-width: 140px;
+    }
+    
+    .loginFormSection,
+    .registerFormSection {
+        max-width: 425px;
+    }
+
+    .userRoleParentDiv{
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    .loginEmailError, 
+    .regFNameError {
+        top: 42%;
+        left: 45%;
+    }
+    
+    .loginPasswordError,
+    .regSNameError {
+        top: 51%;
+        left: 45%;
+    }
+    
+    .regEmailError {
+        top: 58%;
+        left: 45%;
+    }
+    
+    .regPasswordError {
+        top: 68%;
+        left: 45%;
+    }
 }
