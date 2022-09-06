@@ -15,11 +15,12 @@ input:-webkit-autofill:focus {
 #home {
     width: 12.5%;
     margin-right: 30px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
-#home > img{
-    width: 100%;
+#home > i{
+    font-size: 1.95rem;
+    color: rgba(87, 84, 236, 0.9);
 }
 
 .loginImg {
