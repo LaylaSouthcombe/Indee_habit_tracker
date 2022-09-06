@@ -49,7 +49,7 @@ const userSummaryPage = document.getElementById("userSummaryPage")
 let habits
 let metrics
 let userId
-let usersNameTitle
+let usersNameText
 
 const carerPageH2 = document.getElementById("carerPageH2")
 const habitTodaySection = document.createElement("div")
@@ -101,7 +101,10 @@ const renderUsers = (user) => {
     moreUserInfoBtn.append(moreUserIcon)
     moreUserInfoBtn.id = user.user_id
     moreUserIcon.className = "moreUserIcon"
-    moreUserInfoBtn.addEventListener("click", seeMoreUserInfo)
+    moreUserInfoBtn.addEventListener("click", (e) => {
+        usersNameText = `${user.userFirstName} ${user.userSecondName}`
+        seeMoreUserInfo(e) 
+    })
     userBox.append(usersName, userCompletedPercent, moreUserInfoBtn)
     usersWrapper.append(userBox)
     userBox.addEventListener("click", getUserSummary)
@@ -433,8 +436,9 @@ const renderHabitBoxes = (habit) => {
 const noHabitsDiv = document.createElement("div")
 const renderNoHabitsMessage = () => {
     noHabitsDiv.style.display = "block"
+    noHabitsDiv.className = "noHabitsDiv"
     const noHabitsPara1 = document.createElement("p")
-    noHabitsPara1.textContent = "This user has no habits set!"
+    noHabitsPara1.textContent = "This Indee has no habits set!"
     const noHabitsPara2 = document.createElement("p")
     noHabitsPara2.textContent = "Click the create habit button to create some for them"
     noHabitsDiv.append(noHabitsPara1, noHabitsPara2)
@@ -665,14 +669,14 @@ async function renderUserSummaryPage(userId, usersNameTitle) {
     const habitsTitleDiv = document.createElement("div")
     habitsTitleDiv.className = "habitsTitleDiv activeTitleDiv"
     const habitsTitle = document.createElement("p")
-    habitsTitle.textContent = "habits"
+    habitsTitle.textContent = "Habits"
     habitsTitleDiv.append(habitsTitle)
     habitsTitleDiv.addEventListener("click", openHabitsSection)
     
     const metricsTitleDiv = document.createElement("div")
     metricsTitleDiv.className = "metricsTitleDiv"
     const metricsTitle = document.createElement("p")
-    metricsTitle.textContent = "metrics"
+    metricsTitle.textContent = "Metrics"
     metricsTitleDiv.append(metricsTitle)
     metricsTitleDiv.addEventListener("click", openMetricsSection)
 
@@ -694,7 +698,7 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
     e.preventDefault()
     try {
         const usersNameSection = document.querySelector(".usersName")
-        usersNameTitle = usersNameSection.textContent
+        usersNameText = usersNameSection.textContent
         const habitDescInput = document.getElementById("habitDescInput").value
         const repeatedHabitNumInput = document.getElementById("repeatedHabitNumInput").value
         const repeatedHabitUnitInput = document.getElementById("repeatedHabitUnitInput").value
@@ -736,7 +740,7 @@ async function sendEditCreateHabitRequest(method, e, habitId) {
         closeSection(habitsSummarySection)
         closeSection(metricsSummarySection)
         closeSection(editCreateHabitModal)
-        renderUserSummaryPage(userId, usersNameTitle)
+        renderUserSummaryPage(userId, usersNameText)
     } catch (err) {
         console.warn(err);
     }
@@ -746,7 +750,7 @@ async function deleteHabit(habitId, e) {
     e.preventDefault()
     try {
         const usersNameSection = document.querySelector(".usersName")
-        let usersNameTitle = usersNameSection.textContent
+        usersNameText = usersNameSection.textContent
         const habitDivChildren = document.getElementById(`habit${habitId}`).children
         let type = "boolean"
         if(habitDivChildren.item(2).className === "goalSection"){
@@ -766,7 +770,7 @@ async function deleteHabit(habitId, e) {
         closeSection(habitsSummarySection)
         closeSection(metricsSummarySection)
         closeSection(editCreateHabitModal)
-        renderUserSummaryPage(userId, usersNameTitle)
+        renderUserSummaryPage(userId, usersNameText)
     } catch (err) {
         console.warn(err);
     }
@@ -956,7 +960,7 @@ window.addEventListener('hashchange', () => {
         closeSection(userSummaryPage)
         usersWrapper.style.display = "none"
         carerPageH2.textContent = "Indee Summary Page"      
-        renderUserSummaryPage(userId, usersNameTitle)
+        renderUserSummaryPage(userId, usersNameText)
     }if(window.location.href === `${baseClientUrl}carer`){
         closeSection(userSummaryPage)
         usersWrapper.style.display = "block"
@@ -995,6 +999,7 @@ async function getUserSummary(e) {
             const text = [{completedText: "Habits completed today"}, {completedHabits: `${data.numOfHabitsCompleted}/${data.numOfHabits}`}, {lastLoginText: "Last login"}, {lastLoginValue: formattedLoginDate}, {weekReviewTitle: "This week in review"}]
             const usersNameTitle = document.createElement("p")
             usersNameTitle.textContent = `${data.userFirstName} ${data.userSecondName}`
+            usersNameText = `${data.userFirstName} ${data.userSecondName}`
             usersNameTitle.className = "usersNameTitle"
             const modalCloseDiv = document.createElement("div")
             
@@ -1016,7 +1021,8 @@ async function getUserSummary(e) {
 
             const seeMoreDetails = document.createElement("p")
             seeMoreDetails.textContent = "See more details"
-            seeMoreDetails.addEventListener("click", seeMoreUserInfo)
+            seeMoreDetails.addEventListener("click",
+               seeMoreUserInfo)
             userSummaryModal.append(seeMoreDetails)
         } catch (err) {
             console.warn(err);

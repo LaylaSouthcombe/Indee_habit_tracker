@@ -22,3 +22,5 @@ Welcome to Indee! This is a full stack web application with an HTML/CSS/JS clien
 - removes containers
 - removes volumes
 
+Frontend deployed here https://indee.netlify.app/
+
